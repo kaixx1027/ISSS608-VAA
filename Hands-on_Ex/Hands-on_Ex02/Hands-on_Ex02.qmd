@@ -4,7 +4,7 @@ date: "January 17, 2024"
 date-modified: "last-modified"
 ---
 
-## 1. Getting Started
+## Getting Started
 
 ### Install and loading R packages.
 
@@ -20,7 +20,7 @@ pacman::p_load(ggrepel, patchwork, ggthemes, hrbrthemes, tidyverse)
 exam_data <- read.csv("data/Exam_data.csv")
 ```
 
-## 2. Beyond ggplot2 Annotation: ggrepel
+## Beyond ggplot2 Annotation: ggrepel
 
 ```{r}
 ggplot(data=exam_data, 
@@ -38,7 +38,7 @@ ggplot(data=exam_data,
   ggtitle("English scores versus Maths scores for Primary 3")
 ```
 
-### 2.1 Working with ggrepel
+### Working with ggrepel
 
 ```{r}
 ggplot(data=exam_data, 
@@ -55,7 +55,7 @@ ggplot(data=exam_data,
   ggtitle("English scores versus Maths scores for Primary 3")
 ```
 
-## 3. Beyond ggplot2 Themes
+## Beyond ggplot2 Themes
 
 ```{r}
 ggplot(data=exam_data, 
@@ -68,7 +68,7 @@ ggplot(data=exam_data,
   ggtitle("Distribution of Maths scores") 
 ```
 
-### 3.1 Working with ggtheme package
+### Working with ggtheme package
 
 ```{r}
 ggplot(data=exam_data, 
@@ -81,7 +81,7 @@ ggplot(data=exam_data,
   theme_economist()
 ```
 
-### 3.2 Working with hrbthems package
+### Working with hrbthems package
 
 hrbrthemes package provides a base theme that focuses on typographic elements, including where various labels are placed as well as the fonts that are used.
 
@@ -113,7 +113,7 @@ ggplot(data=exam_data,
               grid = "Y")
 ```
 
-## 4. Beyond Single Graph
+## Beyond Single Graph
 
 ```{r}
 p1 <- ggplot(data=exam_data, 
@@ -154,19 +154,19 @@ p3 <- ggplot(data=exam_data,
   ggtitle("English scores versus Maths scores for Primary 3")
 ```
 
-### 4.1 Combining two ggplot2 graphs
+### Combining two ggplot2 graphs
 
 ```{r}
 p1 + p2
 ```
 
-### 4.2 Combining three ggplot2 graphs
+### Combining three ggplot2 graphs
 
 ```{r}
 (p1 / p2) | p3
 ```
 
-### 4.3 Creating a composite figure with tag
+### Creating a composite figure with tag
 
 ```{r}
 ((p1 / p2) | p3) + 
@@ -174,7 +174,7 @@ p1 + p2
 
 ```
 
-### 4.4 Creating figure with insert
+### Creating figure with insert
 
 ```{r}
 p3 + inset_element(p2, 
@@ -184,7 +184,7 @@ p3 + inset_element(p2,
                    top = 1)
 ```
 
-### 4.5 Creating a composite figure by using patchwork and ggtheme
+### Creating a composite figure by using patchwork and ggtheme
 
 ```{r}
 patchwork <- (p1 / p2) | p3
