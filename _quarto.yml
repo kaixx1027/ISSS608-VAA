@@ -1,9 +1,20 @@
+quarto:
+  plugins:
+    - quarto-fontawesome
+  
 project:
   type: website
 
 website:
-  title: "ISSS608-VAA"
+  title: "KAI"
+  page-navigation: true
+  site-url: "https://isss608-kaixin.netlify.app//"
+
+  favicon: images/favicon.png
+  
   navbar:
+    title: false
+    logo: "images/name_logo.png"
     left:
       - text: "Hands-on Exercise"
         menu:
@@ -22,13 +33,29 @@ website:
     right: 
       - href: index.qmd
         text: Home
-      - about.qmd
+
+  page-footer:
+    left: "Blog made using [Quarto®](https://quarto.org/)"
+    right:
+#      - icon: github
+#        href: https://github.com/kaixx1027
+      - icon: house
+        href: mailto:happykai923@gmail.com
 
 format:
   html:
-    theme: morph
+    theme: simplex
     css: styles.css
     toc: true
+    toc-location: right
+    toc-depth: 3
+    toc-title: On this page
+    html-math-method: katex
+    number-sections: true
+    smooth-scroll: true
+    highlight-style: github
+    code-link: true
+    df-print: paged
 
 editor: visual
 

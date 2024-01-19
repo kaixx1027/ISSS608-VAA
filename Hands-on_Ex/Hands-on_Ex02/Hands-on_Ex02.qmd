@@ -1,6 +1,5 @@
 ---
-title: "Hands-on Exercise 2"
-author: "ZHENG Kaixin"
+title: "Hands-on Exercise 2: Beyond ggplot2 Fundamentals"
 date: "January 17, 2024"
 date-modified: "last-modified"
 ---

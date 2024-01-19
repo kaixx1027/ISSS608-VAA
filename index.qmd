@@ -1,5 +1,17 @@
 ---
-title: "ISSS608-VAA"
+pagetitle: "ISSS608"
+page-layout: full
+sidebar: false
+body-width: 1500px
+
+about:
+  template: jolla
+  image: images/index.png
+  image-width: 700px
+  image-shape: rectangle
+
 ---
 
-Welcome to **ISSS608 Visual Analytics and Applications**. In this website, you will find my coursework prepared for this course.
+Welcome to **Visual Analytics & Application** Learning Journey webpage.
+
+In this website, you will find my coursework prepared for this course.
