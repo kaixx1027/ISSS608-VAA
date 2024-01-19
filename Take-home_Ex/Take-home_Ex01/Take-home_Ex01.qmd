@@ -1,4 +1,19 @@
 ---
 title: "Take-home Exercise 1"
 author: "ZHENG Kaixin"
+date: "January 19, 2024"
+date-modified: "last-modified"
+format:
+  html:
+    code-fold: true
+    code-summary: "code block"
 ---
+
+## 
+
+###
+
+```{r}
+
+
+```
