@@ -9,7 +9,6 @@ about:
   image: images/index.png
   image-width: 700px
   image-shape: rectangle
-
 ---
 
 Welcome to **Visual Analytics & Application** Learning Journey webpage.

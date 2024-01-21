@@ -18,17 +18,19 @@ website:
     left:
       - text: "Hands-on Exercise"
         menu:
-          - text: "Hands-on Exercise 1"
+          - text: "1: A Layered Grammar of Graphics: ggplot2 methods"
             href: "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html"
-          - text: "Hands-on Exercise 2"
+          - text: "2: Beyond ggplot2 Fundamentals"
             href: "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html"
       - text: "In-class Exercise"
         menu:
-          - text: "In-class Exercise 1"
+          - text: "1: Now You See It!"
             href: "In-class_Ex/In-class_Ex01/In-class_Ex01.html"
+          - text: "2: Designing Graphs to Enlighten"
+            href: "In-class_Ex/In-class_Ex02/In-class_Ex02.html"
       - text: "Take-home Exercise"
         menu:
-          - text: "Take-home Exercise 1"
+          - text: "1: Creating data visualisation beyond default"
             href: "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html"
     right: 
       - href: index.qmd
