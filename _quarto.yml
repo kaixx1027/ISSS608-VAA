@@ -22,6 +22,10 @@ website:
             href: "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html"
           - text: "2: Beyond ggplot2 Fundamentals"
             href: "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html"
+          - text: "3.1: Programming Interactive Data Visualisation with R"
+            href: "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_1.html"
+          - text: "3.2: Programming Animated Statistical Graphics with R"
+            href: "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_2.html"
       - text: "In-class Exercise"
         menu:
           - text: "1: Now You See It!"

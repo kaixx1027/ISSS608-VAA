@@ -1,0 +1,5 @@
+---
+title: "Programming Animated Statistical Graphics with R"
+date: "January 23, 2024"
+date-modified: "last-modified"
+---
