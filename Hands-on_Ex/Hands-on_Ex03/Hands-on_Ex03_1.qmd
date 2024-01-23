@@ -30,7 +30,7 @@ pacman::p_load(ggiraph, plotly, patchwork, DT, tidyverse)
 ### Importing the data
 
 ```{r}
-exam_data <- read_csv("data/Exam_data.csv")
+exam_data <- read_csv("../../data/Exam_data.csv")
 ```
 
 ## Interactive Data Visualisation - ggiraph methods
@@ -264,7 +264,6 @@ The code chunk below shown an example of `onclick`.
 
 Interactivity: Web document link with a data object will be displayed on the web browser upon mouse click.
 
-
 ```{r}
 #| code-fold: true
 #| code-summary: "Click to view the code."
@@ -296,8 +295,7 @@ Notice that when a data point of one of the dotplot is selected, the correspondi
 
 In order to build a coordinated multiple views as shown in the example above, the following programming strategy will be used:
 
-Appropriate interactive functions of ***ggiraph*** will be used to create the multiple views.
-patchwork function of [patchwork](https://patchwork.data-imaginist.com/) package will be used inside girafe function to create the interactive coordinated multiple views.
+Appropriate interactive functions of ***ggiraph*** will be used to create the multiple views. patchwork function of [patchwork](https://patchwork.data-imaginist.com/) package will be used inside girafe function to create the interactive coordinated multiple views.
 
 The *data_id* aesthetic is critical to link observations between plots and the tooltip aesthetic is optional but nice to have when mouse over a point.
 
@@ -347,7 +345,7 @@ There are two ways to create interactive graph by using plotly, they are:
 
 -   by using *ggplotly()*
 
-![](images/plotly.jpg)
+![](../../images/plotly.jpg)
 
 ### Creating an interactive scatter plot: plot_ly() method
 

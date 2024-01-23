@@ -11,7 +11,7 @@ execute:
 
 ### Introduction
 
-[![](images/pisa.jpg)](https://www.oecd.org/pisa/data/2022database/)
+[![](../../images/pisa.jpg)](https://www.oecd.org/pisa/data/2022database/)
 
 Despite claims of educational excellence in Singapore, skepticism persists, particularly regarding disparities in elite and neighborhood schools and socioeconomic factors. Leveraging 2022 PISA data, this project aims for a succinct Exploratory Data Analysis (EDA) using ggplot2 to reveal performance distribution and explore relationships with schools, gender, and socioeconomic status.
 
@@ -57,7 +57,7 @@ One dataset ([Student questionnaire data file](https://webfs.oecd.org/pisa2022/S
 
 ```{r}
 #| eval: false
-stu_qqq <- read_sas("data/cy08msp_stu_qqq.sas7bdat")
+stu_qqq <- read_sas("../../data/cy08msp_stu_qqq.sas7bdat")
 ```
 
 #### Data Filtering and Transformation
@@ -191,7 +191,7 @@ Then sum these aggregated values to calculate socioeconomic status for each stud
 
 Combining scores from school education, vocational training, and home possessions to calculate a person's overall socioeconomic status makes sense because socioeconomic status is complex and includes things like education, job skills, and how much someone owns. This method creates a single score that shows a person's level of education, job abilities, and quality of living, all of which are important parts of their financial and social status.
 
-Summation is straightforward and the results are easier to interpret. It can also handle zero values and matain scale consistency. 
+Summation is straightforward and the results are easier to interpret. It can also handle zero values and matain scale consistency.
 
 ```{r}
 socioeconomic_status <- rowSums(cbind(sum_school_education, sum_vocational_training, sum_home_possessions), na.rm = TRUE)
@@ -500,8 +500,8 @@ ggplot(data=combined, aes(x = School, y = Avg_Science)) +
 -   The first set of scatter plots shows a wide distribution of average scores across schools, with no clear pattern based on school ID.
 
 ::: panel-tabset
-
 ### Pairwise Comparison
+
 ```{r}
 #| code-fold: true
 #| code-summary: "Click to view the code."
@@ -581,6 +581,7 @@ gridExtra::grid.arrange(p_math_reading, p_reading_math, p_science_math, p_math_s
 ```
 
 ### Mathematics
+
 ```{r}
 #| code-fold: true
 #| code-summary: "Click to view the code."
@@ -610,6 +611,7 @@ gridExtra::grid.arrange(p_math_reading, p_math_science, nrow = 2)
 ```
 
 ### Reading
+
 ```{r}
 #| code-fold: true
 #| code-summary: "Click to view the code."
@@ -639,6 +641,7 @@ gridExtra::grid.arrange(p_reading_math, p_reading_science, nrow = 2)
 ```
 
 ### Science
+
 ```{r}
 #| code-fold: true
 #| code-summary: "Click to view the code."
@@ -668,7 +671,7 @@ gridExtra::grid.arrange(p_science_math, p_science_reading, nrow = 2)
 ```
 :::
 
--   The second set of plots fixes School ID and try to compare scores of different subjects within each School. These plots reveal a strong positive correlation between average scores across all subjects, indicating that Schools with high performance in one subject tend to perform well in others too. 
+-   The second set of plots fixes School ID and try to compare scores of different subjects within each School. These plots reveal a strong positive correlation between average scores across all subjects, indicating that Schools with high performance in one subject tend to perform well in others too.
 
 This suggests that factors influencing School performance may be systemic rather than subject specific. Schools with higher performance on a specific subject also performs well on other subjects.
 
@@ -676,9 +679,9 @@ This suggests that factors influencing School performance may be systemic rather
 
 Constructing pairwise heatmap plots for home possessions, education level, and vocational training level, vesus the total average score.
 
-:::panel-tabset
-
+::: panel-tabset
 ### School Education v.s. Home Possessions
+
 ```{r}
 #| code-fold: true
 #| code-summary: "Click to view the code."
@@ -700,6 +703,7 @@ ggplot(combined, aes(x = bin_school_education, y = bin_home_possessions, fill = 
 ```
 
 ### Home Possessions v.s. Vocational Training
+
 ```{r}
 #| code-fold: true
 #| code-summary: "Click to view the code."
@@ -721,6 +725,7 @@ ggplot(combined, aes(x = bin_home_possessions, y = bin_vocational_training, fill
 ```
 
 ### Vocational Training v.s. School Education
+
 ```{r}
 #| code-fold: true
 #| code-summary: "Click to view the code."
@@ -750,9 +755,9 @@ ggplot(combined, aes(x = bin_vocational_training, y = bin_school_education, fill
 
 Total average score is related to arbitrary two of the three indexes.
 
-:::panel-tabset
-
+::: panel-tabset
 ### Socieconomic Status
+
 ```{r}
 #| code-fold: true
 #| code-summary: "Click to view the code."
@@ -774,6 +779,7 @@ ggplot(combined, aes(x = Total_Avg, fill = factor(socioeconomic_group))) +
 ```
 
 ### School Education
+
 ```{r}
 #| code-fold: true
 #| code-summary: "Click to view the code."
@@ -794,6 +800,7 @@ ggplot(combined, aes(x = Total_Avg, fill = factor(school_education_group))) +
 ```
 
 ### Home Possessions
+
 ```{r}
 #| code-fold: true
 #| code-summary: "Click to view the code."
@@ -814,6 +821,7 @@ ggplot(combined, aes(x = Total_Avg, fill = factor(home_possessions_group))) +
 ```
 
 ### Vocational Training
+
 ```{r}
 #| code-fold: true
 #| code-summary: "Click to view the code."
@@ -834,12 +842,8 @@ ggplot(combined, aes(x = Total_Avg, fill = factor(vocational_training_group))) +
 ```
 :::
 
-
--   From level 1 to level 3, we see that as families have more money and resources, their children's school scores usually get better. This improvement might be because these families can afford better learning materials, better schools, or more help with studies. 
+-   From level 1 to level 3, we see that as families have more money and resources, their children's school scores usually get better. This improvement might be because these families can afford better learning materials, better schools, or more help with studies.
 
 -   However, once they reach a higher income level (level 3 to level 5), making even more money doesn't seem to help the kids' scores increase much further.
 
 This suggests that after a certain point, just having more resources doesn't continue to boost school performance in the same way.
-
-
-

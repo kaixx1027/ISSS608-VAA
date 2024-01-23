@@ -17,7 +17,7 @@ pacman::p_load(ggrepel, patchwork, ggthemes, hrbrthemes, tidyverse)
 ### Importing the data
 
 ```{r}
-exam_data <- read.csv("data/Exam_data.csv")
+exam_data <- read.csv("../../data/Exam_data.csv")
 ```
 
 ## Beyond ggplot2 Annotation: ggrepel

@@ -13,4 +13,4 @@ In this session, we dived into the fundamentals of designing impactful graphs an
 
 Check out our learnings [here](https://isss608-ay2023-24jan.netlify.app/lesson/lesson02/lesson02-designing%20graphs%20to%20enlighten#/title-slide).
 
-[![](images/Monthly Sales and Profit by Region, 2016-2019.png)](https://public.tableau.com/app/profile/kaixin.zheng/viz/In-class_Exercise01_17057348127180/MonthlySalesandProfitbyRegion2016-2019)
+[![](../../images/Monthly%20Sales%20and%20Profit%20by%20Region,%202016-2019.png)](https://public.tableau.com/app/profile/kaixin.zheng/viz/In-class_Exercise01_17057348127180/MonthlySalesandProfitbyRegion2016-2019)
