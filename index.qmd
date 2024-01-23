@@ -8,7 +8,7 @@ about:
   template: jolla
 ---
 
-![](images/index.png){width=60%}
+![](images/index.png){width="60%"}
 
 Welcome to **Visual Analytics & Application** Learning Journey webpage.
 
