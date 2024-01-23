@@ -6,10 +6,9 @@ body-width: 1500px
 
 about:
   template: jolla
-  image: images/index.png
-  image-width: 700px
-  image-shape: rectangle
 ---
+
+![](images/index.png){width=60%}
 
 Welcome to **Visual Analytics & Application** Learning Journey webpage.
 
