@@ -219,7 +219,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">January 21, 2024</p>
+      <p class="date-modified">January 23, 2024</p>
     </div>
   </div>
     
@@ -231,7 +231,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="introduction" class="level3" data-number="1.1"><h3 data-number="1.1" class="anchored" data-anchor-id="introduction">
 <span class="header-section-number">1.1</span> Introduction</h3>
 <div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><a href="https://www.oecd.org/pisa/data/2022database/"><img src="images/pisa.jpg" class="img-fluid figure-img"></a></p>
+<figure class="figure"><p><a href="https://www.oecd.org/pisa/data/2022database/"><img src="../../images/pisa.jpg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 <p>Despite claims of educational excellence in Singapore, skepticism persists, particularly regarding disparities in elite and neighborhood schools and socioeconomic factors. Leveraging 2022 PISA data, this project aims for a succinct Exploratory Data Analysis (EDA) using ggplot2 to reveal performance distribution and explore relationships with schools, gender, and socioeconomic status.</p>
@@ -262,7 +262,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="header-section-number">2.2</span> Dataset</h3>
 <p>One dataset (<a href="https://webfs.oecd.org/pisa2022/STU_QQQ_SAS.zip">Student questionnaire data file</a>) from <a href="https://www.oecd.org/pisa/data/2022database/">PISA</a> is provided for the task.</p>
 <div class="cell">
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">stu_qqq</span> <span class="op">&lt;-</span> <span class="fu">read_sas</span><span class="op">(</span><span class="st">"data/cy08msp_stu_qqq.sas7bdat"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">stu_qqq</span> <span class="op">&lt;-</span> <span class="fu">read_sas</span><span class="op">(</span><span class="st">"../../data/cy08msp_stu_qqq.sas7bdat"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="data-filtering-and-transformation" class="level4" data-number="2.2.1"><h4 data-number="2.2.1" class="anchored" data-anchor-id="data-filtering-and-transformation">
 <span class="header-section-number">2.2.1</span> Data Filtering and Transformation</h4>
