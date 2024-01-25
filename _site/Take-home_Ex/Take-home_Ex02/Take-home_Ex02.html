@@ -508,18 +508,65 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p><strong>Clarity</strong></p>
+<ul>
+<li><p>The scatter plots and accompanying regression lines effectively depict the relationship between school ID (CNTSCHID) and average performance scores.</p></li>
+<li><p>The overlapping school IDs on the x-axis create difficulty in distinguishing individual data points, potentially hindering the clarity of the visual representation.</p></li>
+</ul>
 <p><strong>Aesthetics</strong></p>
-</section><section id="remake-2" class="level4" data-number="2.3.2"><h4 data-number="2.3.2" class="anchored" data-anchor-id="remake-2">
+<ul>
+<li><p>The title provides a clear context for the visualizations.</p></li>
+<li><p>Consider exploring alternative visualizations, to present the relationship between school ID and performance without solely relying on regression lines. Given that school ID and performance may not exhibit a clear linear relationship, using different visualization techniques could offer a more nuanced and informative representation.</p></li>
+</ul></section><section id="remake-2" class="level4" data-number="2.3.2"><h4 data-number="2.3.2" class="anchored" data-anchor-id="remake-2">
 <span class="header-section-number">2.3.2</span> Remake</h4>
+<div class="cell">
+<details><summary>Click to view the code.</summary><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># School Average Scores Recalculating</span></span>
+<span><span class="va">School_Avg_Scores</span> <span class="op">&lt;-</span> <span class="va">Related_math_read_scie_data</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">CNTSCHID</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">summarize</span><span class="op">(</span></span>
+<span>    Avg_Math_Score <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">avg_pvMATH</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>    Avg_Reading_Score <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">avg_pvREAD</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>    Avg_Science_Score <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">avg_pvSCIE</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="va">School_Avg_Scores_subjects</span> <span class="op">&lt;-</span> <span class="va">School_Avg_Scores</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">CNTSCHID</span>, <span class="fu">starts_with</span><span class="op">(</span><span class="st">"Avg_Math"</span><span class="op">)</span>, <span class="fu">starts_with</span><span class="op">(</span><span class="st">"Avg_Reading"</span><span class="op">)</span>, <span class="fu">starts_with</span><span class="op">(</span><span class="st">"Avg_Science"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">School_Avg_Scores_long</span> <span class="op">&lt;-</span> <span class="va">School_Avg_Scores_subjects</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">pivot_longer</span><span class="op">(</span>cols <span class="op">=</span> <span class="op">-</span><span class="va">CNTSCHID</span>, names_to <span class="op">=</span> <span class="st">"Subject"</span>, values_to <span class="op">=</span> <span class="st">"Score"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">outliers_data</span> <span class="op">&lt;-</span> <span class="va">School_Avg_Scores</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">pivot_longer</span><span class="op">(</span>cols <span class="op">=</span> <span class="fu">starts_with</span><span class="op">(</span><span class="st">"Avg_"</span><span class="op">)</span>, names_to <span class="op">=</span> <span class="st">"Subject"</span>, values_to <span class="op">=</span> <span class="st">"Score"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">Subject</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">arrange</span><span class="op">(</span><span class="va">Score</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">slice</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, <span class="op">(</span><span class="fu">n</span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fl">2</span><span class="op">)</span><span class="op">:</span><span class="op">(</span><span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Boxplot Visualisation</span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">School_Avg_Scores_long</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">Subject</span>, y <span class="op">=</span> <span class="va">Score</span>, fill <span class="op">=</span> <span class="va">Subject</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_boxplot</span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"skyblue"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_text_repel</span><span class="op">(</span>data <span class="op">=</span> <span class="va">outliers_data</span>, <span class="fu">aes</span><span class="op">(</span>label <span class="op">=</span> <span class="va">CNTSCHID</span><span class="op">)</span>, position <span class="op">=</span> <span class="fu">position_dodge</span><span class="op">(</span>width <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, box.padding <span class="op">=</span> <span class="fl">0.8</span>, force <span class="op">=</span> <span class="fl">1</span>, segment.color <span class="op">=</span> <span class="st">"grey50"</span>, size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"The Relationship between School and Performances"</span>, x <span class="op">=</span> <span class="st">""</span>, y <span class="op">=</span> <span class="st">"Score"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme</span><span class="op">(</span>text <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>,</span>
+<span>        plot.title <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<p><img src="Take-home_Ex02_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
 <p><strong>Clarity</strong></p>
+<ul>
+<li><p>The application of boxplot for visualization introduces a shift from previous scatter plots, offering a more effective means of comparing subject-wise performances.</p></li>
+<li><p>Labeling the top three and bottom two schools with the highest and lowest scores, respectively, enhances clarity by spotlighting significant outliers.</p></li>
+</ul>
 <p><strong>Aesthetics</strong></p>
-</section></section><section id="the-relationship-between-socioeconomic-status-and-performances" class="level3" data-number="2.4"><h3 data-number="2.4" class="anchored" data-anchor-id="the-relationship-between-socioeconomic-status-and-performances">
+<ul>
+<li><p>The transition from scatter plots to box plots aligns with best practices for clearer representation and interpretation of the data.</p></li>
+<li><p>The general arrangement is logical, and the boxplot is well-structured along the X-axis, creating a clear and organized chart that facilitates readability.</p></li>
+</ul></section></section><section id="the-relationship-between-socioeconomic-status-and-performances" class="level3" data-number="2.4"><h3 data-number="2.4" class="anchored" data-anchor-id="the-relationship-between-socioeconomic-status-and-performances">
 <span class="header-section-number">2.4</span> The Relationship between Socioeconomic Status and Performances</h3>
 <section id="critique-3" class="level4" data-number="2.4.1"><h4 data-number="2.4.1" class="anchored" data-anchor-id="critique-3">
 <span class="header-section-number">2.4.1</span> Critique</h4>
 <p>A scatter plot with three regression lines is used to illustrate the relationship between socioeconomic status and the average performance scores in Mathematics, Reading, and Science.</p>
 <div class="cell">
-<details><summary>Click to view the code.</summary><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="va">Related_math_read_scie_data</span></span>
+<details><summary>Click to view the code.</summary><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="va">Related_math_read_scie_data</span></span>
 <span></span>
 <span><span class="fu">ggplot</span><span class="op">(</span><span class="va">df</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">Parent_Edu_level</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_point</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="va">avg_pvMATH</span>, color <span class="op">=</span> <span class="st">"Math"</span><span class="op">)</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span></span>
@@ -538,12 +585,53 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p><strong>Clarity</strong></p>
+<ul>
+<li><p>The plot lacks immediate clarity as the viewer may struggle to discern the primary purpose or key relationships at first glance.</p></li>
+<li><p>Overlapping points and regression lines in dense areas might reduce clarity.</p></li>
+</ul>
 <p><strong>Aesthetics</strong></p>
-</section><section id="remake-3" class="level4" data-number="2.4.2"><h4 data-number="2.4.2" class="anchored" data-anchor-id="remake-3">
+<ul>
+<li><p>The color scheme, featuring blue for math, green for reading, and red for science, is visually appealing and helps differentiate the three aspects of academic performance.</p></li>
+<li><p>Due to the discrete nature of socioeconomic status, using points to represent the data may not be the most suitable choice, as it can lead to overlapping and a lack of clarity in distinguishing different levels of socioeconomic status.</p></li>
+</ul></section><section id="remake-3" class="level4" data-number="2.4.2"><h4 data-number="2.4.2" class="anchored" data-anchor-id="remake-3">
 <span class="header-section-number">2.4.2</span> Remake</h4>
+<div class="cell">
+<details><summary>Click to view the code.</summary><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">p10</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">Related_math_read_scie_data</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">Parent_Edu_level</span><span class="op">)</span>, y <span class="op">=</span> <span class="va">avg_pvMATH</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_boxplot</span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.5</span>, fill <span class="op">=</span> <span class="st">"skyblue"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">stat_summary</span><span class="op">(</span>fun <span class="op">=</span> <span class="st">"median"</span>, geom <span class="op">=</span> <span class="st">"line"</span>, <span class="fu">aes</span><span class="op">(</span>group <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"red"</span>, linewidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span>  </span>
+<span>  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Socioeconomic Status"</span>, y <span class="op">=</span> <span class="st">"Average Maths Score"</span>, subtitle <span class="op">=</span> <span class="st">"Maths"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_classic</span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p11</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">Related_math_read_scie_data</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">Parent_Edu_level</span><span class="op">)</span>, y <span class="op">=</span> <span class="va">avg_pvREAD</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_boxplot</span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.5</span>, fill <span class="op">=</span> <span class="st">"skyblue"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">stat_summary</span><span class="op">(</span>fun <span class="op">=</span> <span class="st">"median"</span>, geom <span class="op">=</span> <span class="st">"line"</span>, <span class="fu">aes</span><span class="op">(</span>group <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"red"</span>, linewidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span>  </span>
+<span>  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Socioeconomic Status"</span>, y <span class="op">=</span> <span class="st">"Average Reading Score"</span>, subtitle <span class="op">=</span> <span class="st">"Reading"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_classic</span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p12</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">Related_math_read_scie_data</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">Parent_Edu_level</span><span class="op">)</span>, y <span class="op">=</span> <span class="va">avg_pvSCIE</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_boxplot</span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.5</span>, fill <span class="op">=</span> <span class="st">"skyblue"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">stat_summary</span><span class="op">(</span>fun <span class="op">=</span> <span class="st">"median"</span>, geom <span class="op">=</span> <span class="st">"line"</span>, <span class="fu">aes</span><span class="op">(</span>group <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"red"</span>, linewidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span>  </span>
+<span>  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Socioeconomic Status"</span>, y <span class="op">=</span> <span class="st">"Average Science Score"</span>, subtitle <span class="op">=</span> <span class="st">"Science"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_classic</span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p10</span> <span class="op">+</span> <span class="va">p11</span> <span class="op">+</span> <span class="va">p12</span> <span class="op">+</span></span>
+<span>  <span class="fu">plot_annotation</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"The Relationship between Performance and Socioeconomic Status"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<p><img src="Take-home_Ex02_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
 <p><strong>Clarity</strong></p>
+<ul>
+<li><p>The trio of plots effectively conveys the distribution of average scores across different socioeconomic status levels. The use of boxplots with median lines provides a clear representation of the central tendency and spread within each category.</p></li>
+<li><p>The subtitles “Maths,” “Reading,” and “Science” help viewers quickly identify the subject matter of each plot, enhancing overall clarity.</p></li>
+<li><p>Grouping the plots together in a single arrangement allows for easy visual comparison across subjects, contributing to a coherent presentation.</p></li>
+</ul>
 <p><strong>Aesthetics</strong></p>
-</section></section></section><section id="learning-points" class="level2" data-number="3"><h2 data-number="3" class="anchored" data-anchor-id="learning-points">
+<ul>
+<li><p>The choice of the sky-blue color for boxplots is aesthetically pleasing and maintains consistency across all three plots.</p></li>
+<li><p>The red median lines stand out well against the blue background, aiding in the identification of central tendencies.</p></li>
+<li><p>The overall design with classic themes is neat and professional, contributing to a visually appealing representation of the relationship between performance and socioeconomic status.</p></li>
+</ul></section></section></section><section id="learning-points" class="level2" data-number="3"><h2 data-number="3" class="anchored" data-anchor-id="learning-points">
 <span class="header-section-number">3</span> Learning Points</h2>
 <p>Take-home exercise 2 served as a valuable reflection point for me, offering a different perspective on my classmates’ work in comparison to my own take-home exercise 1. This process allowed me to appreciate the diversity in design approaches and draw inspiration from their visualizations.</p>
 <p>One key takeaway is the realization that there isn’t a singular correct method for designing visualizations. The crucial factors lie in ensuring clarity, aesthetic appeal, and the effective communication of a meaningful message. The act of revisiting my initial work alongside classmates’ contributions has been enlightening, providing me with fresh ideas for refining my take-home exercise 1.</p>
