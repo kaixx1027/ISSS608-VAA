@@ -36,6 +36,8 @@ website:
         menu:
           - text: "1: Creating data visualisation beyond default"
             href: "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html"
+          - text: "2: Peer critique and DataVis Makeover"
+            href: "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html"
     right: 
       - href: index.qmd
         text: Home

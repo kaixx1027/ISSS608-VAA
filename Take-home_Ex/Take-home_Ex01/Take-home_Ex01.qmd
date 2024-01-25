@@ -92,7 +92,6 @@ school_education <- stu_qqq_SG[, grep("ST005|ST007", names(stu_qqq_SG), value = 
 vocational_training <- stu_qqq_SG[, grep("ST006|ST008", names(stu_qqq_SG), value = TRUE)]
 
 home_possessions <- stu_qqq_SG[, grep("ST250|ST251|ST253|ST254|ST255|ST256", names(stu_qqq_SG), value = TRUE)]
-
 ```
 
 #### Data Wrangling
