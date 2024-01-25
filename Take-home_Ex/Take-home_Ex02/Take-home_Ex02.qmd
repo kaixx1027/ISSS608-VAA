@@ -436,7 +436,8 @@ p12 <- ggplot(data = Related_math_read_scie_data, aes(x = factor(Parent_Edu_leve
   theme_classic()
 
 p10 + p11 + p12 +
-  plot_annotation(title = "The Relationship between Performance and Socioeconomic Status (Lower values indicate higher status)")
+  plot_annotation(title = "The Relationship between Performance and Socioeconomic Status
+                                                                 (Lower values indicate higher status)")
 ```
 
 **Clarity**
