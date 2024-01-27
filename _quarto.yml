@@ -32,6 +32,8 @@ website:
             href: "In-class_Ex/In-class_Ex01/In-class_Ex01.html"
           - text: "2: Designing Graphs to Enlighten"
             href: "In-class_Ex/In-class_Ex02/In-class_Ex02.html"
+          - text: "3: Interactivity in Visual Analytics"
+            href: "In-class_Ex/In-class_Ex03/In-class_Ex03.html"
       - text: "Take-home Exercise"
         menu:
           - text: "1: Creating data visualisation beyond default"

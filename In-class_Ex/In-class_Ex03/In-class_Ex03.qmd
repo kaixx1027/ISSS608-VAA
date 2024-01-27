@@ -1,0 +1,21 @@
+---
+title: "In-class Exercise 3: Interactivity in Visual Analytics"
+date: "January 27, 2024"
+date-modified: "last-modified"
+execute: 
+  eval: true
+  echo: true
+  warning: false
+---
+
+## Short Quiz
+
+-   Critic Figure 5.
+
+Click ["here"](https://www.datavisualizationsociety.org/survey?utm_source=newsletter-mailchimp&utm_medium=email&utm_campaign=SOTI_report_2023&utm_id=SOTI_report_2023&utm_source=DVS+members&utm_campaign=42b99e3ee9-EMAIL_CAMPAIGN_2024_01_25_07_58&utm_medium=email&utm_term=0_-42b99e3ee9-%5BLIST_EMAIL_ID%5D&mc_cid=42b99e3ee9&mc_eid=f5082edeae) to view the description of figure 5.
+
+[![](../../images/figure5.jpg)](https://drive.google.com/file/d/17tETrT7AFar3YUuooWwqgGdIYhmFpaOm/view)
+
+## Tableau
+
+Learning how to create interactive reports and storytelling with Tableau.

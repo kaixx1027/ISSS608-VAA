@@ -35,25 +35,102 @@
     "text": "Welcome to Visual Analytics & Application Learning Journey webpage.\nIn this website, you will find my coursework prepared for this course."
   },
   {
-    "objectID": "In-class_Ex/In-class_Ex01/In-class_Ex01.html",
-    "href": "In-class_Ex/In-class_Ex01/In-class_Ex01.html",
-    "title": "In-class Exercise 1: Now You See It!",
+    "objectID": "In-class_Ex/In-class_Ex02/In-class_Ex02.html",
+    "href": "In-class_Ex/In-class_Ex02/In-class_Ex02.html",
+    "title": "In-class Exercise 2: Designing Graphs to Enlighten",
     "section": "",
-    "text": "In this hands-on exercise, two R packages will be used. They are:\n\ntidyverse, and\nhaven\n\nThe code chunk used is as follows:\n\npacman::p_load(tidyverse, haven)"
+    "text": "In this session, we dived into the fundamentals of designing impactful graphs and took our first steps into the world of Tableau.\nCheck out our learnings here."
   },
   {
-    "objectID": "In-class_Ex/In-class_Ex01/In-class_Ex01.html#loading-r-packages",
-    "href": "In-class_Ex/In-class_Ex01/In-class_Ex01.html#loading-r-packages",
-    "title": "In-class Exercise 1: Now You See It!",
+    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_2.html",
+    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_2.html",
+    "title": "Hands-on Exercise 3.2: Programming Animated Statistical Graphics with R",
     "section": "",
-    "text": "In this hands-on exercise, two R packages will be used. They are:\n\ntidyverse, and\nhaven\n\nThe code chunk used is as follows:\n\npacman::p_load(tidyverse, haven)"
+    "text": "The code chunk below uses p_load() of pacman package to check if packages are installed in the computer. If they are, then they will be launched into R.\n\nplotly, R library for plotting interactive statistical graphs.\ngganimate, an ggplot extension for creating animated statistical graphs.\ngifski converts video frames to GIF animations using pngquant’s fancy features for efficient cross-frame palettes and temporal dithering. It produces animated GIFs that use thousands of colors per frame.\ngapminder: An excerpt of the data available at Gapminder.org. We just want to use its country_colors scheme.\ntidyverse, a family of modern R packages specially designed to support data science, analysis and communication task including creating static statistical graphs.\n\n\npacman::p_load(readxl, gifski, gapminder, plotly, gganimate, tidyverse)\n\n\nIn this hands-on exercise, the Data worksheet from GlobalPopulation Excel workbook will be used.\n\n\nmutate_at()\nacross()\n\n\n\n\ncol &lt;- c(\"Country\", \"Continent\")\nglobalPop &lt;- read_xls(\"../../data/GlobalPopulation.xls\",\n                      sheet=\"Data\") %&gt;%\n  mutate_at(col, as.factor) %&gt;%\n  mutate(Year = as.integer(Year))\n\n\n\n\ncol &lt;- c(\"Country\", \"Continent\")\nglobalPop &lt;- read_xls(\"../../data/GlobalPopulation.xls\",\n                      sheet=\"Data\") %&gt;%\n  mutate(across(col, as.factor)) %&gt;%\n  mutate(Year = as.integer(Year))"
   },
   {
-    "objectID": "In-class_Ex/In-class_Ex01/In-class_Ex01.html#importing-pisa-data",
-    "href": "In-class_Ex/In-class_Ex01/In-class_Ex01.html#importing-pisa-data",
-    "title": "In-class Exercise 1: Now You See It!",
-    "section": "\n2 Importing PISA data",
-    "text": "2 Importing PISA data\nThe code chunk below uses read_sas() of haven to import PISA data into R environment.\n\nstu_qqq &lt;- read_sas(\"../../data/cy08msp_stu_qqq.sas7bdat\")\n\n\nstu_qqq_SG &lt;- stu_qqq %&gt;%\n  filter(CNT == \"SGP\")\n\n\nwrite_rds(stu_qqq_SG,\"data/stu_qqq_SG.rds\")\n\n\nstu_qqq_SG &lt;- read_rds(\"data/stu_qqq_SG.rds\")"
+    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_2.html#getting-started",
+    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_2.html#getting-started",
+    "title": "Hands-on Exercise 3.2: Programming Animated Statistical Graphics with R",
+    "section": "",
+    "text": "The code chunk below uses p_load() of pacman package to check if packages are installed in the computer. If they are, then they will be launched into R.\n\nplotly, R library for plotting interactive statistical graphs.\ngganimate, an ggplot extension for creating animated statistical graphs.\ngifski converts video frames to GIF animations using pngquant’s fancy features for efficient cross-frame palettes and temporal dithering. It produces animated GIFs that use thousands of colors per frame.\ngapminder: An excerpt of the data available at Gapminder.org. We just want to use its country_colors scheme.\ntidyverse, a family of modern R packages specially designed to support data science, analysis and communication task including creating static statistical graphs.\n\n\npacman::p_load(readxl, gifski, gapminder, plotly, gganimate, tidyverse)\n\n\nIn this hands-on exercise, the Data worksheet from GlobalPopulation Excel workbook will be used.\n\n\nmutate_at()\nacross()\n\n\n\n\ncol &lt;- c(\"Country\", \"Continent\")\nglobalPop &lt;- read_xls(\"../../data/GlobalPopulation.xls\",\n                      sheet=\"Data\") %&gt;%\n  mutate_at(col, as.factor) %&gt;%\n  mutate(Year = as.integer(Year))\n\n\n\n\ncol &lt;- c(\"Country\", \"Continent\")\nglobalPop &lt;- read_xls(\"../../data/GlobalPopulation.xls\",\n                      sheet=\"Data\") %&gt;%\n  mutate(across(col, as.factor)) %&gt;%\n  mutate(Year = as.integer(Year))"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_2.html#animated-data-visualisation-gganimate-methods",
+    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_2.html#animated-data-visualisation-gganimate-methods",
+    "title": "Hands-on Exercise 3.2: Programming Animated Statistical Graphics with R",
+    "section": "\n2 Animated Data Visualisation: gganimate methods",
+    "text": "2 Animated Data Visualisation: gganimate methods\ngganimate extends the grammar of graphics as implemented by ggplot2 to include the description of animation. It does this by providing a range of new grammar classes that can be added to the plot object in order to customise how it should change with time.\n\ntransition_*() defines how the data should be spread out and how it relates to itself across time.\nview_*() defines how the positional scales should change along the animation.\nshadow_*() defines how data from other points in time should be presented in the given point in time.\nenter_*()/exit_*() defines how new data should appear and how old data should disappear during the course of the animation.\nease_aes() defines how different aesthetics should be eased during transitions.\n\n\n2.1 Building a static population bubble plot\nIn the code chunk below, the basic ggplot2 functions are used to create a static bubble plot.\n\nClick to view the code.ggplot(globalPop, aes(x = Old, y = Young, \n                      size = Population, \n                      colour = Country)) +\n  geom_point(alpha = 0.7, \n             show.legend = FALSE) +\n  scale_colour_manual(values = country_colors) +\n  scale_size(range = c(2, 12)) +\n  labs(title = 'Year: {frame_time}', \n       x = '% Aged', \n       y = '% Young') \n\n\n\n\n\n2.2 Building the animated bubble plot\n\ntransition_time() of gganimate is used to create transition through distinct states in time (i.e. Year).\nease_aes() is used to control easing of aesthetics. The default is linear. Other methods are: quadratic, cubic, quartic, quintic, sine, circular, exponential, elastic, back, and bounce.\n\n\nClick to view the code.ggplot(globalPop, aes(x = Old, y = Young, \n                      size = Population, \n                      colour = Country)) +\n  geom_point(alpha = 0.7, \n             show.legend = FALSE) +\n  scale_colour_manual(values = country_colors) +\n  scale_size(range = c(2, 12)) +\n  labs(title = 'Year: {frame_time}', \n       x = '% Aged', \n       y = '% Young') +\n  transition_time(Year) +       \n  ease_aes('linear')"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_2.html#animated-data-visualisation-plotly",
+    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_2.html#animated-data-visualisation-plotly",
+    "title": "Hands-on Exercise 3.2: Programming Animated Statistical Graphics with R",
+    "section": "\n3 Animated Data Visualisation: plotly",
+    "text": "3 Animated Data Visualisation: plotly\nIn Plotly R package, both ggplotly() and plot_ly() support key frame animations through the frame argument/aesthetic. They also support an ids argument/aesthetic to ensure smooth transitions between objects with the same id (which helps facilitate object constancy).\n\n3.1 Building an animated bubble plot: ggplotly() method\nIn this sub-section, you will learn how to create an animated bubble plot by using ggplotly() method.\nThe animated bubble plot above includes a play/pause button and a slider component for controlling the animation\n\nClick to view the code.gg &lt;- ggplot(globalPop, \n       aes(x = Old, \n           y = Young, \n           size = Population, \n           colour = Country)) +\n  geom_point(aes(size = Population,\n                 frame = Year),\n             alpha = 0.7, \n             show.legend = FALSE) +\n  scale_colour_manual(values = country_colors) +\n  scale_size(range = c(2, 12)) +\n  labs(x = '% Aged', \n       y = '% Young')\n\nggplotly(gg)\n\n\n\n\n\nNotice that although show.legend = FALSE argument was used, the legend still appears on the plot. To overcome this problem, theme(legend.position='none') should be used as shown in the plot and code chunk below.\n\nClick to view the code.gg &lt;- ggplot(globalPop, \n       aes(x = Old, \n           y = Young, \n           size = Population, \n           colour = Country)) +\n  geom_point(aes(size = Population,\n                 frame = Year),\n             alpha = 0.7) +\n  scale_colour_manual(values = country_colors) +\n  scale_size(range = c(2, 12)) +\n  labs(x = '% Aged', \n       y = '% Young') + \n  theme(legend.position='none')\n\nggplotly(gg)\n\n\n\n\n\n\n3.2 Building an animated bubble plot: plot_ly() method\nIn this sub-section, you will learn how to create an animated bubble plot by using plot_ly() method.\n\nClick to view the code.bp &lt;- globalPop %&gt;%\n  plot_ly(x = ~Old, \n          y = ~Young, \n          size = ~Population, \n          color = ~Continent,\n          sizes = c(2, 100),\n          frame = ~Year, \n          text = ~Country, \n          hoverinfo = \"text\",\n          type = 'scatter',\n          mode = 'markers'\n          ) %&gt;%\n  layout(showlegend = FALSE)\nbp"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html",
+    "title": "Hands-on Exercise 2: Beyond ggplot2 Fundamentals",
+    "section": "",
+    "text": "The code chunk below uses p_load() of pacman package to check if packages are installed in the computer. If they are, then they will be launched into R.\n\npacman::p_load(ggrepel, patchwork, ggthemes, hrbrthemes, tidyverse) \n\n\n\nexam_data &lt;- read.csv(\"../../data/Exam_data.csv\")"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#getting-started",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#getting-started",
+    "title": "Hands-on Exercise 2: Beyond ggplot2 Fundamentals",
+    "section": "",
+    "text": "The code chunk below uses p_load() of pacman package to check if packages are installed in the computer. If they are, then they will be launched into R.\n\npacman::p_load(ggrepel, patchwork, ggthemes, hrbrthemes, tidyverse) \n\n\n\nexam_data &lt;- read.csv(\"../../data/Exam_data.csv\")"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#beyond-ggplot2-annotation-ggrepel",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#beyond-ggplot2-annotation-ggrepel",
+    "title": "Hands-on Exercise 2: Beyond ggplot2 Fundamentals",
+    "section": "\n2 Beyond ggplot2 Annotation: ggrepel",
+    "text": "2 Beyond ggplot2 Annotation: ggrepel\n\nggplot(data=exam_data, \n       aes(x= MATHS, \n           y=ENGLISH)) +\n  geom_point() +\n  geom_smooth(formula = y~x,\n              method = lm, \n              linewidth = 0.5) +  \n  geom_label(aes(label = ID), \n             hjust = .5, \n             vjust = -.5) +\n  coord_cartesian(xlim=c(0,100),\n                  ylim=c(0,100)) +\n  ggtitle(\"English scores versus Maths scores for Primary 3\")\n\n\n\n\n\n2.1 Working with ggrepel\n\nggplot(data=exam_data, \n       aes(x= MATHS, \n           y=ENGLISH)) +\n  geom_point() +\n  geom_smooth(formula = y~x,\n              method = lm, \n              linewidth=0.5) +  \n  geom_label_repel(aes(label = ID), \n                   fontface = \"bold\") +\n  coord_cartesian(xlim=c(0,100),\n                  ylim=c(0,100)) +\n  ggtitle(\"English scores versus Maths scores for Primary 3\")\n\nWarning: ggrepel: 317 unlabeled data points (too many overlaps). Consider\nincreasing max.overlaps"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#beyond-ggplot2-themes",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#beyond-ggplot2-themes",
+    "title": "Hands-on Exercise 2: Beyond ggplot2 Fundamentals",
+    "section": "\n3 Beyond ggplot2 Themes",
+    "text": "3 Beyond ggplot2 Themes\n\nggplot(data=exam_data, \n             aes(x = MATHS)) +\n  geom_histogram(bins=20, \n                 boundary = 100,\n                 color=\"grey25\", \n                 fill=\"grey90\") +\n  theme_gray() +\n  ggtitle(\"Distribution of Maths scores\") \n\n\n\n\n\n3.1 Working with ggtheme package\n\nggplot(data=exam_data, \n             aes(x = MATHS)) +\n  geom_histogram(bins=20, \n                 boundary = 100,\n                 color=\"grey25\", \n                 fill=\"grey90\") +\n  ggtitle(\"Distribution of Maths scores\") +\n  theme_economist()\n\n\n\n\n\n3.2 Working with hrbthems package\nhrbrthemes package provides a base theme that focuses on typographic elements, including where various labels are placed as well as the fonts that are used.\n\nggplot(data=exam_data, \n             aes(x = MATHS)) +\n  geom_histogram(bins=20, \n                 boundary = 100,\n                 color=\"grey25\", \n                 fill=\"grey90\") +\n  ggtitle(\"Distribution of Maths scores\") +\n  theme_ipsum()\n\n\n\n\nThe second goal centers around productivity for a production workflow. In fact, this “production workflow” is the context for where the elements of hrbrthemes should be used. Consult this vignette to learn more.\n\nggplot(data=exam_data, \n             aes(x = MATHS)) +\n  geom_histogram(bins=20, \n                 boundary = 100,\n                 color=\"grey25\", \n                 fill=\"grey90\") +\n  ggtitle(\"Distribution of Maths scores\") +\n  theme_ipsum(axis_title_size = 18,\n              base_size = 15,\n              grid = \"Y\")"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#beyond-single-graph",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#beyond-single-graph",
+    "title": "Hands-on Exercise 2: Beyond ggplot2 Fundamentals",
+    "section": "\n4 Beyond Single Graph",
+    "text": "4 Beyond Single Graph\n\np1 &lt;- ggplot(data=exam_data, \n             aes(x = MATHS)) +\n  geom_histogram(bins=20, \n                 boundary = 100,\n                 color=\"grey25\", \n                 fill=\"grey90\") + \n  coord_cartesian(xlim=c(0,100)) +\n  ggtitle(\"Distribution of Maths scores\")\n\nNext\n\np2 &lt;- ggplot(data=exam_data, \n             aes(x = ENGLISH)) +\n  geom_histogram(bins=20, \n                 boundary = 100,\n                 color=\"grey25\", \n                 fill=\"grey90\") +\n  coord_cartesian(xlim=c(0,100)) +\n  ggtitle(\"Distribution of English scores\")\n\nLastly\n\np3 &lt;- ggplot(data=exam_data, \n             aes(x= MATHS, \n                 y=ENGLISH)) +\n  geom_point() +\n  geom_smooth(formula = y~x,\n              method = lm, \n              size = 0.5) +  \n  coord_cartesian(xlim=c(0,100),\n                  ylim=c(0,100)) +\n  ggtitle(\"English scores versus Maths scores for Primary 3\")\n\nWarning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.\nℹ Please use `linewidth` instead.\n\n\n\n4.1 Combining two ggplot2 graphs\n\np1 + p2\n\n\n\n\n\n4.2 Combining three ggplot2 graphs\n\n(p1 / p2) | p3\n\n\n\n\n\n4.3 Creating a composite figure with tag\n\n((p1 / p2) | p3) + \n  plot_annotation(tag_levels = 'I')\n\n\n\n\n\n4.4 Creating figure with insert\n\np3 + inset_element(p2, \n                   left = 0.02, \n                   bottom = 0.7, \n                   right = 0.5, \n                   top = 1)\n\n\n\n\n\n4.5 Creating a composite figure by using patchwork and ggtheme\n\npatchwork &lt;- (p1 / p2) | p3\npatchwork & theme_economist()"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html",
+    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html",
+    "title": "Hands-on Exercise 1: A Layered Grammar of Graphics: ggplot2 methods",
+    "section": "",
+    "text": "The code chunk below uses p_load() of pacman package to check if tidyverse packages are installed in the computer. If they are, then they will be launched into R.\n\npacman::p_load(tidyverse)\n\n\n\nexam_data &lt;- read_csv(\"../../data/Exam_data.csv\")\n\nRows: 322 Columns: 7\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): ID, CLASS, GENDER, RACE\ndbl (3): ENGLISH, MATHS, SCIENCE\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message."
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#install-and-launching-r-packages",
+    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#install-and-launching-r-packages",
+    "title": "Hands-on Exercise 1: A Layered Grammar of Graphics: ggplot2 methods",
+    "section": "",
+    "text": "The code chunk below uses p_load() of pacman package to check if tidyverse packages are installed in the computer. If they are, then they will be launched into R.\n\npacman::p_load(tidyverse)"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#importing-the-data",
+    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#importing-the-data",
+    "title": "Hands-on Exercise 1: A Layered Grammar of Graphics: ggplot2 methods",
+    "section": "",
+    "text": "exam_data &lt;- read_csv(\"../../data/Exam_data.csv\")\n\nRows: 322 Columns: 7\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): ID, CLASS, GENDER, RACE\ndbl (3): ENGLISH, MATHS, SCIENCE\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message."
   },
   {
     "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_1.html",
@@ -105,102 +182,39 @@
     "text": "6 Interactive Data Visualisation - crosstalk methods!\nCrosstalk is an add-on to the htmlwidgets package. It extends htmlwidgets with a set of classes, functions, and conventions for implementing cross-widget interactions (currently, linked brushing and filtering).\n\n6.1 Interactive Data Table: DT package\n\nA wrapper of the JavaScript Library DataTables\nData objects in R can be rendered as HTML tables using the JavaScript library ‘DataTables’ (typically via R Markdown or Shiny).\n\n\nDT::datatable(exam_data, class= \"compact\")\n\n\n\n\n\n\n\n6.2 Linked brushing: crosstalk method\n\nhighlight() is a function of plotly package. It sets a variety of options for brushing (i.e., highlighting) multiple plots. These options are primarily designed for linking multiple plotly graphs, and may not behave as expected when linking plotly to another htmlwidget package via crosstalk. In some cases, other htmlwidgets will respect these options, such as persistent selection in leaflet.\nbscols() is a helper function of crosstalk package. It makes it easy to put HTML elements side by side. It can be called directly from the console but is especially designed to work in an R Markdown document. Warning: This will bring in all of Bootstrap!.\n\n\nClick to view the code.d &lt;- highlight_key(exam_data) \np &lt;- ggplot(d, \n            aes(ENGLISH, \n                MATHS)) + \n  geom_point(size=1) +\n  coord_cartesian(xlim=c(0,100),\n                  ylim=c(0,100))\n\ngg &lt;- highlight(ggplotly(p),        \n                \"plotly_selected\")  \n\ncrosstalk::bscols(gg,               \n                  DT::datatable(d), \n                  widths = 5)"
   },
   {
-    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html",
-    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html",
-    "title": "Hands-on Exercise 1: A Layered Grammar of Graphics: ggplot2 methods",
+    "objectID": "In-class_Ex/In-class_Ex01/In-class_Ex01.html",
+    "href": "In-class_Ex/In-class_Ex01/In-class_Ex01.html",
+    "title": "In-class Exercise 1: Now You See It!",
     "section": "",
-    "text": "The code chunk below uses p_load() of pacman package to check if tidyverse packages are installed in the computer. If they are, then they will be launched into R.\n\npacman::p_load(tidyverse)\n\n\n\nexam_data &lt;- read_csv(\"../../data/Exam_data.csv\")\n\nRows: 322 Columns: 7\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): ID, CLASS, GENDER, RACE\ndbl (3): ENGLISH, MATHS, SCIENCE\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message."
+    "text": "In this hands-on exercise, two R packages will be used. They are:\n\ntidyverse, and\nhaven\n\nThe code chunk used is as follows:\n\npacman::p_load(tidyverse, haven)"
   },
   {
-    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#install-and-launching-r-packages",
-    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#install-and-launching-r-packages",
-    "title": "Hands-on Exercise 1: A Layered Grammar of Graphics: ggplot2 methods",
+    "objectID": "In-class_Ex/In-class_Ex01/In-class_Ex01.html#loading-r-packages",
+    "href": "In-class_Ex/In-class_Ex01/In-class_Ex01.html#loading-r-packages",
+    "title": "In-class Exercise 1: Now You See It!",
     "section": "",
-    "text": "The code chunk below uses p_load() of pacman package to check if tidyverse packages are installed in the computer. If they are, then they will be launched into R.\n\npacman::p_load(tidyverse)"
+    "text": "In this hands-on exercise, two R packages will be used. They are:\n\ntidyverse, and\nhaven\n\nThe code chunk used is as follows:\n\npacman::p_load(tidyverse, haven)"
   },
   {
-    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#importing-the-data",
-    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#importing-the-data",
-    "title": "Hands-on Exercise 1: A Layered Grammar of Graphics: ggplot2 methods",
+    "objectID": "In-class_Ex/In-class_Ex01/In-class_Ex01.html#importing-pisa-data",
+    "href": "In-class_Ex/In-class_Ex01/In-class_Ex01.html#importing-pisa-data",
+    "title": "In-class Exercise 1: Now You See It!",
+    "section": "\n2 Importing PISA data",
+    "text": "2 Importing PISA data\nThe code chunk below uses read_sas() of haven to import PISA data into R environment.\n\nstu_qqq &lt;- read_sas(\"../../data/cy08msp_stu_qqq.sas7bdat\")\n\n\nstu_qqq_SG &lt;- stu_qqq %&gt;%\n  filter(CNT == \"SGP\")\n\n\nwrite_rds(stu_qqq_SG,\"data/stu_qqq_SG.rds\")\n\n\nstu_qqq_SG &lt;- read_rds(\"data/stu_qqq_SG.rds\")"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex03/In-class_Ex03.html",
+    "href": "In-class_Ex/In-class_Ex03/In-class_Ex03.html",
+    "title": "In-class Exercise 3: Designing Graphs to Enlighten",
     "section": "",
-    "text": "exam_data &lt;- read_csv(\"../../data/Exam_data.csv\")\n\nRows: 322 Columns: 7\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): ID, CLASS, GENDER, RACE\ndbl (3): ENGLISH, MATHS, SCIENCE\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message."
+    "text": "Critic Figure 5.\n\nClick “here” to view the description of figure 5."
   },
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
+    "objectID": "In-class_Ex/In-class_Ex03/In-class_Ex03.html#short-quiz",
+    "href": "In-class_Ex/In-class_Ex03/In-class_Ex03.html#short-quiz",
+    "title": "In-class Exercise 3: Designing Graphs to Enlighten",
     "section": "",
-    "text": "About this site\n\n1 + 1\n\n[1] 2"
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html",
-    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html",
-    "title": "Hands-on Exercise 2: Beyond ggplot2 Fundamentals",
-    "section": "",
-    "text": "The code chunk below uses p_load() of pacman package to check if packages are installed in the computer. If they are, then they will be launched into R.\n\npacman::p_load(ggrepel, patchwork, ggthemes, hrbrthemes, tidyverse) \n\n\n\nexam_data &lt;- read.csv(\"../../data/Exam_data.csv\")"
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#getting-started",
-    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#getting-started",
-    "title": "Hands-on Exercise 2: Beyond ggplot2 Fundamentals",
-    "section": "",
-    "text": "The code chunk below uses p_load() of pacman package to check if packages are installed in the computer. If they are, then they will be launched into R.\n\npacman::p_load(ggrepel, patchwork, ggthemes, hrbrthemes, tidyverse) \n\n\n\nexam_data &lt;- read.csv(\"../../data/Exam_data.csv\")"
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#beyond-ggplot2-annotation-ggrepel",
-    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#beyond-ggplot2-annotation-ggrepel",
-    "title": "Hands-on Exercise 2: Beyond ggplot2 Fundamentals",
-    "section": "\n2 Beyond ggplot2 Annotation: ggrepel",
-    "text": "2 Beyond ggplot2 Annotation: ggrepel\n\nggplot(data=exam_data, \n       aes(x= MATHS, \n           y=ENGLISH)) +\n  geom_point() +\n  geom_smooth(formula = y~x,\n              method = lm, \n              linewidth = 0.5) +  \n  geom_label(aes(label = ID), \n             hjust = .5, \n             vjust = -.5) +\n  coord_cartesian(xlim=c(0,100),\n                  ylim=c(0,100)) +\n  ggtitle(\"English scores versus Maths scores for Primary 3\")\n\n\n\n\n\n2.1 Working with ggrepel\n\nggplot(data=exam_data, \n       aes(x= MATHS, \n           y=ENGLISH)) +\n  geom_point() +\n  geom_smooth(formula = y~x,\n              method = lm, \n              linewidth=0.5) +  \n  geom_label_repel(aes(label = ID), \n                   fontface = \"bold\") +\n  coord_cartesian(xlim=c(0,100),\n                  ylim=c(0,100)) +\n  ggtitle(\"English scores versus Maths scores for Primary 3\")\n\nWarning: ggrepel: 317 unlabeled data points (too many overlaps). Consider\nincreasing max.overlaps"
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#beyond-ggplot2-themes",
-    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#beyond-ggplot2-themes",
-    "title": "Hands-on Exercise 2: Beyond ggplot2 Fundamentals",
-    "section": "\n3 Beyond ggplot2 Themes",
-    "text": "3 Beyond ggplot2 Themes\n\nggplot(data=exam_data, \n             aes(x = MATHS)) +\n  geom_histogram(bins=20, \n                 boundary = 100,\n                 color=\"grey25\", \n                 fill=\"grey90\") +\n  theme_gray() +\n  ggtitle(\"Distribution of Maths scores\") \n\n\n\n\n\n3.1 Working with ggtheme package\n\nggplot(data=exam_data, \n             aes(x = MATHS)) +\n  geom_histogram(bins=20, \n                 boundary = 100,\n                 color=\"grey25\", \n                 fill=\"grey90\") +\n  ggtitle(\"Distribution of Maths scores\") +\n  theme_economist()\n\n\n\n\n\n3.2 Working with hrbthems package\nhrbrthemes package provides a base theme that focuses on typographic elements, including where various labels are placed as well as the fonts that are used.\n\nggplot(data=exam_data, \n             aes(x = MATHS)) +\n  geom_histogram(bins=20, \n                 boundary = 100,\n                 color=\"grey25\", \n                 fill=\"grey90\") +\n  ggtitle(\"Distribution of Maths scores\") +\n  theme_ipsum()\n\n\n\n\nThe second goal centers around productivity for a production workflow. In fact, this “production workflow” is the context for where the elements of hrbrthemes should be used. Consult this vignette to learn more.\n\nggplot(data=exam_data, \n             aes(x = MATHS)) +\n  geom_histogram(bins=20, \n                 boundary = 100,\n                 color=\"grey25\", \n                 fill=\"grey90\") +\n  ggtitle(\"Distribution of Maths scores\") +\n  theme_ipsum(axis_title_size = 18,\n              base_size = 15,\n              grid = \"Y\")"
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#beyond-single-graph",
-    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#beyond-single-graph",
-    "title": "Hands-on Exercise 2: Beyond ggplot2 Fundamentals",
-    "section": "\n4 Beyond Single Graph",
-    "text": "4 Beyond Single Graph\n\np1 &lt;- ggplot(data=exam_data, \n             aes(x = MATHS)) +\n  geom_histogram(bins=20, \n                 boundary = 100,\n                 color=\"grey25\", \n                 fill=\"grey90\") + \n  coord_cartesian(xlim=c(0,100)) +\n  ggtitle(\"Distribution of Maths scores\")\n\nNext\n\np2 &lt;- ggplot(data=exam_data, \n             aes(x = ENGLISH)) +\n  geom_histogram(bins=20, \n                 boundary = 100,\n                 color=\"grey25\", \n                 fill=\"grey90\") +\n  coord_cartesian(xlim=c(0,100)) +\n  ggtitle(\"Distribution of English scores\")\n\nLastly\n\np3 &lt;- ggplot(data=exam_data, \n             aes(x= MATHS, \n                 y=ENGLISH)) +\n  geom_point() +\n  geom_smooth(formula = y~x,\n              method = lm, \n              size = 0.5) +  \n  coord_cartesian(xlim=c(0,100),\n                  ylim=c(0,100)) +\n  ggtitle(\"English scores versus Maths scores for Primary 3\")\n\nWarning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.\nℹ Please use `linewidth` instead.\n\n\n\n4.1 Combining two ggplot2 graphs\n\np1 + p2\n\n\n\n\n\n4.2 Combining three ggplot2 graphs\n\n(p1 / p2) | p3\n\n\n\n\n\n4.3 Creating a composite figure with tag\n\n((p1 / p2) | p3) + \n  plot_annotation(tag_levels = 'I')\n\n\n\n\n\n4.4 Creating figure with insert\n\np3 + inset_element(p2, \n                   left = 0.02, \n                   bottom = 0.7, \n                   right = 0.5, \n                   top = 1)\n\n\n\n\n\n4.5 Creating a composite figure by using patchwork and ggtheme\n\npatchwork &lt;- (p1 / p2) | p3\npatchwork & theme_economist()"
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_2.html",
-    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_2.html",
-    "title": "Hands-on Exercise 3.2: Programming Animated Statistical Graphics with R",
-    "section": "",
-    "text": "The code chunk below uses p_load() of pacman package to check if packages are installed in the computer. If they are, then they will be launched into R.\n\nplotly, R library for plotting interactive statistical graphs.\ngganimate, an ggplot extension for creating animated statistical graphs.\ngifski converts video frames to GIF animations using pngquant’s fancy features for efficient cross-frame palettes and temporal dithering. It produces animated GIFs that use thousands of colors per frame.\ngapminder: An excerpt of the data available at Gapminder.org. We just want to use its country_colors scheme.\ntidyverse, a family of modern R packages specially designed to support data science, analysis and communication task including creating static statistical graphs.\n\n\npacman::p_load(readxl, gifski, gapminder, plotly, gganimate, tidyverse)\n\n\nIn this hands-on exercise, the Data worksheet from GlobalPopulation Excel workbook will be used.\n\n\nmutate_at()\nacross()\n\n\n\n\ncol &lt;- c(\"Country\", \"Continent\")\nglobalPop &lt;- read_xls(\"../../data/GlobalPopulation.xls\",\n                      sheet=\"Data\") %&gt;%\n  mutate_at(col, as.factor) %&gt;%\n  mutate(Year = as.integer(Year))\n\n\n\n\ncol &lt;- c(\"Country\", \"Continent\")\nglobalPop &lt;- read_xls(\"../../data/GlobalPopulation.xls\",\n                      sheet=\"Data\") %&gt;%\n  mutate(across(col, as.factor)) %&gt;%\n  mutate(Year = as.integer(Year))"
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_2.html#getting-started",
-    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_2.html#getting-started",
-    "title": "Hands-on Exercise 3.2: Programming Animated Statistical Graphics with R",
-    "section": "",
-    "text": "The code chunk below uses p_load() of pacman package to check if packages are installed in the computer. If they are, then they will be launched into R.\n\nplotly, R library for plotting interactive statistical graphs.\ngganimate, an ggplot extension for creating animated statistical graphs.\ngifski converts video frames to GIF animations using pngquant’s fancy features for efficient cross-frame palettes and temporal dithering. It produces animated GIFs that use thousands of colors per frame.\ngapminder: An excerpt of the data available at Gapminder.org. We just want to use its country_colors scheme.\ntidyverse, a family of modern R packages specially designed to support data science, analysis and communication task including creating static statistical graphs.\n\n\npacman::p_load(readxl, gifski, gapminder, plotly, gganimate, tidyverse)\n\n\nIn this hands-on exercise, the Data worksheet from GlobalPopulation Excel workbook will be used.\n\n\nmutate_at()\nacross()\n\n\n\n\ncol &lt;- c(\"Country\", \"Continent\")\nglobalPop &lt;- read_xls(\"../../data/GlobalPopulation.xls\",\n                      sheet=\"Data\") %&gt;%\n  mutate_at(col, as.factor) %&gt;%\n  mutate(Year = as.integer(Year))\n\n\n\n\ncol &lt;- c(\"Country\", \"Continent\")\nglobalPop &lt;- read_xls(\"../../data/GlobalPopulation.xls\",\n                      sheet=\"Data\") %&gt;%\n  mutate(across(col, as.factor)) %&gt;%\n  mutate(Year = as.integer(Year))"
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_2.html#animated-data-visualisation-gganimate-methods",
-    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_2.html#animated-data-visualisation-gganimate-methods",
-    "title": "Hands-on Exercise 3.2: Programming Animated Statistical Graphics with R",
-    "section": "\n2 Animated Data Visualisation: gganimate methods",
-    "text": "2 Animated Data Visualisation: gganimate methods\ngganimate extends the grammar of graphics as implemented by ggplot2 to include the description of animation. It does this by providing a range of new grammar classes that can be added to the plot object in order to customise how it should change with time.\n\ntransition_*() defines how the data should be spread out and how it relates to itself across time.\nview_*() defines how the positional scales should change along the animation.\nshadow_*() defines how data from other points in time should be presented in the given point in time.\nenter_*()/exit_*() defines how new data should appear and how old data should disappear during the course of the animation.\nease_aes() defines how different aesthetics should be eased during transitions.\n\n\n2.1 Building a static population bubble plot\nIn the code chunk below, the basic ggplot2 functions are used to create a static bubble plot.\n\nClick to view the code.ggplot(globalPop, aes(x = Old, y = Young, \n                      size = Population, \n                      colour = Country)) +\n  geom_point(alpha = 0.7, \n             show.legend = FALSE) +\n  scale_colour_manual(values = country_colors) +\n  scale_size(range = c(2, 12)) +\n  labs(title = 'Year: {frame_time}', \n       x = '% Aged', \n       y = '% Young') \n\n\n\n\n\n2.2 Building the animated bubble plot\n\ntransition_time() of gganimate is used to create transition through distinct states in time (i.e. Year).\nease_aes() is used to control easing of aesthetics. The default is linear. Other methods are: quadratic, cubic, quartic, quintic, sine, circular, exponential, elastic, back, and bounce.\n\n\nClick to view the code.ggplot(globalPop, aes(x = Old, y = Young, \n                      size = Population, \n                      colour = Country)) +\n  geom_point(alpha = 0.7, \n             show.legend = FALSE) +\n  scale_colour_manual(values = country_colors) +\n  scale_size(range = c(2, 12)) +\n  labs(title = 'Year: {frame_time}', \n       x = '% Aged', \n       y = '% Young') +\n  transition_time(Year) +       \n  ease_aes('linear')"
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_2.html#animated-data-visualisation-plotly",
-    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_2.html#animated-data-visualisation-plotly",
-    "title": "Hands-on Exercise 3.2: Programming Animated Statistical Graphics with R",
-    "section": "\n3 Animated Data Visualisation: plotly",
-    "text": "3 Animated Data Visualisation: plotly\nIn Plotly R package, both ggplotly() and plot_ly() support key frame animations through the frame argument/aesthetic. They also support an ids argument/aesthetic to ensure smooth transitions between objects with the same id (which helps facilitate object constancy).\n\n3.1 Building an animated bubble plot: ggplotly() method\nIn this sub-section, you will learn how to create an animated bubble plot by using ggplotly() method.\nThe animated bubble plot above includes a play/pause button and a slider component for controlling the animation\n\nClick to view the code.gg &lt;- ggplot(globalPop, \n       aes(x = Old, \n           y = Young, \n           size = Population, \n           colour = Country)) +\n  geom_point(aes(size = Population,\n                 frame = Year),\n             alpha = 0.7, \n             show.legend = FALSE) +\n  scale_colour_manual(values = country_colors) +\n  scale_size(range = c(2, 12)) +\n  labs(x = '% Aged', \n       y = '% Young')\n\nggplotly(gg)\n\n\n\n\n\nNotice that although show.legend = FALSE argument was used, the legend still appears on the plot. To overcome this problem, theme(legend.position='none') should be used as shown in the plot and code chunk below.\n\nClick to view the code.gg &lt;- ggplot(globalPop, \n       aes(x = Old, \n           y = Young, \n           size = Population, \n           colour = Country)) +\n  geom_point(aes(size = Population,\n                 frame = Year),\n             alpha = 0.7) +\n  scale_colour_manual(values = country_colors) +\n  scale_size(range = c(2, 12)) +\n  labs(x = '% Aged', \n       y = '% Young') + \n  theme(legend.position='none')\n\nggplotly(gg)\n\n\n\n\n\n\n3.2 Building an animated bubble plot: plot_ly() method\nIn this sub-section, you will learn how to create an animated bubble plot by using plot_ly() method.\n\nClick to view the code.bp &lt;- globalPop %&gt;%\n  plot_ly(x = ~Old, \n          y = ~Young, \n          size = ~Population, \n          color = ~Continent,\n          sizes = c(2, 100),\n          frame = ~Year, \n          text = ~Country, \n          hoverinfo = \"text\",\n          type = 'scatter',\n          mode = 'markers'\n          ) %&gt;%\n  layout(showlegend = FALSE)\nbp"
-  },
-  {
-    "objectID": "In-class_Ex/In-class_Ex02/In-class_Ex02.html",
-    "href": "In-class_Ex/In-class_Ex02/In-class_Ex02.html",
-    "title": "In-class Exercise 2: Designing Graphs to Enlighten",
-    "section": "",
-    "text": "In this session, we dived into the fundamentals of designing impactful graphs and took our first steps into the world of Tableau.\nCheck out our learnings here."
+    "text": "Critic Figure 5.\n\nClick “here” to view the description of figure 5."
   },
   {
     "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html",
