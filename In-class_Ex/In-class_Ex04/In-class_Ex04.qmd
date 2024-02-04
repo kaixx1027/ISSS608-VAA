@@ -1,0 +1,21 @@
+---
+title: "In-class Exercise 4: Fundamentals of Visual Analytics"
+date: "February 3, 2024"
+date-modified: "last-modified"
+execute: 
+  eval: true
+  echo: true
+  warning: false
+---
+
+View the [slides](https://isss608-ay2023-24jan.netlify.app/lesson/lesson04/lesson04-fundamentals%20of%20visual%20analytics#/what-will-you-learn-from-this-lesson) to learn more about:
+
+-   Visual Analytics for Knowledge Discovery
+
+-   Visual Analytics Approach for Statistical Testing
+
+-   Visual Analytics for Building Better Models
+
+-   Visualising Uncertainty
+
+-   Variation and Its Discontents

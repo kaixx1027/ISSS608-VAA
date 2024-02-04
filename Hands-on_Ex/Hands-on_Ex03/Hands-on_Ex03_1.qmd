@@ -180,7 +180,7 @@ Note that the default value of the hover css is hover_css = *“fill:orange;”*
 p <- ggplot(data=exam_data, 
        aes(x = MATHS)) +
   geom_dotplot_interactive(           
-    aes(data_id = CLASS),             
+    aes(data_id = CLASS, tooltip = ID),             
     stackgroups = TRUE,               
     binwidth = 1,                        
     method = "histodot") +               

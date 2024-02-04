@@ -362,5 +362,110 @@
     "title": "Hands-on Exercise 4.4: Building Funnel Plot with R",
     "section": "\n3 Funnel Plot for Fair Visual Comparison: ggplot2 methods",
     "text": "3 Funnel Plot for Fair Visual Comparison: ggplot2 methods\nBuilding funnel plots step-by-step by using ggplot2.\nEnhancing working experience of ggplot2 to customise speciallised data visualisation like funnel plot.\n\n3.1 Computing the basic derived fields\nTo plot the funnel plot from scratch, we need to derive cumulative death rate and standard error of cumulative death rate.\n\nClick to view the code.df &lt;- covid19 %&gt;%\n  mutate(rate = Death / Positive) %&gt;%\n  mutate(rate.se = sqrt((rate*(1-rate)) / (Positive))) %&gt;%\n  filter(rate &gt; 0)\n\n\nNext, the fit.mean is computed by using the code chunk below.\n\nClick to view the code.fit.mean &lt;- weighted.mean(df$rate, 1/df$rate.se^2)\n\n\n\n3.2 Calculate lower and upper limits for 95% and 99.9% CI\nThe code chunk below is used to compute the lower and upper limits for 95% confidence interval.\n\nClick to view the code.number.seq &lt;- seq(1, max(df$Positive), 1)\nnumber.ll95 &lt;- fit.mean - 1.96 * sqrt((fit.mean*(1-fit.mean)) / (number.seq)) \nnumber.ul95 &lt;- fit.mean + 1.96 * sqrt((fit.mean*(1-fit.mean)) / (number.seq)) \nnumber.ll999 &lt;- fit.mean - 3.29 * sqrt((fit.mean*(1-fit.mean)) / (number.seq)) \nnumber.ul999 &lt;- fit.mean + 3.29 * sqrt((fit.mean*(1-fit.mean)) / (number.seq)) \ndfCI &lt;- data.frame(number.ll95, number.ul95, number.ll999, \n                   number.ul999, number.seq, fit.mean)\n\n\n\n3.3 Plotting a static funnel plot\nIn the code chunk below, ggplot2 functions are used to plot a static funnel plot.\n\nClick to view the code.p &lt;- ggplot(df, aes(x = Positive, y = rate)) +\n  geom_point(aes(label=`Sub-district`), \n             alpha=0.4) +\n  geom_line(data = dfCI, \n            aes(x = number.seq, \n                y = number.ll95), \n            size = 0.4, \n            colour = \"grey40\", \n            linetype = \"dashed\") +\n  geom_line(data = dfCI, \n            aes(x = number.seq, \n                y = number.ul95), \n            size = 0.4, \n            colour = \"grey40\", \n            linetype = \"dashed\") +\n  geom_line(data = dfCI, \n            aes(x = number.seq, \n                y = number.ll999), \n            size = 0.4, \n            colour = \"grey40\") +\n  geom_line(data = dfCI, \n            aes(x = number.seq, \n                y = number.ul999), \n            size = 0.4, \n            colour = \"grey40\") +\n  geom_hline(data = dfCI, \n             aes(yintercept = fit.mean), \n             size = 0.4, \n             colour = \"grey40\") +\n  coord_cartesian(ylim=c(0,0.05)) +\n  annotate(\"text\", x = 1, y = -0.13, label = \"95%\", size = 3, colour = \"grey40\") + \n  annotate(\"text\", x = 4.5, y = -0.18, label = \"99%\", size = 3, colour = \"grey40\") + \n  ggtitle(\"Cumulative Fatality Rate by Cumulative Number of COVID-19 Cases\") +\n  xlab(\"Cumulative Number of COVID-19 Cases\") + \n  ylab(\"Cumulative Fatality Rate\") +\n  theme_light() +\n  theme(plot.title = element_text(size=12),\n        legend.position = c(0.91,0.85), \n        legend.title = element_text(size=7),\n        legend.text = element_text(size=7),\n        legend.background = element_rect(colour = \"grey60\", linetype = \"dotted\"),\n        legend.key.height = unit(0.3, \"cm\"))\np\n\n\n\n\n\n3.4 Interactive Funnel Plot: plotly + ggplot2\nThe funnel plot created using ggplot2 functions can be made interactive with ggplotly() of plotly r package.\n\nClick to view the code.fp_ggplotly &lt;- ggplotly(p,\n  tooltip = c(\"label\", \n              \"x\", \n              \"y\"))\nfp_ggplotly"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05_1.html",
+    "href": "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05_1.html",
+    "title": "Hands-on Exercise 5.1: Building Ternary Plot with R",
+    "section": "",
+    "text": "ggtern, a ggplot extension specially designed to plot ternary diagrams. The package will be used to plot static ternary plots.\nPlotly R, an R package for creating interactive web-based graphs via plotly’s JavaScript graphing library, plotly.js . The plotly R libary contains the ggplotly function, which will convert ggplot2 figures into a Plotly object.\n\n\npacman::p_load('plotly', 'tidyverse', 'ggtern')\n# require(devtools)\n# install_version(\"ggtern\", version = \"3.4.1\", repos = \"http://cran.us.r-project.org\")\n# library(ggtern)\n\n\n\npop_data &lt;- read_csv(\"../../data/respopagsex2000to2018_tidy.csv\") \n\n\nUsing the mutate() function of dplyr package to derive three new measures, namely: young, active, and old.\n\nClick to view the code.#Deriving the young, economy active and old measures\nagpop_mutated &lt;- pop_data %&gt;%\n  mutate(`Year` = as.character(Year))%&gt;%\n  spread(AG, Population) %&gt;%\n  mutate(YOUNG = rowSums(.[4:8]))%&gt;%\n  mutate(ACTIVE = rowSums(.[9:16]))  %&gt;%\n  mutate(OLD = rowSums(.[17:21])) %&gt;%\n  mutate(TOTAL = rowSums(.[22:24])) %&gt;%\n  filter(Year == 2018)%&gt;%\n  filter(TOTAL &gt; 0)"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05_1.html#getting-started",
+    "href": "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05_1.html#getting-started",
+    "title": "Hands-on Exercise 5.1: Building Ternary Plot with R",
+    "section": "",
+    "text": "ggtern, a ggplot extension specially designed to plot ternary diagrams. The package will be used to plot static ternary plots.\nPlotly R, an R package for creating interactive web-based graphs via plotly’s JavaScript graphing library, plotly.js . The plotly R libary contains the ggplotly function, which will convert ggplot2 figures into a Plotly object.\n\n\npacman::p_load('plotly', 'tidyverse', 'ggtern')\n# require(devtools)\n# install_version(\"ggtern\", version = \"3.4.1\", repos = \"http://cran.us.r-project.org\")\n# library(ggtern)\n\n\n\npop_data &lt;- read_csv(\"../../data/respopagsex2000to2018_tidy.csv\") \n\n\nUsing the mutate() function of dplyr package to derive three new measures, namely: young, active, and old.\n\nClick to view the code.#Deriving the young, economy active and old measures\nagpop_mutated &lt;- pop_data %&gt;%\n  mutate(`Year` = as.character(Year))%&gt;%\n  spread(AG, Population) %&gt;%\n  mutate(YOUNG = rowSums(.[4:8]))%&gt;%\n  mutate(ACTIVE = rowSums(.[9:16]))  %&gt;%\n  mutate(OLD = rowSums(.[17:21])) %&gt;%\n  mutate(TOTAL = rowSums(.[22:24])) %&gt;%\n  filter(Year == 2018)%&gt;%\n  filter(TOTAL &gt; 0)"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05_4.html",
+    "href": "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05_4.html",
+    "title": "Hands-on Exercise 5.4: Visual Multivariate Analysis with Parallel Coordinates Plot",
+    "section": "",
+    "text": "pacman::p_load(tidyverse, FunnelPlotR, plotly, knitr)"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05_4.html#getting-started",
+    "href": "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05_4.html#getting-started",
+    "title": "Hands-on Exercise 5.4: Visual Multivariate Analysis with Parallel Coordinates Plot",
+    "section": "",
+    "text": "pacman::p_load(tidyverse, FunnelPlotR, plotly, knitr)"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05_2.html",
+    "href": "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05_2.html",
+    "title": "Hands-on Exercise 5.2: Visual Correlation Analysis",
+    "section": "",
+    "text": "pacman::p_load(corrplot, ggstatsplot, tidyverse)\n\n\n\nwine &lt;- read_csv(\"../../data/wine_quality.csv\")"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05_2.html#getting-started",
+    "href": "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05_2.html#getting-started",
+    "title": "Hands-on Exercise 5.2: Visual Correlation Analysis",
+    "section": "",
+    "text": "pacman::p_load(corrplot, ggstatsplot, tidyverse)\n\n\n\nwine &lt;- read_csv(\"../../data/wine_quality.csv\")"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05_3.html",
+    "href": "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05_3.html",
+    "title": "Hands-on Exercise 5.3: Visual Multivariate Analysis with Heatmap",
+    "section": "",
+    "text": "pacman::p_load(tidyverse, FunnelPlotR, plotly, knitr)"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05_3.html#getting-started",
+    "href": "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05_3.html#getting-started",
+    "title": "Hands-on Exercise 5.3: Visual Multivariate Analysis with Heatmap",
+    "section": "",
+    "text": "pacman::p_load(tidyverse, FunnelPlotR, plotly, knitr)"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05_5.html",
+    "href": "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05_5.html",
+    "title": "Hands-on Exercise 5.5: Treemap Visualisation with R",
+    "section": "",
+    "text": "pacman::p_load(tidyverse, FunnelPlotR, plotly, knitr)"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05_5.html#getting-started",
+    "href": "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05_5.html#getting-started",
+    "title": "Hands-on Exercise 5.5: Treemap Visualisation with R",
+    "section": "",
+    "text": "pacman::p_load(tidyverse, FunnelPlotR, plotly, knitr)"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05_1.html#plotting-ternary-diagram-with-r",
+    "href": "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05_1.html#plotting-ternary-diagram-with-r",
+    "title": "Hands-on Exercise 5.1: Building Ternary Plot with R",
+    "section": "\n2 Plotting Ternary Diagram with R",
+    "text": "2 Plotting Ternary Diagram with R\n\n2.1 Plotting a static ternary diagram\nUse ggtern() function of ggtern package to create a simple ternary plot.\n\nClick to view the code.#Building the static ternary plot\nggtern(data=agpop_mutated,aes(x=YOUNG,y=ACTIVE, z=OLD)) +\n  geom_point()\n\n\n\n\n\n\n\n\nClick to view the code.#Building the static ternary plot\nggtern(data=agpop_mutated, aes(x=YOUNG,y=ACTIVE, z=OLD)) +\n  geom_point() +\n  labs(title=\"Population structure, 2015\") +\n  theme_rgbw()\n\n\n\n\n\n\n\n\n2.2 Plotting an interative ternary diagram\nThe code below create an interactive ternary plot using plot_ly() function of Plotly R.\n\nClick to view the code.# reusable function for creating annotation object\nlabel &lt;- function(txt) {\n  list(\n    text = txt, \n    x = 0.1, y = 1,\n    ax = 0, ay = 0,\n    xref = \"paper\", yref = \"paper\", \n    align = \"center\",\n    font = list(family = \"serif\", size = 15, color = \"white\"),\n    bgcolor = \"#b3b3b3\", bordercolor = \"black\", borderwidth = 2\n  )\n}\n\n# reusable function for axis formatting\naxis &lt;- function(txt) {\n  list(\n    title = txt, tickformat = \".0%\", tickfont = list(size = 10)\n  )\n}\n\nternaryAxes &lt;- list(\n  aaxis = axis(\"Young\"), \n  baxis = axis(\"Active\"), \n  caxis = axis(\"Old\")\n)\n\n# Initiating a plotly visualization \nplot_ly(\n  agpop_mutated, \n  a = ~YOUNG, \n  b = ~ACTIVE, \n  c = ~OLD, \n  color = I(\"black\"), \n  type = \"scatterternary\"\n) %&gt;%\n  layout(\n    annotations = label(\"Ternary Markers\"), \n    ternary = ternaryAxes\n  )"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05_2.html#building-correlation-matrix-pairs-method",
+    "href": "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05_2.html#building-correlation-matrix-pairs-method",
+    "title": "Hands-on Exercise 5.2: Visual Correlation Analysis",
+    "section": "\n2 Building Correlation Matrix: pairs() method",
+    "text": "2 Building Correlation Matrix: pairs() method\nReading the syntax description of pairs function.\n\n2.1 Building a basic correlation matrix\n\nClick to view the code.pairs(wine[,1:11])\n\n\n\n\n\n\n\nThe required input of pairs() can be a matrix or data frame. The code chunk used to create the scatterplot matrix is relatively simple. It uses the default pairs function.\nColumns 2 to 12 of wine dataframe is used to build the scatterplot matrix. The variables are: fixed acidity, volatile acidity, citric acid, residual sugar, chlorides, free sulfur dioxide, total sulfur dioxide, density, pH, sulphates and alcohol.\n\nClick to view the code.pairs(wine[,2:12])\n\n\n\n\n\n\n\n\n2.2 Drawing the lower corner\npairs function of R Graphics provided many customisation arguments. For example, it is a common practice to show either the upper half or lower half of the correlation matrix instead of both. This is because a correlation matrix is symmetric.\nTo show the lower half of the correlation matrix, the upper.panel argument will be used as shown in the code chunk below.\n\nClick to view the code.pairs(wine[,2:12], upper.panel = NULL)\n\n\n\n\n\n\n\nSimilarly, the upper half of the correlation matrix can be displayed by the code chunk below.\n\nClick to view the code.pairs(wine[,2:12], lower.panel = NULL)\n\n\n\n\n\n\n\n\n2.3 Including with correlation coefficients\nTo show the correlation coefficient of each pair of variables instead of a scatter plot, panel.cor function will be used. This will also show higher correlations in a larger font.\n\nClick to view the code.panel.cor &lt;- function(x, y, digits=2, prefix=\"\", cex.cor, ...) {\nusr &lt;- par(\"usr\")\non.exit(par(usr))\npar(usr = c(0, 1, 0, 1))\nr &lt;- abs(cor(x, y, use=\"complete.obs\"))\ntxt &lt;- format(c(r, 0.123456789), digits=digits)[1]\ntxt &lt;- paste(prefix, txt, sep=\"\")\nif(missing(cex.cor)) cex.cor &lt;- 0.8/strwidth(txt)\ntext(0.5, 0.5, txt, cex = cex.cor * (1 + r) / 2)\n}\n\npairs(wine[,2:12], \n      upper.panel = panel.cor)"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05_2.html#visualising-correlation-matrix-ggcormat",
+    "href": "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05_2.html#visualising-correlation-matrix-ggcormat",
+    "title": "Hands-on Exercise 5.2: Visual Correlation Analysis",
+    "section": "\n3 Visualising Correlation Matrix: ggcormat()",
+    "text": "3 Visualising Correlation Matrix: ggcormat()\nOne of the major limitation of the correlation matrix is that the scatter plots appear very cluttered when the number of observations is relatively large (i.e. more than 500 observations). To over come this problem, Corrgram data visualisation technique suggested by D. J. Murdoch and E. D. Chow (1996) and Friendly, M (2002) and will be used.\nThe are at least three R packages provide function to plot corrgram, they are:\n\ncorrgram\nellipse\ncorrplot\n\nOn top that, some R package like ggstatsplot package also provides functions for building corrgram.\n\n3.1 The basic plot\nOn of the advantage of using ggcorrmat() over many other methods to visualise a correlation matrix is it’s ability to provide a comprehensive and yet professional statistical report as shown in the figure below.\n\nClick to view the code.ggstatsplot::ggcorrmat(\n  data = wine, \n  cor.vars = 1:11)\n\n\n\n\n\n\n\n\nClick to view the code.ggstatsplot::ggcorrmat(\n  data = wine, \n  cor.vars = 1:11,\n  ggcorrplot.args = list(outline.color = \"black\", \n                         hc.order = TRUE,\n                         tl.cex = 10),\n  title    = \"Correlogram for wine dataset\",\n  subtitle = \"Four pairs are no significant at p &lt; 0.05\"\n)\n\n\n\n\n\n\n\nThings to learn from the code chunk above:\n\ncor.vars argument is used to compute the correlation matrix needed to build the corrgram.\nggcorrplot.args argument provide additional (mostly aesthetic) arguments that will be passed to ggcorrplot::ggcorrplot function. The list should avoid any of the following arguments since they are already internally being used: corr, method, p.mat, sig.level, ggtheme, colors, lab, pch, legend.title, digits."
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05_2.html#building-multiple-plots",
+    "href": "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05_2.html#building-multiple-plots",
+    "title": "Hands-on Exercise 5.2: Visual Correlation Analysis",
+    "section": "\n4 Building multiple plots",
+    "text": "4 Building multiple plots\nSince ggstasplot is an extension of ggplot2, it also supports faceting. However the feature is not available in ggcorrmat() but in the grouped_ggcorrmat() of ggstatsplot.\n\nClick to view the code.grouped_ggcorrmat(\n  data = wine,\n  cor.vars = 1:11,\n  grouping.var = type,\n  type = \"robust\",\n  p.adjust.method = \"holm\",\n  plotgrid.args = list(ncol = 2),\n  ggcorrplot.args = list(outline.color = \"black\", \n                         hc.order = TRUE,\n                         tl.cex = 10),\n  annotation.args = list(\n    tag_levels = \"a\",\n    title = \"Correlogram for wine dataset\",\n    subtitle = \"The measures are: alcohol, sulphates, fixed acidity, citric acid, chlorides, residual sugar, density, free sulfur dioxide and volatile acidity\",\n    caption = \"Dataset: UCI Machine Learning Repository\"\n  )\n)\n\n\n\n\n\n\n\nThings to learn from the code chunk above:\n\nto build a facet plot, the only argument needed is grouping.var.\nBehind group_ggcorrmat(), patchwork package is used to create the multiplot. plotgrid.args argument provides a list of additional arguments passed to patchwork::wrap_plots, except for guides argument which is already separately specified earlier.\nLikewise, annotation.args argument is calling plot annotation arguments of patchwork package."
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05_2.html#visualising-correlation-matrix-using-corrplot-package",
+    "href": "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05_2.html#visualising-correlation-matrix-using-corrplot-package",
+    "title": "Hands-on Exercise 5.2: Visual Correlation Analysis",
+    "section": "\n5 Visualising Correlation Matrix using corrplot Package",
+    "text": "5 Visualising Correlation Matrix using corrplot Package\nReading An Introduction to corrplot Package in order to gain basic understanding of corrplot package.\n\n5.1 Getting started with corrplot\nBefore we can plot a corrgram using corrplot(), we need to compute the correlation matrix of wine data frame.\nIn the code chunk below, cor() of R Stats is used to compute the correlation matrix of wine data frame.\n\nClick to view the code.wine.cor &lt;- cor(wine[, 1:11])\n\n\nNext, corrplot() is used to plot the corrgram by using all the default setting as shown in the code chunk below.\n\nClick to view the code.corrplot(wine.cor)\n\n\n\n\n\n\n\n\ncircle: default visual object used to plot the corrgram\ndefault layout of the corrgram: symmetric matrix\n\ndefault colour scheme - diverging blue-red\nblue - represent pair variables with positive correlation coefficients\nred - represent pair variables with negative correlation coefficients\n\n\nthe intensity of the colour (saturation) - represent the strength of the correlation coefficient\ndarker - relatively stronger linear relationship between the paired variables\nlighter - relatively weaker linear relationship\n\n\n5.2 Working with visual geometrics\nIn corrplot package, there are seven visual geometrics (parameter method) can be used to encode the attribute values. They are: circle, square, ellipse, number, shade, color and pie. The default is circle.\nAs shown in the previous section, the default visual geometric of corrplot matrix is circle. However, this default setting can be changed by using the method argument as shown in the code chunk below.\n\n\nsquare\nellipse\n\n\n\n\nClick to view the code.corrplot(wine.cor, method = \"square\") \n\n\n\n\n\n\n\n\n\n\nClick to view the code.corrplot(wine.cor, method = \"ellipse\") \n\n\n\n\n\n\n\n\n\n\n\n5.3 Working with layout\n\n5.4 \n\n5.5 \n\n5.6 \n\n5.7 \n\n5.8 \n\n5.9 \n\n5.10 \n\n5.11 \n\n5.12 \n\n5.13 \n\n5.14 \n\n5.15 \n\n5.16 \n\n5.17 \n\n5.18 \n\n5.19 \n\n5.20 \n\n5.21 \n\n5.22 \n\n5.23 \n\n5.24 \n\n5.25 \n\n5.26 \n\n5.27 \n\n5.28 \n\n5.29 \n\n5.30 \n\n5.31 \n\n5.32 \n\n5.33"
   }
 ]
