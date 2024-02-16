@@ -9,19 +9,21 @@ execute:
 
 ## Overview
 
+### Introduction
+
 The impact of climate change on weather patterns is a growing concern globally, with implications for various sectors including agriculture, infrastructure, and public health.
 
-In this project, we aim to explore historical weather trends in Singapore using data obtained from the Meteorological Service Singapore website. By leveraging visual analytics techniques, we seek to provide insights into temperature or rainfall variations over the past four decades (1983, 1993, 2003, 2013, and 2023), with a focus on validating projections regarding temperature increases and changes in wet and dry seasons.
+In this project, we aim to explore historical weather trends in Singapore using data obtained from the Meteorological Service Singapore website. By leveraging visual analytics techniques, we seek to provide insights into **rainfall** variations over the past four decades (1983, 1993, 2003, 2013, and 2023), with a focus on validating projections regarding temperature increases and changes in wet and dry seasons.
 
 ### Objectives
 
--   Analyze historical daily temperature or rainfall data from selected weather stations in Singapore.
+-   Analyze historical daily rainfall data from selected weather stations in Singapore.
 
 -   Create data visualizations to illustrate trends and patterns in weather data for the specified months of the chosen years.
 
 -   Apply interactive techniques to enhance user engagement and facilitate data exploration.
 
--   Validate projections regarding temperature increases and changes in wet and dry seasons as stated in the office report.
+-   Validate projections regarding changes in wet and dry seasons as stated in the office report.
 
 ## Loading R packages
 
@@ -35,56 +37,116 @@ pacman::p_load(cowplot, DT, dplyr, ggridges, ggiraph, ggrepel, ggthemes, gridExt
 
 The original dataset ([historical daily temperature or rainfall data](http://www.weather.gov.sg/climate-historical-daily/)) was downloaded from [Meteorological Service Singapore](http://www.weather.gov.sg/home/).
 
-Selecting the daily temperature records of December from the years 1983, 1993, 2003, 2013, and 2023, data from the Changi Meteorological Station have been chosen and downloaded for analysis.
+Selecting the daily weather records of jul and dec from the years 1983, 1993, 2003, 2013, and 2023, data from the Changi Meteorological Station have been chosen and downloaded for analysis.
 
 ## Data Preparation
 
 ### Data Loading and Combination
 
-The code reads data from CSV files corresponding to December of the years 1983, 1993, 2003, 2013, and 2023, using the ISO-8859-4 and UTF-8 encoding to interpret text data from the files.
+The code reads data from CSV files corresponding to dec of the years 1983, 1993, 2003, 2013, and 2023, using the ISO-8859-4 and UTF-8 encoding to interpret text data from the files.
 
-Next, the separate data frames are merged together into a single data frame called "combined".
-
-```{r}
-#| code-fold: true
-#| code-summary: "Click to view the code."
-#| eval: false
-
-data1983 <- read_csv("../../data/DAILYDATA_S24_198312.csv", locale = locale(encoding = "ISO-8859-4"))
-data1993 <- read_csv("../../data/DAILYDATA_S24_199312.csv", locale = locale(encoding = "ISO-8859-4"))
-data2003 <- read_csv("../../data/DAILYDATA_S24_200312.csv", locale = locale(encoding = "ISO-8859-4"))
-data2013 <- read_csv("../../data/DAILYDATA_S24_201312.csv", locale = locale(encoding = "ISO-8859-4"))
-data2023 <- read_csv("../../data/DAILYDATA_S24_202312.csv", locale = locale(encoding = "UTF-8"))
-
-combined <- bind_rows(data1983, data1993, data2003, data2013, data2023)
-```
-
-Because "combined" contains empty data, remove all columns containing rainfall data.
+Next, the separate data frames are merged together into two data frames called "dec" and "jul" accordingly.
 
 ```{r}
 #| code-fold: true
 #| code-summary: "Click to view the code."
 #| eval: false
 
-rainfall_cols <- grep("Rainfall", names(combined))
-combined <- subset(combined, select = -rainfall_cols)
+data198312 <- read_csv("../../data/DAILYDATA_S24_198312.csv", locale = locale(encoding = "ISO-8859-4"))
+data199312 <- read_csv("../../data/DAILYDATA_S24_199312.csv", locale = locale(encoding = "ISO-8859-4"))
+data200312 <- read_csv("../../data/DAILYDATA_S24_200312.csv", locale = locale(encoding = "ISO-8859-4"))
+data201312 <- read_csv("../../data/DAILYDATA_S24_201312.csv", locale = locale(encoding = "ISO-8859-4"))
+data202312 <- read_csv("../../data/DAILYDATA_S24_202312.csv", locale = locale(encoding = "UTF-8"))
+
+dec <- bind_rows(data198312, data199312, data200312, data201312, data202312)
+
+data198307 <- read_csv("../../data/DAILYDATA_S24_198307.csv", locale = locale(encoding = "ISO-8859-4"))
+data199307 <- read_csv("../../data/DAILYDATA_S24_199307.csv", locale = locale(encoding = "ISO-8859-4"))
+data200307 <- read_csv("../../data/DAILYDATA_S24_200307.csv", locale = locale(encoding = "ISO-8859-4"))
+data201307 <- read_csv("../../data/DAILYDATA_S24_201307.csv", locale = locale(encoding = "ISO-8859-4"))
+data202307 <- read_csv("../../data/DAILYDATA_S24_202307.csv", locale = locale(encoding = "UTF-8"))
+
+jul <- bind_rows(data198307, data199307, data200307, data201307, data202307)
 ```
 
-Finally, the combined data frame is saved as an RDS file named "combined.rds" in the directory.
+Next step, remove blank data columns.
+
+```{r}
+#| code-fold: true
+#| code-summary: "Click to view the code."
+#| eval: false
+
+dec_blank_cols <- grep("Highest", names(dec))
+dec_noblank <- subset(dec, select = -dec_blank_cols)
+
+jul_blank_cols <- grep("Highest", names(jul))
+jul_noblank <- subset(jul, select = -jul_blank_cols)
+```
+
+Finally, save the data for jul and dec to separate RDS files.
 
 ```{r}
 #| code-fold: true
 #| code-summary: "Click to view the code."
 #| eval: false
  
-write_rds(combined,"data/combined.rds")
+write_rds(dec_noblank,"data/dec.rds")
+write_rds(jul_noblank,"data/jul.rds")
 ```
 
-Read the final combined file.
+Read the combined data and check for missing values
 
 ```{r}
-combined <- read_rds("data/combined.rds")
+#| code-fold: true
+#| code-summary: "Click to view the code."
+
+dec <- read_rds("data/dec.rds")
+head(dec)
+any(is.na(dec))
+
+jul <- read_rds("data/jul.rds")
+head(jul)
+any(is.na(jul))
 ```
+
+### Data Wrangling
+
+Calculate the differences between the data for July and December.
+
+```{r}
+#| code-fold: true
+#| code-summary: "Click to view the code."
+
+july <- subset(jul, Month == 7)
+december <- subset(dec, Month == 12)
+
+july <- july[, !(names(july) %in% "Month")]
+december <- december[, !(names(december) %in% "Month")]
+
+diff <- data.frame(
+  Station = july$Station,
+  Year = july$Year,
+  Day = july$Day,
+  Daily_Rainfall_Total_mm = december$`Daily Rainfall Total (mm)` - july$`Daily Rainfall Total (mm)`,
+  Mean_Temperature_C = december$`Mean Temperature (°C)` - july$`Mean Temperature (°C)`,
+  Maximum_Temperature_C = december$`Maximum Temperature (°C)` - july$`Maximum Temperature (°C)`,
+  Minimum_Temperature_C = december$`Minimum Temperature (°C)` - july$`Minimum Temperature (°C)`,
+  Mean_Wind_Speed_km_h = december$`Mean Wind Speed (km/h)` - july$`Mean Wind Speed (km/h)`,
+  Max_Wind_Speed_km_h = december$`Max Wind Speed (km/h)` - july$`Max Wind Speed (km/h)`
+)
+
+head(diff)
+```
+
+## Visualisation
+
+
+
+
+
+
+
+
 
 
 

@@ -237,9 +237,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">1</span> Overview</a>
   <ul class="collapse">
 <li><a href="#objectives" id="toc-objectives" class="nav-link" data-scroll-target="#objectives"><span class="header-section-number">1.1</span> Objectives</a></li>
-  <li><a href="#loading-r-packages" id="toc-loading-r-packages" class="nav-link" data-scroll-target="#loading-r-packages"><span class="header-section-number">1.2</span> Loading R packages</a></li>
-  <li><a href="#dataset" id="toc-dataset" class="nav-link" data-scroll-target="#dataset"><span class="header-section-number">1.3</span> Dataset</a></li>
-  <li><a href="#data-preparation" id="toc-data-preparation" class="nav-link" data-scroll-target="#data-preparation"><span class="header-section-number">1.4</span> Data Preparation</a></li>
+  </ul>
+</li>
+  <li><a href="#loading-r-packages" id="toc-loading-r-packages" class="nav-link" data-scroll-target="#loading-r-packages"><span class="header-section-number">2</span> Loading R packages</a></li>
+  <li><a href="#dataset" id="toc-dataset" class="nav-link" data-scroll-target="#dataset"><span class="header-section-number">3</span> Dataset</a></li>
+  <li>
+<a href="#data-preparation" id="toc-data-preparation" class="nav-link" data-scroll-target="#data-preparation"><span class="header-section-number">4</span> Data Preparation</a>
+  <ul class="collapse">
+<li><a href="#data-loading-and-combination" id="toc-data-loading-and-combination" class="nav-link" data-scroll-target="#data-loading-and-combination"><span class="header-section-number">4.1</span> Data Loading and Combination</a></li>
+  <li><a href="#data-wrangling" id="toc-data-wrangling" class="nav-link" data-scroll-target="#data-wrangling"><span class="header-section-number">4.2</span> Data Wrangling</a></li>
   </ul>
 </li>
   </ul></nav>
@@ -264,7 +270,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">February 15, 2024</p>
+      <p class="date-modified">February 16, 2024</p>
     </div>
   </div>
     
@@ -275,55 +281,126 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header><section id="overview" class="level2" data-number="1"><h2 data-number="1" class="anchored" data-anchor-id="overview">
 <span class="header-section-number">1</span> Overview</h2>
 <p>The impact of climate change on weather patterns is a growing concern globally, with implications for various sectors including agriculture, infrastructure, and public health.</p>
-<p>In this project, we aim to explore historical weather trends in Singapore using data obtained from the Meteorological Service Singapore website. By leveraging visual analytics techniques, we seek to provide insights into temperature or rainfall variations over the past four decades (1983, 1993, 2003, 2013, and 2023), with a focus on validating projections regarding temperature increases and changes in wet and dry seasons.</p>
+<p>In this project, we aim to explore historical weather trends in Singapore using data obtained from the Meteorological Service Singapore website. By leveraging visual analytics techniques, we seek to provide insights into <strong>rainfall</strong> variations over the past four decades (1983, 1993, 2003, 2013, and 2023), with a focus on validating projections regarding temperature increases and changes in wet and dry seasons.</p>
 <section id="objectives" class="level3" data-number="1.1"><h3 data-number="1.1" class="anchored" data-anchor-id="objectives">
 <span class="header-section-number">1.1</span> Objectives</h3>
 <ul>
-<li><p>Analyze historical daily temperature or rainfall data from selected weather stations in Singapore.</p></li>
+<li><p>Analyze historical daily rainfall data from selected weather stations in Singapore.</p></li>
 <li><p>Create data visualizations to illustrate trends and patterns in weather data for the specified months of the chosen years.</p></li>
 <li><p>Apply interactive techniques to enhance user engagement and facilitate data exploration.</p></li>
-<li><p>Validate projections regarding temperature increases and changes in wet and dry seasons as stated in the office report.</p></li>
-</ul></section><section id="loading-r-packages" class="level3" data-number="1.2"><h3 data-number="1.2" class="anchored" data-anchor-id="loading-r-packages">
-<span class="header-section-number">1.2</span> Loading R packages</h3>
+<li><p>Validate projections regarding changes in wet and dry seasons as stated in the office report.</p></li>
+</ul></section></section><section id="loading-r-packages" class="level2" data-number="2"><h2 data-number="2" class="anchored" data-anchor-id="loading-r-packages">
+<span class="header-section-number">2</span> Loading R packages</h2>
 <p>The original design will then be remade using data visualization design principles and best practices using <code>ggplot2</code>, its extensions, and <code>tidyverse</code> packages.</p>
 <div class="cell">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="va">cowplot</span>, <span class="va">DT</span>, <span class="va">dplyr</span>, <span class="va">ggridges</span>, <span class="va">ggiraph</span>, <span class="va">ggrepel</span>, <span class="va">ggthemes</span>, <span class="va">gridExtra</span>, <span class="va">ggplot2</span>, <span class="va">gifski</span>, <span class="va">gapminder</span>, <span class="va">gganimate</span>, <span class="va">heatmaply</span>, <span class="va">hrbrthemes</span>, <span class="va">haven</span>, <span class="va">patchwork</span>, <span class="va">plotly</span>, <span class="va">patchwork</span>, <span class="va">readr</span>, <span class="va">tidyverse</span>, <span class="va">viridis</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="dataset" class="level3" data-number="1.3"><h3 data-number="1.3" class="anchored" data-anchor-id="dataset">
-<span class="header-section-number">1.3</span> Dataset</h3>
+</section><section id="dataset" class="level2" data-number="3"><h2 data-number="3" class="anchored" data-anchor-id="dataset">
+<span class="header-section-number">3</span> Dataset</h2>
 <p>The original dataset (<a href="http://www.weather.gov.sg/climate-historical-daily/">historical daily temperature or rainfall data</a>) was downloaded from <a href="http://www.weather.gov.sg/home/">Meteorological Service Singapore</a>.</p>
-<p>Selecting the daily temperature records of December from the years 1983, 1993, 2003, 2013, and 2023, data from the Changi Meteorological Station have been chosen and downloaded for analysis.</p>
-</section><section id="data-preparation" class="level3" data-number="1.4"><h3 data-number="1.4" class="anchored" data-anchor-id="data-preparation">
-<span class="header-section-number">1.4</span> Data Preparation</h3>
-<section id="data-loading-and-combining" class="level4" data-number="1.4.1"><h4 data-number="1.4.1" class="anchored" data-anchor-id="data-loading-and-combining">
-<span class="header-section-number">1.4.1</span> Data Loading and Combining</h4>
-<p>The code reads data from CSV files corresponding to December of the years 1983, 1993, 2003, 2013, and 2023, using the ISO-8859-4 encoding to interpret text data from the files.</p>
-<p>Next, the separate data frames are merged together into a single data frame called “combined.”</p>
-<p>Finally, the combined data frame is saved as an RDS file named “combined.rds” in the directory.</p>
+<p>Selecting the daily weather records of jul and dec from the years 1983, 1993, 2003, 2013, and 2023, data from the Changi Meteorological Station have been chosen and downloaded for analysis.</p>
+</section><section id="data-preparation" class="level2" data-number="4"><h2 data-number="4" class="anchored" data-anchor-id="data-preparation">
+<span class="header-section-number">4</span> Data Preparation</h2>
+<section id="data-loading-and-combination" class="level3" data-number="4.1"><h3 data-number="4.1" class="anchored" data-anchor-id="data-loading-and-combination">
+<span class="header-section-number">4.1</span> Data Loading and Combination</h3>
+<p>The code reads data from CSV files corresponding to dec of the years 1983, 1993, 2003, 2013, and 2023, using the ISO-8859-4 and UTF-8 encoding to interpret text data from the files.</p>
+<p>Next, the separate data frames are merged together into two data frames called “dec” and “jul” accordingly.</p>
 <div class="cell">
-<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">data1983</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"../../data/DAILYDATA_S24_198312.csv"</span>, locale <span class="op">=</span> <span class="fu">locale</span><span class="op">(</span>encoding <span class="op">=</span> <span class="st">"ISO-8859-4"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">data1993</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"../../data/DAILYDATA_S24_199312.csv"</span>, locale <span class="op">=</span> <span class="fu">locale</span><span class="op">(</span>encoding <span class="op">=</span> <span class="st">"ISO-8859-4"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">data2003</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"../../data/DAILYDATA_S24_200312.csv"</span>, locale <span class="op">=</span> <span class="fu">locale</span><span class="op">(</span>encoding <span class="op">=</span> <span class="st">"ISO-8859-4"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">data2013</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"../../data/DAILYDATA_S24_201312.csv"</span>, locale <span class="op">=</span> <span class="fu">locale</span><span class="op">(</span>encoding <span class="op">=</span> <span class="st">"ISO-8859-4"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">data2023</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"../../data/DAILYDATA_S24_202312.csv"</span>, locale <span class="op">=</span> <span class="fu">locale</span><span class="op">(</span>encoding <span class="op">=</span> <span class="st">"ISO-8859-4"</span><span class="op">)</span><span class="op">)</span></span>
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">data198312</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"../../data/DAILYDATA_S24_198312.csv"</span>, locale <span class="op">=</span> <span class="fu">locale</span><span class="op">(</span>encoding <span class="op">=</span> <span class="st">"ISO-8859-4"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">data199312</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"../../data/DAILYDATA_S24_199312.csv"</span>, locale <span class="op">=</span> <span class="fu">locale</span><span class="op">(</span>encoding <span class="op">=</span> <span class="st">"ISO-8859-4"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">data200312</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"../../data/DAILYDATA_S24_200312.csv"</span>, locale <span class="op">=</span> <span class="fu">locale</span><span class="op">(</span>encoding <span class="op">=</span> <span class="st">"ISO-8859-4"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">data201312</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"../../data/DAILYDATA_S24_201312.csv"</span>, locale <span class="op">=</span> <span class="fu">locale</span><span class="op">(</span>encoding <span class="op">=</span> <span class="st">"ISO-8859-4"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">data202312</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"../../data/DAILYDATA_S24_202312.csv"</span>, locale <span class="op">=</span> <span class="fu">locale</span><span class="op">(</span>encoding <span class="op">=</span> <span class="st">"UTF-8"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">combined</span> <span class="op">&lt;-</span> <span class="fu">bind_rows</span><span class="op">(</span></span>
-<span>  <span class="va">data1983</span> <span class="op">%&gt;%</span> <span class="fu">mutate</span><span class="op">(</span>year <span class="op">=</span> <span class="fl">1983</span><span class="op">)</span>,</span>
-<span>  <span class="va">data1993</span> <span class="op">%&gt;%</span> <span class="fu">mutate</span><span class="op">(</span>year <span class="op">=</span> <span class="fl">1993</span><span class="op">)</span>,</span>
-<span>  <span class="va">data2003</span> <span class="op">%&gt;%</span> <span class="fu">mutate</span><span class="op">(</span>year <span class="op">=</span> <span class="fl">2003</span><span class="op">)</span>,</span>
-<span>  <span class="va">data2013</span> <span class="op">%&gt;%</span> <span class="fu">mutate</span><span class="op">(</span>year <span class="op">=</span> <span class="fl">2013</span><span class="op">)</span>,</span>
-<span>  <span class="va">data2023</span> <span class="op">%&gt;%</span> <span class="fu">mutate</span><span class="op">(</span>year <span class="op">=</span> <span class="fl">2023</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
+<span><span class="va">dec</span> <span class="op">&lt;-</span> <span class="fu">bind_rows</span><span class="op">(</span><span class="va">data198312</span>, <span class="va">data199312</span>, <span class="va">data200312</span>, <span class="va">data201312</span>, <span class="va">data202312</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">write_rds</span><span class="op">(</span><span class="va">combined</span>,<span class="st">"data/combined.rds"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">data198307</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"../../data/DAILYDATA_S24_198307.csv"</span>, locale <span class="op">=</span> <span class="fu">locale</span><span class="op">(</span>encoding <span class="op">=</span> <span class="st">"ISO-8859-4"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">data199307</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"../../data/DAILYDATA_S24_199307.csv"</span>, locale <span class="op">=</span> <span class="fu">locale</span><span class="op">(</span>encoding <span class="op">=</span> <span class="st">"ISO-8859-4"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">data200307</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"../../data/DAILYDATA_S24_200307.csv"</span>, locale <span class="op">=</span> <span class="fu">locale</span><span class="op">(</span>encoding <span class="op">=</span> <span class="st">"ISO-8859-4"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">data201307</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"../../data/DAILYDATA_S24_201307.csv"</span>, locale <span class="op">=</span> <span class="fu">locale</span><span class="op">(</span>encoding <span class="op">=</span> <span class="st">"ISO-8859-4"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">data202307</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"../../data/DAILYDATA_S24_202307.csv"</span>, locale <span class="op">=</span> <span class="fu">locale</span><span class="op">(</span>encoding <span class="op">=</span> <span class="st">"UTF-8"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">jul</span> <span class="op">&lt;-</span> <span class="fu">bind_rows</span><span class="op">(</span><span class="va">data198307</span>, <span class="va">data199307</span>, <span class="va">data200307</span>, <span class="va">data201307</span>, <span class="va">data202307</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
+<p>Next step, remove blank data columns.</p>
 <div class="cell">
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">combined</span> <span class="op">&lt;-</span> <span class="fu">read_rds</span><span class="op">(</span><span class="st">"data/combined.rds"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dec_blank_cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span><span class="op">(</span><span class="st">"Highest"</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">dec</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">dec_noblank</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">dec</span>, select <span class="op">=</span> <span class="op">-</span><span class="va">dec_blank_cols</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">jul_blank_cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span><span class="op">(</span><span class="st">"Highest"</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">jul</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">jul_noblank</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">jul</span>, select <span class="op">=</span> <span class="op">-</span><span class="va">jul_blank_cols</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Finally, save the data for jul and dec to separate RDS files.</p>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">write_rds</span><span class="op">(</span><span class="va">dec_noblank</span>,<span class="st">"data/dec.rds"</span><span class="op">)</span></span>
+<span><span class="fu">write_rds</span><span class="op">(</span><span class="va">jul_noblank</span>,<span class="st">"data/jul.rds"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Read the combined data and check for missing values</p>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dec</span> <span class="op">&lt;-</span> <span class="fu">read_rds</span><span class="op">(</span><span class="st">"data/dec.rds"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">dec</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["Station"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Year"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Month"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Day"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Daily Rainfall Total (mm)"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Mean Temperature (°C)"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["Maximum Temperature (°C)"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["Minimum Temperature (°C)"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["Mean Wind Speed (km/h)"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["Max Wind Speed (km/h)"],"name":[10],"type":["dbl"],"align":["right"]}],"data":[{"1":"Changi","2":"1983","3":"12","4":"1","5":"2.8","6":"26.4","7":"31.0","8":"23.8","9":"9.1","10":"46.1"},{"1":"Changi","2":"1983","3":"12","4":"2","5":"1.7","6":"24.3","7":"27.2","8":"21.9","9":"4.9","10":"36.4"},{"1":"Changi","2":"1983","3":"12","4":"3","5":"5.0","6":"25.1","7":"30.2","8":"23.2","9":"3.1","10":"41.0"},{"1":"Changi","2":"1983","3":"12","4":"4","5":"8.2","6":"25.2","7":"30.3","8":"23.0","9":"3.2","10":"31.7"},{"1":"Changi","2":"1983","3":"12","4":"5","5":"0.0","6":"26.0","7":"29.8","8":"23.0","9":"4.5","10":"28.8"},{"1":"Changi","2":"1983","3":"12","4":"6","5":"0.0","6":"25.0","7":"27.7","8":"23.7","9":"4.4","10":"32.4"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/any.html">any</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">dec</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">jul</span> <span class="op">&lt;-</span> <span class="fu">read_rds</span><span class="op">(</span><span class="st">"data/jul.rds"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">jul</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["Station"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Year"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Month"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Day"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Daily Rainfall Total (mm)"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Mean Temperature (°C)"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["Maximum Temperature (°C)"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["Minimum Temperature (°C)"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["Mean Wind Speed (km/h)"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["Max Wind Speed (km/h)"],"name":[10],"type":["dbl"],"align":["right"]}],"data":[{"1":"Changi","2":"1983","3":"7","4":"1","5":"8.7","6":"27.5","7":"33.0","8":"24.4","9":"3.7","10":"28.8"},{"1":"Changi","2":"1983","3":"7","4":"2","5":"0.0","6":"28.7","7":"32.6","8":"25.5","9":"10.5","10":"38.2"},{"1":"Changi","2":"1983","3":"7","4":"3","5":"5.3","6":"27.9","7":"32.0","8":"24.4","9":"5.8","10":"44.6"},{"1":"Changi","2":"1983","3":"7","4":"4","5":"6.2","6":"28.0","7":"31.9","8":"25.7","9":"7.6","10":"51.8"},{"1":"Changi","2":"1983","3":"7","4":"5","5":"39.5","6":"25.4","7":"27.4","8":"21.4","9":"3.6","10":"36.0"},{"1":"Changi","2":"1983","3":"7","4":"6","5":"14.9","6":"27.1","7":"31.1","8":"24.1","9":"8.4","10":"31.3"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/any.html">any</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">jul</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+</div>
+</section><section id="data-wrangling" class="level3" data-number="4.2"><h3 data-number="4.2" class="anchored" data-anchor-id="data-wrangling">
+<span class="header-section-number">4.2</span> Data Wrangling</h3>
+<p>Calculate the differences between the data for July and December.</p>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">july</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">jul</span>, <span class="va">Month</span> <span class="op">==</span> <span class="fl">7</span><span class="op">)</span></span>
+<span><span class="va">december</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">dec</span>, <span class="va">Month</span> <span class="op">==</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">july</span> <span class="op">&lt;-</span> <span class="va">july</span><span class="op">[</span>, <span class="op">!</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">july</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="st">"Month"</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="va">december</span> <span class="op">&lt;-</span> <span class="va">december</span><span class="op">[</span>, <span class="op">!</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">december</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="st">"Month"</span><span class="op">)</span><span class="op">]</span></span>
+<span></span>
+<span><span class="va">diff</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<span>  Station <span class="op">=</span> <span class="va">july</span><span class="op">$</span><span class="va">Station</span>,</span>
+<span>  Year <span class="op">=</span> <span class="va">july</span><span class="op">$</span><span class="va">Year</span>,</span>
+<span>  Day <span class="op">=</span> <span class="va">july</span><span class="op">$</span><span class="va">Day</span>,</span>
+<span>  Daily_Rainfall_Total_mm <span class="op">=</span> <span class="va">december</span><span class="op">$</span><span class="va">`Daily Rainfall Total (mm)`</span> <span class="op">-</span> <span class="va">july</span><span class="op">$</span><span class="va">`Daily Rainfall Total (mm)`</span>,</span>
+<span>  Mean_Temperature_C <span class="op">=</span> <span class="va">december</span><span class="op">$</span><span class="va">`Mean Temperature (°C)`</span> <span class="op">-</span> <span class="va">july</span><span class="op">$</span><span class="va">`Mean Temperature (°C)`</span>,</span>
+<span>  Maximum_Temperature_C <span class="op">=</span> <span class="va">december</span><span class="op">$</span><span class="va">`Maximum Temperature (°C)`</span> <span class="op">-</span> <span class="va">july</span><span class="op">$</span><span class="va">`Maximum Temperature (°C)`</span>,</span>
+<span>  Minimum_Temperature_C <span class="op">=</span> <span class="va">december</span><span class="op">$</span><span class="va">`Minimum Temperature (°C)`</span> <span class="op">-</span> <span class="va">july</span><span class="op">$</span><span class="va">`Minimum Temperature (°C)`</span>,</span>
+<span>  Mean_Wind_Speed_km_h <span class="op">=</span> <span class="va">december</span><span class="op">$</span><span class="va">`Mean Wind Speed (km/h)`</span> <span class="op">-</span> <span class="va">july</span><span class="op">$</span><span class="va">`Mean Wind Speed (km/h)`</span>,</span>
+<span>  Max_Wind_Speed_km_h <span class="op">=</span> <span class="va">december</span><span class="op">$</span><span class="va">`Max Wind Speed (km/h)`</span> <span class="op">-</span> <span class="va">july</span><span class="op">$</span><span class="va">`Max Wind Speed (km/h)`</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">diff</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Station"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Year"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Day"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Daily_Rainfall_Total_mm"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Mean_Temperature_C"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Maximum_Temperature_C"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["Minimum_Temperature_C"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["Mean_Wind_Speed_km_h"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["Max_Wind_Speed_km_h"],"name":[9],"type":["dbl"],"align":["right"]}],"data":[{"1":"Changi","2":"1983","3":"1","4":"-5.9","5":"-1.1","6":"-2.0","7":"-0.6","8":"5.4","9":"17.3","_rn_":"1"},{"1":"Changi","2":"1983","3":"2","4":"1.7","5":"-4.4","6":"-5.4","7":"-3.6","8":"-5.6","9":"-1.8","_rn_":"2"},{"1":"Changi","2":"1983","3":"3","4":"-0.3","5":"-2.8","6":"-1.8","7":"-1.2","8":"-2.7","9":"-3.6","_rn_":"3"},{"1":"Changi","2":"1983","3":"4","4":"2.0","5":"-2.8","6":"-1.6","7":"-2.7","8":"-4.4","9":"-20.1","_rn_":"4"},{"1":"Changi","2":"1983","3":"5","4":"-39.5","5":"0.6","6":"2.4","7":"1.6","8":"0.9","9":"-7.2","_rn_":"5"},{"1":"Changi","2":"1983","3":"6","4":"-14.9","5":"-2.1","6":"-3.4","7":"-0.4","8":"-4.0","9":"1.1","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
 </div>
 
 
-</section></section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
