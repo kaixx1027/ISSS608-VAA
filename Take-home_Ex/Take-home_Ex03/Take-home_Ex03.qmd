@@ -138,16 +138,210 @@ diff <- data.frame(
 head(diff)
 ```
 
-## Visualisation
+Calculate the average and median rainfall for July and December each year.
 
+```{r}
+jul_ave <- jul %>%
+  group_by(Year) %>%
+  summarise(
+    AverageRainfall = mean(`Daily Rainfall Total (mm)`, na.rm = TRUE))
+jul_med <- jul %>%
+  group_by(Year) %>%
+  summarise(
+    MedianRainfall = median(`Daily Rainfall Total (mm)`, na.rm = TRUE))
 
+dec_ave <- dec %>%
+  group_by(Year) %>%
+  summarise(
+    AverageRainfall = mean(`Daily Rainfall Total (mm)`, na.rm = TRUE))
+dec_med <- dec %>%
+  group_by(Year) %>%
+  summarise(
+    MedianRainfall = median(`Daily Rainfall Total (mm)`, na.rm = TRUE))
+```
+## Data Visualisation
 
+### Visualization for Wet Season and Dry Season
 
+We have selected December to represent the wet season and July to represent the dry season for data presentation. 
 
+Using density plots to display the rainfall situation for different months over the past 40 years.
 
+```{r}
+#| code-fold: true
+#| code-summary: "Click to view the code."
 
+ggplot(dec, 
+       aes(x = `Daily Rainfall Total (mm)`, 
+           y = factor(Year))) +
+  geom_density_ridges(
+    scale = 2,
+    rel_min_height = 0.01,
+    bandwidth = 3.4,
+    color = "white",
+    fill = "#4477AA",
+    alpha = 0.6
+  ) +
+  labs(
+    title = "Changi: Distribution of Daily Rainfall in December (1983-2023)",
+    x = "Daily Rainfall (mm)",
+    y = "Year"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    axis.title.y = element_text(margin = margin(r = 20)),
+    panel.background = element_rect(fill = "#F0F0F0"),
+    legend.position = "none"
+  )
+```
 
+```{r}
+#| code-fold: true
+#| code-summary: "Click to view the code."
 
+ggplot(jul, 
+       aes(x = `Daily Rainfall Total (mm)`, 
+           y = factor(Year))) +
+  geom_density_ridges(
+    scale = 2,
+    rel_min_height = 0.01,
+    bandwidth = 3.4,
+    color = "white",
+    fill = "#FFB6C1",
+    alpha = 0.6
+  ) +
+  labs(
+    title = "Changi: Distribution of Daily Rainfall in July (1983-2023)",
+    x = "Daily Rainfall (mm)",
+    y = "Year"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    axis.title.y = element_text(margin = margin(r = 20)),
+    panel.background = element_rect(fill = "#F0F0F0"),
+    legend.position = "none"
+  )
+```
 
+Through these two charts, we can clearly see that both the total rainfall amount and the rainfall frequency are much greater during the rainy season compared to the dry season.
 
+### Enhancing Engagement through Interactive Techniques
+
+Next, we will employ interactive techniques to enrich the user experience of our data visualizations, allowing users to delve deeper into the data. This will facilitate a better understanding of the distinctions between the wet and dry seasons, enabling users to conduct more comprehensive exploration and analysis according to their interests.
+
+::: panel-tabset
+
+## July
+```{R}
+#| code-fold: true
+#| code-summary: "Click to view the code."
+
+p_jul <- ggplot(jul, aes(x = Year, y = `Daily Rainfall Total (mm)`)) +
+  geom_point(aes(color = `Daily Rainfall Total (mm)`, text = paste('Day:', Day)), alpha = 0.7, size = 2) +
+  geom_line(data = jul_ave, aes(x = Year, y = AverageRainfall), 
+            color = "seagreen3", linetype = "dotted") +
+  geom_line(data = jul_med, aes(x = Year, y = MedianRainfall), 
+            color = "palevioletred", linetype = "dotted") +
+  geom_point(data = jul_ave, aes(x = Year, y = AverageRainfall), 
+             color = "seagreen3", size = 1) + 
+  geom_point(data = jul_med, aes(x = Year, y = MedianRainfall), 
+             color = "palevioletred", size = 1) + 
+  labs(title = "Changi: Daily Rainfall in July (1983-2023)",
+       x = "Year",
+       y = "Daily Rainfall Total (mm)") +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  scale_x_continuous(breaks = seq(1983, 2023, by = 10)) +
+  scale_color_gradient(low = "blue", high = "red") +
+  annotate("text", x = 2000, y = 4, label = "Average", color = "seagreen3") +
+  annotate("text", x = 2000, y = 1, label = "Median", color = "palevioletred")
+
+ggplotly(p_jul) %>%
+  layout(hovermode = 'closest') %>%
+  config(displayModeBar = FALSE)
+```
+
+## December
+```{R}
+#| code-fold: true
+#| code-summary: "Click to view the code."
+
+p_dec <- ggplot(dec, aes(x = Year, y = `Daily Rainfall Total (mm)`)) +
+  geom_point(aes(color = `Daily Rainfall Total (mm)`, text = paste('Day:', Day)), alpha = 0.7, size = 2) +
+  geom_line(data = dec_ave, aes(x = Year, y = AverageRainfall), 
+            color = "seagreen3", linetype = "dotted") +
+  geom_line(data = dec_med, aes(x = Year, y = MedianRainfall), 
+            color = "palevioletred", linetype = "dotted") +
+  geom_point(data = dec_ave, aes(x = Year, y = AverageRainfall), 
+             color = "seagreen3", size = 1) + 
+  geom_point(data = dec_med, aes(x = Year, y = MedianRainfall), 
+             color = "palevioletred", size = 1) + 
+  labs(title = "Changi: Daily Rainfall in December (1983-2023)",
+       x = "Year",
+       y = "Daily Rainfall Total (mm)") +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  scale_x_continuous(breaks = seq(1983, 2023, by = 10)) +
+  scale_color_gradient(low = "blue", high = "red") +
+  annotate("text", x = 2000, y = 15, label = "Average", color = "seagreen3") +
+  annotate("text", x = 2000, y = -5, label = "Median", color = "palevioletred")
+
+ggplotly(p_dec) %>%
+  layout(hovermode = 'closest') %>%
+  config(displayModeBar = FALSE)
+```
+:::
+
+We then merged the data for July and December, clearly illustrating that July occupies the lower portion while December dominates the upper part. This indicates that, on average, December experiences significantly higher rainfall than July.
+
+```{r}
+#| code-fold: true
+#| code-summary: "Click to view the code."
+
+combined <- bind_rows(
+  mutate(jul, Month = "July"),
+  mutate(dec, Month = "December")
+)
+
+p_combined <- ggplot(combined, aes(x = Year, y = `Daily Rainfall Total (mm)`, color = Month)) +
+  geom_point(alpha = 0.7, size = 2) +
+  labs(title = "Changi: Daily Rainfall (1983-2023)",
+       x = "Year",
+       y = "Daily Rainfall Total (mm)") +
+  theme_minimal() +
+  theme(legend.position = "bottom") +
+  scale_color_manual(values = c("July" = "#FFB6C1", "December" = "#4477AA")) +
+  scale_x_continuous(breaks = seq(1983, 2023, by = 10))
+
+ggplotly(p_combined) %>%
+  layout(hovermode = 'closest') %>%
+  config(displayModeBar = FALSE)
+```
+
+### Validating Predictions on Seasonal Changes
+
+Following the calculation of the difference in rainfall between the wet and dry seasons, we constructed box plots to illustrate the distribution of these differences across different years.
+
+Each box plot provides an overview of how the rainfall disparity between the two seasons varies annually. The x-axis denotes the years, while the y-axis represents the daily rainfall total difference in millimeters.
+
+Through these box plots, we aim to elucidate the variability in rainfall disparity over the observed years.
+
+```{r}
+#| code-fold: true
+#| code-summary: "Click to view the code."
+
+p_diff_boxplot <- ggplot(data = diff, aes(x = factor(Year), y = Daily_Rainfall_Total_mm)) +
+  geom_boxplot(width = 0.5, fill = "lightgoldenrod") +
+  stat_summary(fun = "median", geom = "line", aes(group = 1), color = "indianred", size = 0.8) +  
+  labs(x = "Year", y = "Daily Rainfall Total (mm)", title = "Changi: Difference in Rainfall Between Wet and Dry Seasons") +
+  theme_classic()
+
+ggplotly(p_diff_boxplot, tooltip = "all")
+```
+
+In the above figure, we've added lines connecting the medians for each year's box plot. These lines exhibit an upward trend, indicating an increasing difference in rainfall over the years.
+
+This further supports the earlier prediction that the contrast between the wet months (November to January) and the dry months (February and June to September) is likely to become more pronounced.
 
