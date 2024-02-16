@@ -61,6 +61,8 @@ website:
             href: "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html"
           - text: "2: Peer critique and DataVis Makeover"
             href: "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html"
+          - text: "3: Be Weatherwise or Otherwise"
+            href: "Take-home_Ex/Take-home_Ex03/Take-home_Ex03.html"
     right: 
       - href: index.qmd
         text: Home
