@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.4.549">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
 <meta name="dcterms.date" content="2024-02-20">
-
 <title>KAI - Hands-on Exercise 7.3: Analytical Mapping</title>
 <style>
 code{white-space: pre-wrap;}
@@ -21,8 +18,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
-
 
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
@@ -40,8 +70,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-<script id="quarto-search-options" type="application/json">{
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -67,23 +96,17 @@ ul.task-list li input[type="checkbox"] {
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script>
-<style>html{ scroll-behavior: smooth; }</style>
-
-
-<link rel="stylesheet" href="../../styles.css">
+}</script><style>html{ scroll-behavior: smooth; }</style>
+<link href="../../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+<script src="../../site_libs/pagedtable-1.1/js/pagedtable.js"></script><link rel="stylesheet" href="../../styles.css">
 </head>
-
 <body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../../images/name_logo.png" alt="" class="navbar-logo">
-    </a>
+    <img src="../../images/name_logo.png" alt="" class="navbar-logo"></a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -91,12 +114,12 @@ ul.task-list li input[type="checkbox"] {
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item dropdown ">
+<li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hands-on-exercise" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Hands-on Exercise</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-hands-on-exercise">    
-        <li>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-hands-on-exercise">
+<li>
     <a class="dropdown-item" href="../../Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html">
  <span class="dropdown-text"><strong>1</strong>: A Layered Grammar of Graphics: ggplot2 methods</span></a>
   </li>  
@@ -177,13 +200,13 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text"><strong>10</strong>: Information Dashboard Design: R methods</span></a>
   </li>  
     </ul>
-  </li>
+</li>
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-in-class-exercise" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">In-class Exercise</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-in-class-exercise">    
-        <li>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-in-class-exercise">
+<li>
     <a class="dropdown-item" href="../../In-class_Ex/In-class_Ex01/In-class_Ex01.html">
  <span class="dropdown-text">1: Now You See It!</span></a>
   </li>  
@@ -204,13 +227,13 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">5: Shiny Basics</span></a>
   </li>  
     </ul>
-  </li>
+</li>
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-take-home-exercise" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Take-home Exercise</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-take-home-exercise">    
-        <li>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-take-home-exercise">
+<li>
     <a class="dropdown-item" href="../../Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html">
  <span class="dropdown-text">1: Creating data visualisation beyond default</span></a>
   </li>  
@@ -223,32 +246,56 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">3: Be Weatherwise or Otherwise</span></a>
   </li>  
     </ul>
-  </li>
+</li>
 </ul>
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
+<ul class="navbar-nav navbar-nav-scroll ms-auto">
+<li class="nav-item">
     <a class="nav-link" href="../../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
 </ul>
-          </div> <!-- /navcollapse -->
+</div> <!-- /navcollapse -->
           <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
-    </nav>
-</header>
-<!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+    </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li>
+<a href="#getting-started" id="toc-getting-started" class="nav-link active" data-scroll-target="#getting-started"><span class="header-section-number">1</span> Getting Started</a>
+  <ul class="collapse">
+<li><a href="#install-and-loading-r-packages." id="toc-install-and-loading-r-packages." class="nav-link" data-scroll-target="#install-and-loading-r-packages."><span class="header-section-number">1.1</span> Install and loading R packages.</a></li>
+  <li><a href="#importing-the-data" id="toc-importing-the-data" class="nav-link" data-scroll-target="#importing-the-data"><span class="header-section-number">1.2</span> Importing the data</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#basic-choropleth-mapping" id="toc-basic-choropleth-mapping" class="nav-link" data-scroll-target="#basic-choropleth-mapping"><span class="header-section-number">2</span> Basic Choropleth Mapping</a>
+  <ul class="collapse">
+<li><a href="#visualising-distribution-of-non-functional-water-point" id="toc-visualising-distribution-of-non-functional-water-point" class="nav-link" data-scroll-target="#visualising-distribution-of-non-functional-water-point"><span class="header-section-number">2.1</span> Visualising distribution of non-functional water point</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#choropleth-map-for-rates" id="toc-choropleth-map-for-rates" class="nav-link" data-scroll-target="#choropleth-map-for-rates"><span class="header-section-number">3</span> Choropleth Map for Rates</a>
+  <ul class="collapse">
+<li><a href="#deriving-proportion-of-functional-water-points-and-non-functional-water-points" id="toc-deriving-proportion-of-functional-water-points-and-non-functional-water-points" class="nav-link" data-scroll-target="#deriving-proportion-of-functional-water-points-and-non-functional-water-points"><span class="header-section-number">3.1</span> Deriving Proportion of Functional Water Points and Non-Functional Water Points</a></li>
+  <li><a href="#plotting-map-of-rate" id="toc-plotting-map-of-rate" class="nav-link" data-scroll-target="#plotting-map-of-rate"><span class="header-section-number">3.2</span> Plotting map of rate</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#extreme-value-maps" id="toc-extreme-value-maps" class="nav-link" data-scroll-target="#extreme-value-maps"><span class="header-section-number">4</span> Extreme Value Maps</a>
+  <ul class="collapse">
+<li><a href="#percentile-map" id="toc-percentile-map" class="nav-link" data-scroll-target="#percentile-map"><span class="header-section-number">4.1</span> Percentile Map</a></li>
+  <li><a href="#box-map" id="toc-box-map" class="nav-link" data-scroll-target="#box-map"><span class="header-section-number">4.2</span> Box map</a></li>
+  </ul>
+</li>
+  </ul></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
 <h1 class="title">Hands-on Exercise 7.3: Analytical Mapping</h1>
 </div>
 
@@ -275,14 +322,327 @@ ul.task-list li input[type="checkbox"] {
   
 
 
-</header>
+</header><section id="getting-started" class="level2" data-number="1"><h2 data-number="1" class="anchored" data-anchor-id="getting-started">
+<span class="header-section-number">1</span> Getting Started</h2>
+<section id="install-and-loading-r-packages." class="level3" data-number="1.1"><h3 data-number="1.1" class="anchored" data-anchor-id="install-and-loading-r-packages.">
+<span class="header-section-number">1.1</span> Install and loading R packages.</h3>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="va">tmap</span>, <span class="va">tidyverse</span>, <span class="va">sf</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="importing-the-data" class="level3" data-number="1.2"><h3 data-number="1.2" class="anchored" data-anchor-id="importing-the-data">
+<span class="header-section-number">1.2</span> Importing the data</h3>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">NGA_wp</span> <span class="op">&lt;-</span> <span class="fu">read_rds</span><span class="op">(</span><span class="st">"../../data/rds/NGA_wp.rds"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section></section><section id="basic-choropleth-mapping" class="level2" data-number="2"><h2 data-number="2" class="anchored" data-anchor-id="basic-choropleth-mapping">
+<span class="header-section-number">2</span> Basic Choropleth Mapping</h2>
+<section id="visualising-distribution-of-non-functional-water-point" class="level3" data-number="2.1"><h3 data-number="2.1" class="anchored" data-anchor-id="visualising-distribution-of-non-functional-water-point">
+<span class="header-section-number">2.1</span> Visualising distribution of non-functional water point</h3>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu">tm_shape</span><span class="op">(</span><span class="va">NGA_wp</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_fill</span><span class="op">(</span><span class="st">"wp_functional"</span>,</span>
+<span>          n <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>          style <span class="op">=</span> <span class="st">"equal"</span>,</span>
+<span>          palette <span class="op">=</span> <span class="st">"Blues"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_borders</span><span class="op">(</span>lwd <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span>             alpha <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_layout</span><span class="op">(</span>main.title <span class="op">=</span> <span class="st">"Distribution of functional water point by LGAs"</span>,</span>
+<span>            legend.outside <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu">tm_shape</span><span class="op">(</span><span class="va">NGA_wp</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_fill</span><span class="op">(</span><span class="st">"total_wp"</span>,</span>
+<span>          n <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>          style <span class="op">=</span> <span class="st">"equal"</span>,</span>
+<span>          palette <span class="op">=</span> <span class="st">"Blues"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_borders</span><span class="op">(</span>lwd <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span>             alpha <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_layout</span><span class="op">(</span>main.title <span class="op">=</span> <span class="st">"Distribution of total  water point by LGAs"</span>,</span>
+<span>            legend.outside <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">tmap_arrange</span><span class="op">(</span><span class="va">p2</span>, <span class="va">p1</span>, nrow <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="Hands-on_Ex07_3_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section></section><section id="choropleth-map-for-rates" class="level2" data-number="3"><h2 data-number="3" class="anchored" data-anchor-id="choropleth-map-for-rates">
+<span class="header-section-number">3</span> Choropleth Map for Rates</h2>
+<p>In much of our readings we have now seen the importance to map rates rather than counts of things, and that is for the simple reason that water points are not equally distributed in space. That means that if we do not account for how many water points are somewhere, we end up mapping total water point size rather than our topic of interest.</p>
+<section id="deriving-proportion-of-functional-water-points-and-non-functional-water-points" class="level3" data-number="3.1"><h3 data-number="3.1" class="anchored" data-anchor-id="deriving-proportion-of-functional-water-points-and-non-functional-water-points">
+<span class="header-section-number">3.1</span> Deriving Proportion of Functional Water Points and Non-Functional Water Points</h3>
+<p>We will tabulate the proportion of functional water points and the proportion of non-functional water points in each LGA. In the following code chunk, <code>mutate(</code>) from <strong>dplyr</strong> package is used to derive two fields, namely <em>pct_functional</em> and <em>pct_nonfunctional</em>.</p>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">NGA_wp</span> <span class="op">&lt;-</span> <span class="va">NGA_wp</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>pct_functional <span class="op">=</span> <span class="va">wp_functional</span><span class="op">/</span><span class="va">total_wp</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>pct_nonfunctional <span class="op">=</span> <span class="va">wp_nonfunctional</span><span class="op">/</span><span class="va">total_wp</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section><section id="plotting-map-of-rate" class="level3" data-number="3.2"><h3 data-number="3.2" class="anchored" data-anchor-id="plotting-map-of-rate">
+<span class="header-section-number">3.2</span> Plotting map of rate</h3>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">tm_shape</span><span class="op">(</span><span class="va">NGA_wp</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_fill</span><span class="op">(</span><span class="st">"pct_functional"</span>,</span>
+<span>          n <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>          style <span class="op">=</span> <span class="st">"equal"</span>,</span>
+<span>          palette <span class="op">=</span> <span class="st">"Blues"</span>,</span>
+<span>          legend.hist <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_borders</span><span class="op">(</span>lwd <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span>             alpha <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_layout</span><span class="op">(</span>main.title <span class="op">=</span> <span class="st">"Rate map of functional water point by LGAs"</span>,</span>
+<span>            legend.outside <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="Hands-on_Ex07_3_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section></section><section id="extreme-value-maps" class="level2" data-number="4"><h2 data-number="4" class="anchored" data-anchor-id="extreme-value-maps">
+<span class="header-section-number">4</span> Extreme Value Maps</h2>
+<p>Extreme value maps are variations of common choropleth maps where the classification is designed to highlight extreme values at the lower and upper end of the scale, with the goal of identifying outliers. These maps were developed in the spirit of spatializing EDA, i.e., adding spatial features to commonly used approaches in non-spatial EDA (Anselin 1994).</p>
+<section id="percentile-map" class="level3" data-number="4.1"><h3 data-number="4.1" class="anchored" data-anchor-id="percentile-map">
+<span class="header-section-number">4.1</span> Percentile Map</h3>
+<p>The percentile map is a special type of quantile map with six specific categories: 0-1%,1-10%, 10-50%,50-90%,90-99%, and 99-100%. The corresponding breakpoints can be derived by means of the base R quantile command, passing an explicit vector of cumulative probabilities as c(0,.01,.1,.5,.9,.99,1). Note that the begin and endpoint need to be included.</p>
+<section id="data-preparation" class="level4" data-number="4.1.1"><h4 data-number="4.1.1" class="anchored" data-anchor-id="data-preparation">
+<span class="header-section-number">4.1.1</span> Data Preparation</h4>
+<p>Step 1: Exclude records with NA by using the code chunk below.</p>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">NGA_wp</span> <span class="op">&lt;-</span> <span class="va">NGA_wp</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">drop_na</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Step 2: Creating customised classification and extracting values</p>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">percent</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">.01</span>,<span class="fl">.1</span>,<span class="fl">.5</span>,<span class="fl">.9</span>,<span class="fl">.99</span>,<span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">var</span> <span class="op">&lt;-</span> <span class="va">NGA_wp</span><span class="op">[</span><span class="st">"pct_functional"</span><span class="op">]</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">st_set_geometry</span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">var</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>, <span class="va">percent</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>       0%        1%       10%       50%       90%       99%      100% 
+0.0000000 0.0000000 0.2169811 0.4791667 0.8611111 1.0000000 1.0000000 </code></pre>
+</div>
+</div>
+<p><strong>Important:</strong> When variables are extracted from an sf data.frame, the geometry is extracted as well. For mapping and spatial manipulation, this is the expected behavior, but many base R functions cannot deal with the geometry. Specifically, the <code><a href="https://rdrr.io/r/stats/quantile.html">quantile()</a></code> gives an error. As a result <code>st_set_geomtry(NULL)</code> is used to drop geomtry field.</p>
+</section><section id="why-writing-functions" class="level4" data-number="4.1.2"><h4 data-number="4.1.2" class="anchored" data-anchor-id="why-writing-functions">
+<span class="header-section-number">4.1.2</span> Why writing functions?</h4>
+<p>Writing a function has three big advantages over using copy-and-paste:</p>
+<ul>
+<li><p>You can give a function an evocative name that makes your code easier to understand.</p></li>
+<li><p>As requirements change, you only need to update code in one place, instead of many.</p></li>
+<li><p>You eliminate the chance of making incidental mistakes when you copy and paste (i.e.&nbsp;updating a variable name in one place, but not in another).</p></li>
+</ul>
+<p>Source: <a href="https://r4ds.had.co.nz/functions.html#functions">Chapter 19: Functions</a> of <strong>R for Data Science</strong>.</p>
+</section><section id="creating-the-get.var-function" class="level4" data-number="4.1.3"><h4 data-number="4.1.3" class="anchored" data-anchor-id="creating-the-get.var-function">
+<span class="header-section-number">4.1.3</span> Creating the get.var function</h4>
+<p>Firstly, we will write an R function as shown below to extract a variable (i.e.&nbsp;<em>wp_nonfunctional</em>) as a vector out of an sf data.frame.</p>
+<ul>
+<li>
+<p>arguments:</p>
+<ul>
+<li>vname: variable name (as character, in quotes)</li>
+<li>df: name of sf data frame</li>
+</ul>
+</li>
+<li>
+<p>returns:</p>
+<ul>
+<li>v: vector with values (without a column name)</li>
+</ul>
+</li>
+</ul>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">get.var</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">vname</span>,<span class="va">df</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">v</span> <span class="op">&lt;-</span> <span class="va">df</span><span class="op">[</span><span class="va">vname</span><span class="op">]</span> <span class="op">%&gt;%</span> </span>
+<span>    <span class="fu">st_set_geometry</span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span></span>
+<span>  <span class="va">v</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unname.html">unname</a></span><span class="op">(</span><span class="va">v</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">v</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section><section id="a-percentile-mapping-function" class="level4" data-number="4.1.4"><h4 data-number="4.1.4" class="anchored" data-anchor-id="a-percentile-mapping-function">
+<span class="header-section-number">4.1.4</span> A percentile mapping function</h4>
+<p>Next, we will write a percentile mapping function by using the code chunk below.</p>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">percentmap</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">vnam</span>, <span class="va">df</span>, <span class="va">legtitle</span><span class="op">=</span><span class="cn">NA</span>, <span class="va">mtitle</span><span class="op">=</span><span class="st">"Percentile Map"</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="va">percent</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">.01</span>,<span class="fl">.1</span>,<span class="fl">.5</span>,<span class="fl">.9</span>,<span class="fl">.99</span>,<span class="fl">1</span><span class="op">)</span></span>
+<span>  <span class="va">var</span> <span class="op">&lt;-</span> <span class="fu">get.var</span><span class="op">(</span><span class="va">vnam</span>, <span class="va">df</span><span class="op">)</span></span>
+<span>  <span class="va">bperc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">var</span>, <span class="va">percent</span><span class="op">)</span></span>
+<span>  <span class="fu">tm_shape</span><span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_polygons</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_shape</span><span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="op">+</span></span>
+<span>     <span class="fu">tm_fill</span><span class="op">(</span><span class="va">vnam</span>,</span>
+<span>             title<span class="op">=</span><span class="va">legtitle</span>,</span>
+<span>             breaks<span class="op">=</span><span class="va">bperc</span>,</span>
+<span>             palette<span class="op">=</span><span class="st">"Blues"</span>,</span>
+<span>          labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"&lt; 1%"</span>, <span class="st">"1% - 10%"</span>, <span class="st">"10% - 50%"</span>, <span class="st">"50% - 90%"</span>, <span class="st">"90% - 99%"</span>, <span class="st">"&gt; 99%"</span><span class="op">)</span><span class="op">)</span>  <span class="op">+</span></span>
+<span>  <span class="fu">tm_borders</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_layout</span><span class="op">(</span>main.title <span class="op">=</span> <span class="va">mtitle</span>, </span>
+<span>            title.position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"right"</span>,<span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section><section id="test-drive-the-percentile-mapping-function" class="level4" data-number="4.1.5"><h4 data-number="4.1.5" class="anchored" data-anchor-id="test-drive-the-percentile-mapping-function">
+<span class="header-section-number">4.1.5</span> Test drive the percentile mapping function</h4>
+<p>To run the function, type the code chunk as shown below.</p>
+<div class="cell">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">percentmap</span><span class="op">(</span><span class="st">"total_wp"</span>, <span class="va">NGA_wp</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="Hands-on_Ex07_3_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Note that this is just a bare bones implementation. Additional arguments such as the title, legend positioning just to name a few of them, could be passed to customise various features of the map.</p>
+</section></section><section id="box-map" class="level3" data-number="4.2"><h3 data-number="4.2" class="anchored" data-anchor-id="box-map">
+<span class="header-section-number">4.2</span> Box map</h3>
+<p>In essence, a box map is an augmented quartile map, with an additional lower and upper category. When there are lower outliers, then the starting point for the breaks is the minimum value, and the second break is the lower fence. In contrast, when there are no lower outliers, then the starting point for the breaks will be the lower fence, and the second break is the minimum value (there will be no observations that fall in the interval between the lower fence and the minimum value).</p>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">NGA_wp</span>,</span>
+<span>       <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="st">""</span>,</span>
+<span>           y <span class="op">=</span> <span class="va">wp_nonfunctional</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_boxplot</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="Hands-on_Ex07_3_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>Displaying summary statistics on a choropleth map by using the basic principles of boxplot.</li>
+<li>To create a box map, a custom breaks specification will be used. However, there is a complication. The break points for the box map vary depending on whether lower or upper outliers are present.</li>
+</ul>
+<section id="creating-the-boxbreaks-function" class="level4" data-number="4.2.1"><h4 data-number="4.2.1" class="anchored" data-anchor-id="creating-the-boxbreaks-function">
+<span class="header-section-number">4.2.1</span> Creating the boxbreaks function</h4>
+<p>The code chunk below is an R function that creating break points for a box map.</p>
+<ul>
+<li>
+<p>arguments:</p>
+<ul>
+<li>v: vector with observations</li>
+<li>mult: multiplier for IQR (default 1.5)</li>
+</ul>
+</li>
+<li>
+<p>returns:</p>
+<ul>
+<li>bb: vector with 7 break points compute quartile and fences</li>
+</ul>
+</li>
+</ul>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">boxbreaks</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">v</span>,<span class="va">mult</span><span class="op">=</span><span class="fl">1.5</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">qv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unname.html">unname</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">v</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">iqr</span> <span class="op">&lt;-</span> <span class="va">qv</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span> <span class="op">-</span> <span class="va">qv</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span>
+<span>  <span class="va">upfence</span> <span class="op">&lt;-</span> <span class="va">qv</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span> <span class="op">+</span> <span class="va">mult</span> <span class="op">*</span> <span class="va">iqr</span></span>
+<span>  <span class="va">lofence</span> <span class="op">&lt;-</span> <span class="va">qv</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">-</span> <span class="va">mult</span> <span class="op">*</span> <span class="va">iqr</span></span>
+<span>  <span class="co"># initialize break points vector</span></span>
+<span>  <span class="va">bb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html">vector</a></span><span class="op">(</span>mode<span class="op">=</span><span class="st">"numeric"</span>,length<span class="op">=</span><span class="fl">7</span><span class="op">)</span></span>
+<span>  <span class="co"># logic for lower and upper fences</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="va">lofence</span> <span class="op">&lt;</span> <span class="va">qv</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span> <span class="op">{</span>  <span class="co"># no lower outliers</span></span>
+<span>    <span class="va">bb</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">lofence</span></span>
+<span>    <span class="va">bb</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">floor</a></span><span class="op">(</span><span class="va">qv</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
+<span>  <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
+<span>    <span class="va">bb</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">lofence</span></span>
+<span>    <span class="va">bb</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">qv</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span>  <span class="op">}</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="va">upfence</span> <span class="op">&gt;</span> <span class="va">qv</span><span class="op">[</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span> <span class="op">{</span> <span class="co"># no upper outliers</span></span>
+<span>    <span class="va">bb</span><span class="op">[</span><span class="fl">7</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">upfence</span></span>
+<span>    <span class="va">bb</span><span class="op">[</span><span class="fl">6</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">ceiling</a></span><span class="op">(</span><span class="va">qv</span><span class="op">[</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span></span>
+<span>  <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
+<span>    <span class="va">bb</span><span class="op">[</span><span class="fl">6</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">upfence</span></span>
+<span>    <span class="va">bb</span><span class="op">[</span><span class="fl">7</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">qv</span><span class="op">[</span><span class="fl">5</span><span class="op">]</span></span>
+<span>  <span class="op">}</span></span>
+<span>  <span class="va">bb</span><span class="op">[</span><span class="fl">3</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">qv</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">bb</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section><section id="creating-the-get.var-function-1" class="level4" data-number="4.2.2"><h4 data-number="4.2.2" class="anchored" data-anchor-id="creating-the-get.var-function-1">
+<span class="header-section-number">4.2.2</span> Creating the get.var function</h4>
+<p>The code chunk below is an R function to extract a variable as a vector out of an sf data frame.</p>
+<ul>
+<li>
+<p>arguments:</p>
+<ul>
+<li>vname: variable name (as character, in quotes)</li>
+<li>df: name of sf data frame</li>
+</ul>
+</li>
+<li>
+<p>returns:</p>
+<ul>
+<li>v: vector with values (without a column name)</li>
+</ul>
+</li>
+</ul>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">get.var</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">vname</span>,<span class="va">df</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">v</span> <span class="op">&lt;-</span> <span class="va">df</span><span class="op">[</span><span class="va">vname</span><span class="op">]</span> <span class="op">%&gt;%</span> <span class="fu">st_set_geometry</span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span></span>
+<span>  <span class="va">v</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unname.html">unname</a></span><span class="op">(</span><span class="va">v</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">v</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section><section id="test-drive-the-newly-created-function" class="level4" data-number="4.2.3"><h4 data-number="4.2.3" class="anchored" data-anchor-id="test-drive-the-newly-created-function">
+<span class="header-section-number">4.2.3</span> Test drive the newly created function</h4>
+<p>Let’s test the newly created function</p>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">var</span> <span class="op">&lt;-</span> <span class="fu">get.var</span><span class="op">(</span><span class="st">"wp_nonfunctional"</span>, <span class="va">NGA_wp</span><span class="op">)</span> </span>
+<span><span class="fu">boxbreaks</span><span class="op">(</span><span class="va">var</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] -56.5   0.0  14.0  34.0  61.0 131.5 278.0</code></pre>
+</div>
+</div>
+</section><section id="boxmap-function" class="level4" data-number="4.2.4"><h4 data-number="4.2.4" class="anchored" data-anchor-id="boxmap-function">
+<span class="header-section-number">4.2.4</span> Boxmap function</h4>
+<p>The code chunk below is an R function to create a box map. - arguments: - vnam: variable name (as character, in quotes) - df: simple features polygon layer - legtitle: legend title - mtitle: map title - mult: multiplier for IQR - returns: - a tmap-element (plots a map)</p>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">boxmap</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">vnam</span>, <span class="va">df</span>, </span>
+<span>                   <span class="va">legtitle</span><span class="op">=</span><span class="cn">NA</span>,</span>
+<span>                   <span class="va">mtitle</span><span class="op">=</span><span class="st">"Box Map"</span>,</span>
+<span>                   <span class="va">mult</span><span class="op">=</span><span class="fl">1.5</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="va">var</span> <span class="op">&lt;-</span> <span class="fu">get.var</span><span class="op">(</span><span class="va">vnam</span>,<span class="va">df</span><span class="op">)</span></span>
+<span>  <span class="va">bb</span> <span class="op">&lt;-</span> <span class="fu">boxbreaks</span><span class="op">(</span><span class="va">var</span><span class="op">)</span></span>
+<span>  <span class="fu">tm_shape</span><span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">tm_polygons</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_shape</span><span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="op">+</span></span>
+<span>     <span class="fu">tm_fill</span><span class="op">(</span><span class="va">vnam</span>,title<span class="op">=</span><span class="va">legtitle</span>,</span>
+<span>             breaks<span class="op">=</span><span class="va">bb</span>,</span>
+<span>             palette<span class="op">=</span><span class="st">"Blues"</span>,</span>
+<span>          labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"lower outlier"</span>, </span>
+<span>                     <span class="st">"&lt; 25%"</span>, </span>
+<span>                     <span class="st">"25% - 50%"</span>, </span>
+<span>                     <span class="st">"50% - 75%"</span>,</span>
+<span>                     <span class="st">"&gt; 75%"</span>, </span>
+<span>                     <span class="st">"upper outlier"</span><span class="op">)</span><span class="op">)</span>  <span class="op">+</span></span>
+<span>  <span class="fu">tm_borders</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_layout</span><span class="op">(</span>main.title <span class="op">=</span> <span class="va">mtitle</span>, </span>
+<span>            title.position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"left"</span>,</span>
+<span>                               <span class="st">"top"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">tmap_mode</span><span class="op">(</span><span class="st">"plot"</span><span class="op">)</span></span>
+<span><span class="fu">boxmap</span><span class="op">(</span><span class="st">"wp_nonfunctional"</span>, <span class="va">NGA_wp</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="Hands-on_Ex07_3_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 
 
-
-
-
-</main> <!-- /main -->
-<script id="quarto-html-after-body" type="application/javascript">
+</section></section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -670,8 +1030,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
+<footer class="footer"><div class="nav-footer">
     <div class="nav-footer-left">
 <p>Blog made using <a href="https://quarto.org/">Quarto®</a></p>
 </div>   
@@ -680,18 +1039,16 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
-    <li class="nav-item compact">
+<li class="nav-item compact">
     <a class="nav-link" href="mailto:happykai923@gmail.com">
       <i class="bi bi-house" role="img">
 </i> 
     </a>
   </li>  
 </ul>
-    </div>
+</div>
   </div>
 </footer>
-
-
 
 
 <script src="../../site_libs/quarto-html/zenscroll-min.js"></script>

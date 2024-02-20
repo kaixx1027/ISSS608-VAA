@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.4.549">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
 <meta name="dcterms.date" content="2024-02-20">
-
 <title>KAI - Hands-on Exercise 7.1: Choropleth Mapping in R</title>
 <style>
 code{white-space: pre-wrap;}
@@ -21,8 +18,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
-
 
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
@@ -40,8 +70,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-<script id="quarto-search-options" type="application/json">{
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -67,23 +96,17 @@ ul.task-list li input[type="checkbox"] {
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script>
-<style>html{ scroll-behavior: smooth; }</style>
-
-
-<link rel="stylesheet" href="../../styles.css">
+}</script><style>html{ scroll-behavior: smooth; }</style>
+<link href="../../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+<script src="../../site_libs/pagedtable-1.1/js/pagedtable.js"></script><link rel="stylesheet" href="../../styles.css">
 </head>
-
 <body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../../images/name_logo.png" alt="" class="navbar-logo">
-    </a>
+    <img src="../../images/name_logo.png" alt="" class="navbar-logo"></a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -91,12 +114,12 @@ ul.task-list li input[type="checkbox"] {
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item dropdown ">
+<li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hands-on-exercise" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Hands-on Exercise</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-hands-on-exercise">    
-        <li>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-hands-on-exercise">
+<li>
     <a class="dropdown-item" href="../../Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html">
  <span class="dropdown-text"><strong>1</strong>: A Layered Grammar of Graphics: ggplot2 methods</span></a>
   </li>  
@@ -177,13 +200,13 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text"><strong>10</strong>: Information Dashboard Design: R methods</span></a>
   </li>  
     </ul>
-  </li>
+</li>
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-in-class-exercise" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">In-class Exercise</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-in-class-exercise">    
-        <li>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-in-class-exercise">
+<li>
     <a class="dropdown-item" href="../../In-class_Ex/In-class_Ex01/In-class_Ex01.html">
  <span class="dropdown-text">1: Now You See It!</span></a>
   </li>  
@@ -204,13 +227,13 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">5: Shiny Basics</span></a>
   </li>  
     </ul>
-  </li>
+</li>
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-take-home-exercise" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Take-home Exercise</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-take-home-exercise">    
-        <li>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-take-home-exercise">
+<li>
     <a class="dropdown-item" href="../../Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html">
  <span class="dropdown-text">1: Creating data visualisation beyond default</span></a>
   </li>  
@@ -223,32 +246,48 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">3: Be Weatherwise or Otherwise</span></a>
   </li>  
     </ul>
-  </li>
+</li>
 </ul>
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
+<ul class="navbar-nav navbar-nav-scroll ms-auto">
+<li class="nav-item">
     <a class="nav-link" href="../../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
 </ul>
-          </div> <!-- /navcollapse -->
+</div> <!-- /navcollapse -->
           <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
-    </nav>
-</header>
-<!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+    </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li>
+<a href="#getting-started" id="toc-getting-started" class="nav-link active" data-scroll-target="#getting-started"><span class="header-section-number">1</span> Getting Started</a>
+  <ul class="collapse">
+<li><a href="#install-and-loading-r-packages." id="toc-install-and-loading-r-packages." class="nav-link" data-scroll-target="#install-and-loading-r-packages."><span class="header-section-number">1.1</span> Install and loading R packages.</a></li>
+  <li><a href="#importing-the-data" id="toc-importing-the-data" class="nav-link" data-scroll-target="#importing-the-data"><span class="header-section-number">1.2</span> Importing the data</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#choropleth-mapping-geospatial-data-using-tmap" id="toc-choropleth-mapping-geospatial-data-using-tmap" class="nav-link" data-scroll-target="#choropleth-mapping-geospatial-data-using-tmap"><span class="header-section-number">2</span> Choropleth Mapping Geospatial Data Using tmap</a>
+  <ul class="collapse">
+<li><a href="#plotting-a-choropleth-map-quickly-by-using-qtm" id="toc-plotting-a-choropleth-map-quickly-by-using-qtm" class="nav-link" data-scroll-target="#plotting-a-choropleth-map-quickly-by-using-qtm"><span class="header-section-number">2.1</span> Plotting a choropleth map quickly by using qtm()</a></li>
+  <li><a href="#creating-a-choropleth-map-by-using-tmaps-elements" id="toc-creating-a-choropleth-map-by-using-tmaps-elements" class="nav-link" data-scroll-target="#creating-a-choropleth-map-by-using-tmaps-elements"><span class="header-section-number">2.2</span> Creating a choropleth map by using tmap’s elements</a></li>
+  <li><a href="#data-classification-methods-of-tmap" id="toc-data-classification-methods-of-tmap" class="nav-link" data-scroll-target="#data-classification-methods-of-tmap"><span class="header-section-number">2.3</span> Data classification methods of tmap</a></li>
+  <li><a href="#colour-scheme" id="toc-colour-scheme" class="nav-link" data-scroll-target="#colour-scheme"><span class="header-section-number">2.4</span> Colour Scheme</a></li>
+  <li><a href="#map-layouts" id="toc-map-layouts" class="nav-link" data-scroll-target="#map-layouts"><span class="header-section-number">2.5</span> Map Layouts</a></li>
+  <li><a href="#drawing-small-multiple-choropleth-maps" id="toc-drawing-small-multiple-choropleth-maps" class="nav-link" data-scroll-target="#drawing-small-multiple-choropleth-maps"><span class="header-section-number">2.6</span> Drawing Small Multiple Choropleth Maps</a></li>
+  <li><a href="#mappping-spatial-object-meeting-a-selection-criterion" id="toc-mappping-spatial-object-meeting-a-selection-criterion" class="nav-link" data-scroll-target="#mappping-spatial-object-meeting-a-selection-criterion"><span class="header-section-number">2.7</span> Mappping Spatial Object Meeting a Selection Criterion</a></li>
+  </ul>
+</li>
+  </ul></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
 <h1 class="title">Hands-on Exercise 7.1: Choropleth Mapping in R</h1>
 </div>
 
@@ -275,14 +314,517 @@ ul.task-list li input[type="checkbox"] {
   
 
 
-</header>
+</header><section id="getting-started" class="level2" data-number="1"><h2 data-number="1" class="anchored" data-anchor-id="getting-started">
+<span class="header-section-number">1</span> Getting Started</h2>
+<section id="install-and-loading-r-packages." class="level3" data-number="1.1"><h3 data-number="1.1" class="anchored" data-anchor-id="install-and-loading-r-packages.">
+<span class="header-section-number">1.1</span> Install and loading R packages.</h3>
+<p>In this hands-on exercise, the key R package use is <strong>tmap</strong>[https://cran.r-project.org/web/packages/tmap/] package in R. Beside <strong>tmap</strong> package, four other R packages will be used. They are:</p>
+<ul>
+<li><p><a href="https://readr.tidyverse.org/"><code>readr</code></a> for importing delimited text file,</p></li>
+<li><p><a href="https://tidyr.tidyverse.org/"><code>tidyr</code></a> for tidying data,</p></li>
+<li><p><a href="https://dplyr.tidyverse.org/"><code>dplyr</code></a> for wrangling data and</p></li>
+<li><p><a href="https://cran.r-project.org/web/packages/sf/"><code>sf</code></a> for handling geospatial data.</p></li>
+</ul>
+<p>Among the four packages, readr, tidyr and dplyr are part of tidyverse package.</p>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="va">sf</span>, <span class="va">tmap</span>, <span class="va">tidyverse</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="importing-the-data" class="level3" data-number="1.2"><h3 data-number="1.2" class="anchored" data-anchor-id="importing-the-data">
+<span class="header-section-number">1.2</span> Importing the data</h3>
+<p>Two data set will be used to create the choropleth map. They are:</p>
+<ul>
+<li><p>Master Plan 2014 Subzone Boundary (Web) (i.e.&nbsp;<code>MP14_SUBZONE_WEB_PL</code>) in ESRI shapefile format. It can be downloaded at <a href="https://data.gov.sg/">data.gov.sg</a> This is a geospatial data. It consists of the geographical boundary of Singapore at the planning subzone level. The data is based on URA Master Plan 2014.</p></li>
+<li><p>Singapore Residents by Planning Area / Subzone, Age Group, Sex and Type of Dwelling, June 2011-2020 in csv format (i.e.&nbsp;<code>respopagesextod2011to2020.csv</code>). This is an aspatial data fie. It can be downloaded at <a href="https://www.singstat.gov.sg/">Department of Statistics, Singapore</a> Although it does not contain any coordinates values, but it’s PA and SZ fields can be used as unique identifiers to geocode to <code>MP14_SUBZONE_WEB_PL</code> shapefile.</p></li>
+</ul>
+<section id="importing-geospatial-data-into-r" class="level4" data-number="1.2.1"><h4 data-number="1.2.1" class="anchored" data-anchor-id="importing-geospatial-data-into-r">
+<span class="header-section-number">1.2.1</span> Importing Geospatial Data into R</h4>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mpsz</span> <span class="op">&lt;-</span> <span class="fu">st_read</span><span class="op">(</span>dsn <span class="op">=</span> <span class="st">"../../data/geospatial"</span>, layer <span class="op">=</span> <span class="st">"MP14_SUBZONE_WEB_PL"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Reading layer `MP14_SUBZONE_WEB_PL' from data source 
+  `E:\kaixx1027\ISSS608-VAA\data\geospatial' using driver `ESRI Shapefile'
+Simple feature collection with 323 features and 15 fields
+Geometry type: MULTIPOLYGON
+Dimension:     XY
+Bounding box:  xmin: 2667.538 ymin: 15748.72 xmax: 56396.44 ymax: 50256.33
+Projected CRS: SVY21</code></pre>
+</div>
+</div>
+</section><section id="importing-attribute-data-into-r" class="level4" data-number="1.2.2"><h4 data-number="1.2.2" class="anchored" data-anchor-id="importing-attribute-data-into-r">
+<span class="header-section-number">1.2.2</span> Importing Attribute Data into R</h4>
+<div class="cell">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">popdata</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"../../data/aspatial/respopagesextod2011to2020.csv"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="data-preparation" class="level4" data-number="1.2.3"><h4 data-number="1.2.3" class="anchored" data-anchor-id="data-preparation">
+<span class="header-section-number">1.2.3</span> Data Preparation</h4>
+<p>Before a thematic map can be prepared, you are required to prepare a data table with year 2020 values. The data table should include the variables PA, SZ, YOUNG, ECONOMY ACTIVE, AGED, TOTAL, DEPENDENCY.</p>
+<ul>
+<li><p>YOUNG: age group 0 to 4 until age groyup 20 to 24,</p></li>
+<li><p>ECONOMY ACTIVE: age group 25-29 until age group 60-64,</p></li>
+<li><p>AGED: age group 65 and above,</p></li>
+<li><p>TOTAL: all age group, and</p></li>
+<li><p>DEPENDENCY: the ratio between young and aged against economy active group</p></li>
+</ul>
+<section id="data-wrangling" class="level5" data-number="1.2.3.1"><h5 data-number="1.2.3.1" class="anchored" data-anchor-id="data-wrangling">
+<span class="header-section-number">1.2.3.1</span> Data wrangling</h5>
+<p>The following data wrangling and transformation functions will be used:</p>
+<ul>
+<li><p><em>pivot_wider()</em> of <strong>tidyr</strong> package, and</p></li>
+<li><p><em>mutate()</em>, <em>filter()</em>, <em>group_by()</em> and <em>select()</em> of <strong>dplyr</strong> package</p></li>
+</ul>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">popdata2020</span> <span class="op">&lt;-</span> <span class="va">popdata</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">Time</span> <span class="op">==</span> <span class="fl">2020</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">PA</span>, <span class="va">SZ</span>, <span class="va">AG</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">summarise</span><span class="op">(</span>`POP` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">`Pop`</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">pivot_wider</span><span class="op">(</span>names_from<span class="op">=</span><span class="va">AG</span>, </span>
+<span>              values_from<span class="op">=</span><span class="va">POP</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>YOUNG <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowSums</a></span><span class="op">(</span><span class="va">.</span><span class="op">[</span><span class="fl">3</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span><span class="op">)</span></span>
+<span>         <span class="op">+</span><span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowSums</a></span><span class="op">(</span><span class="va">.</span><span class="op">[</span><span class="fl">12</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span><span class="fu">mutate</span><span class="op">(</span>`ECONOMY ACTIVE` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowSums</a></span><span class="op">(</span><span class="va">.</span><span class="op">[</span><span class="fl">7</span><span class="op">:</span><span class="fl">11</span><span class="op">]</span><span class="op">)</span><span class="op">+</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowSums</a></span><span class="op">(</span><span class="va">.</span><span class="op">[</span><span class="fl">13</span><span class="op">:</span><span class="fl">15</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">%&gt;%</span></span>
+<span><span class="fu">mutate</span><span class="op">(</span>`AGED`<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowSums</a></span><span class="op">(</span><span class="va">.</span><span class="op">[</span><span class="fl">16</span><span class="op">:</span><span class="fl">21</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span><span class="fu">mutate</span><span class="op">(</span>`TOTAL`<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowSums</a></span><span class="op">(</span><span class="va">.</span><span class="op">[</span><span class="fl">3</span><span class="op">:</span><span class="fl">21</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>  </span>
+<span><span class="fu">mutate</span><span class="op">(</span>`DEPENDENCY` <span class="op">=</span> <span class="op">(</span><span class="va">`YOUNG`</span> <span class="op">+</span> <span class="va">`AGED`</span><span class="op">)</span></span>
+<span><span class="op">/</span><span class="va">`ECONOMY ACTIVE`</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">`PA`</span>, <span class="va">`SZ`</span>, <span class="va">`YOUNG`</span>, </span>
+<span>       <span class="va">`ECONOMY ACTIVE`</span>, <span class="va">`AGED`</span>, </span>
+<span>       <span class="va">`TOTAL`</span>, <span class="va">`DEPENDENCY`</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section><section id="joining-the-attribute-data-and-geospatial-data" class="level5" data-number="1.2.3.2"><h5 data-number="1.2.3.2" class="anchored" data-anchor-id="joining-the-attribute-data-and-geospatial-data">
+<span class="header-section-number">1.2.3.2</span> Joining the attribute data and geospatial data</h5>
+<p>Before we can perform the georelational join, one extra step is required to convert the values in PA and SZ fields to uppercase. This is because the values of PA and SZ fields are made up of upper- and lowercase. On the other, hand the SUBZONE_N and PLN_AREA_N are in uppercase.</p>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">popdata2020</span> <span class="op">&lt;-</span> <span class="va">popdata2020</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">mutate_at</span><span class="op">(</span>.vars <span class="op">=</span> <span class="fu">vars</span><span class="op">(</span><span class="va">PA</span>, <span class="va">SZ</span><span class="op">)</span>, </span>
+<span>          .funs <span class="op">=</span> <span class="fu">funs</span><span class="op">(</span><span class="va">toupper</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">`ECONOMY ACTIVE`</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Next, left_join() of dplyr is used to join the geographical data and attribute table using planning subzone name e.g.&nbsp;SUBZONE_N and SZ as the common identifier.</p>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mpsz_pop2020</span> <span class="op">&lt;-</span> <span class="fu">left_join</span><span class="op">(</span><span class="va">mpsz</span>, <span class="va">popdata2020</span>,</span>
+<span>                          by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"SUBZONE_N"</span> <span class="op">=</span> <span class="st">"SZ"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Thing to learn from the code chunk above:</p>
+<p>left_join() of dplyr package is used with mpsz simple feature data frame as the left data table is to ensure that the output will be a simple features data frame.</p>
+<div class="cell">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">write_rds</span><span class="op">(</span><span class="va">mpsz_pop2020</span>, <span class="st">"../../data/rds/mpszpop2020.rds"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section></section></section></section><section id="choropleth-mapping-geospatial-data-using-tmap" class="level2" data-number="2"><h2 data-number="2" class="anchored" data-anchor-id="choropleth-mapping-geospatial-data-using-tmap">
+<span class="header-section-number">2</span> Choropleth Mapping Geospatial Data Using tmap</h2>
+<p>Two approaches can be used to prepare thematic map using tmap, they are:</p>
+<ul>
+<li>Plotting a thematic map quickly by using qtm().</li>
+<li>Plotting highly customisable thematic map by using tmap elements.</li>
+</ul>
+<section id="plotting-a-choropleth-map-quickly-by-using-qtm" class="level3" data-number="2.1"><h3 data-number="2.1" class="anchored" data-anchor-id="plotting-a-choropleth-map-quickly-by-using-qtm">
+<span class="header-section-number">2.1</span> Plotting a choropleth map quickly by using qtm()</h3>
+<p>The easiest and quickest to draw a choropleth map using tmap is using qtm(). It is concise and provides a good default visualisation in many cases.</p>
+<p>The code chunk below will draw a cartographic standard choropleth map as shown below.</p>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">tmap_mode</span><span class="op">(</span><span class="st">"plot"</span><span class="op">)</span></span>
+<span><span class="fu">qtm</span><span class="op">(</span><span class="va">mpsz_pop2020</span>, </span>
+<span>    fill <span class="op">=</span> <span class="st">"DEPENDENCY"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="Hands-on_Ex07_1_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Things to learn from the code chunk above:</p>
+<ul>
+<li>tmap_mode() with “plot” option is used to produce a static map. For interactive mode, “view” option should be used.</li>
+<li>fill argument is used to map the attribute (i.e.&nbsp;DEPENDENCY)</li>
+</ul></section><section id="creating-a-choropleth-map-by-using-tmaps-elements" class="level3" data-number="2.2"><h3 data-number="2.2" class="anchored" data-anchor-id="creating-a-choropleth-map-by-using-tmaps-elements">
+<span class="header-section-number">2.2</span> Creating a choropleth map by using tmap’s elements</h3>
+<p>Despite its usefulness of drawing a choropleth map quickly and easily, the disadvantge of qtm() is that it makes aesthetics of individual layers harder to control. To draw a high quality cartographic choropleth map as shown in the figure below, tmap’s drawing elements should be used.</p>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">tm_shape</span><span class="op">(</span><span class="va">mpsz_pop2020</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">tm_fill</span><span class="op">(</span><span class="st">"DEPENDENCY"</span>, </span>
+<span>          style <span class="op">=</span> <span class="st">"quantile"</span>, </span>
+<span>          palette <span class="op">=</span> <span class="st">"Blues"</span>,</span>
+<span>          title <span class="op">=</span> <span class="st">"Dependency ratio"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_layout</span><span class="op">(</span>main.title <span class="op">=</span> <span class="st">"Distribution of Dependency Ratio by planning subzone"</span>,</span>
+<span>            main.title.position <span class="op">=</span> <span class="st">"center"</span>,</span>
+<span>            main.title.size <span class="op">=</span> <span class="fl">1.2</span>,</span>
+<span>            legend.height <span class="op">=</span> <span class="fl">0.45</span>, </span>
+<span>            legend.width <span class="op">=</span> <span class="fl">0.35</span>,</span>
+<span>            frame <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_borders</span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_compass</span><span class="op">(</span>type<span class="op">=</span><span class="st">"8star"</span>, size <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_scale_bar</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_grid</span><span class="op">(</span>alpha <span class="op">=</span><span class="fl">0.2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_credits</span><span class="op">(</span><span class="st">"Source: Planning Sub-zone boundary from Urban Redevelopment Authorithy (URA)\n and Population data from Department of Statistics DOS"</span>, </span>
+<span>             position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="Hands-on_Ex07_1_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In the following sub-section, we will share with you tmap functions that used to plot these elements.</p>
+<section id="drawing-a-base-map" class="level4" data-number="2.2.1"><h4 data-number="2.2.1" class="anchored" data-anchor-id="drawing-a-base-map">
+<span class="header-section-number">2.2.1</span> Drawing a base map</h4>
+<p>The basic building block of tmap is tm_shape() followed by one or more layer elemments such as tm_fill() and tm_polygons().</p>
+<p>In the code chunk below, tm_shape() is used to define the input data (i.e mpsz_pop2020) and tm_polygons() is used to draw the planning subzone polygons</p>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">tm_shape</span><span class="op">(</span><span class="va">mpsz_pop2020</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_polygons</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="Hands-on_Ex07_1_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="drawing-a-choropleth-map-using-tm_polygons" class="level4" data-number="2.2.2"><h4 data-number="2.2.2" class="anchored" data-anchor-id="drawing-a-choropleth-map-using-tm_polygons">
+<span class="header-section-number">2.2.2</span> Drawing a choropleth map using tm_polygons()</h4>
+<p>To draw a choropleth map showing the geographical distribution of a selected variable by planning subzone, we just need to assign the target variable such as Dependency to tm_polygons().</p>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">tm_shape</span><span class="op">(</span><span class="va">mpsz_pop2020</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">tm_polygons</span><span class="op">(</span><span class="st">"DEPENDENCY"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="Hands-on_Ex07_1_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Things to learn from tm_polygons():</p>
+<ul>
+<li>The default interval binning used to draw the choropleth map is called “pretty”. A detailed discussion of the data classification methods supported by tmap will be provided in sub-section 4.3.</li>
+<li>The default colour scheme used is YlOrRd of ColorBrewer. You will learn more about the color scheme in sub-section 4.4.</li>
+<li>By default, Missing value will be shaded in grey.</li>
+</ul></section><section id="drawing-a-choropleth-map-using-tm_fill-and-tm_border" class="level4" data-number="2.2.3"><h4 data-number="2.2.3" class="anchored" data-anchor-id="drawing-a-choropleth-map-using-tm_fill-and-tm_border">
+<span class="header-section-number">2.2.3</span> Drawing a choropleth map using tm_fill() and tm_border()</h4>
+<p>Actually, tm_polygons() is a wraper of tm_fill() and tm_border(). tm_fill() shades the polygons by using the default colour scheme and tm_borders() adds the borders of the shapefile onto the choropleth map.</p>
+<p>The code chunk below draws a choropleth map by using tm_fill() alone.</p>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">tm_shape</span><span class="op">(</span><span class="va">mpsz_pop2020</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">tm_fill</span><span class="op">(</span><span class="st">"DEPENDENCY"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="Hands-on_Ex07_1_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Notice that the planning subzones are shared according to the respective dependecy values</p>
+<p>To add the boundary of the planning subzones, tm_borders will be used as shown in the code chunk below.</p>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">tm_shape</span><span class="op">(</span><span class="va">mpsz_pop2020</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">tm_fill</span><span class="op">(</span><span class="st">"DEPENDENCY"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_borders</span><span class="op">(</span>lwd <span class="op">=</span> <span class="fl">0.1</span>,  alpha <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="Hands-on_Ex07_1_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Notice that light-gray border lines have been added on the choropleth map.</p>
+<p>The alpha argument is used to define transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the col is used (normally 1).</p>
+<p>Beside alpha argument, there are three other arguments for tm_borders(), they are:</p>
+<ul>
+<li>col = border colour,</li>
+<li>lwd = border line width. The default is 1, and</li>
+<li>lty = border line type. The default is “solid”.</li>
+</ul></section></section><section id="data-classification-methods-of-tmap" class="level3" data-number="2.3"><h3 data-number="2.3" class="anchored" data-anchor-id="data-classification-methods-of-tmap">
+<span class="header-section-number">2.3</span> Data classification methods of tmap</h3>
+<p>Most choropleth maps employ some methods of data classification. The point of classification is to take a large number of observations and group them into data ranges or classes.</p>
+<p>tmap provides a total ten data classification methods, namely: fixed, sd, equal, pretty (default), quantile, kmeans, hclust, bclust, fisher, and jenks.</p>
+<p>To define a data classification method, the style argument of tm_fill() or tm_polygons() will be used.</p>
+<section id="plotting-choropleth-maps-with-built-in-classification-methods" class="level4" data-number="2.3.1"><h4 data-number="2.3.1" class="anchored" data-anchor-id="plotting-choropleth-maps-with-built-in-classification-methods">
+<span class="header-section-number">2.3.1</span> Plotting choropleth maps with built-in classification methods</h4>
+<p>The code chunk below shows a quantile data classification that used 5 classes.</p>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">tm_shape</span><span class="op">(</span><span class="va">mpsz_pop2020</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">tm_fill</span><span class="op">(</span><span class="st">"DEPENDENCY"</span>,</span>
+<span>          n <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>          style <span class="op">=</span> <span class="st">"jenks"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_borders</span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="Hands-on_Ex07_1_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In the code chunk below, equal data classification method is used.</p>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">tm_shape</span><span class="op">(</span><span class="va">mpsz_pop2020</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">tm_fill</span><span class="op">(</span><span class="st">"DEPENDENCY"</span>,</span>
+<span>          n <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>          style <span class="op">=</span> <span class="st">"equal"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_borders</span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="Hands-on_Ex07_1_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Notice that the distribution of quantile data classification method are more evenly distributed then equal data classification method.</p>
+</section><section id="plotting-choropleth-map-with-custome-break" class="level4" data-number="2.3.2"><h4 data-number="2.3.2" class="anchored" data-anchor-id="plotting-choropleth-map-with-custome-break">
+<span class="header-section-number">2.3.2</span> Plotting choropleth map with custome break</h4>
+<p>For all the built-in styles, the category breaks are computed internally. In order to override these defaults, the breakpoints can be set explicitly by means of the breaks argument to the tm_fill(). It is important to note that, in tmap the breaks include a minimum and maximum. As a result, in order to end up with n categories, n+1 elements must be specified in the breaks option (the values must be in increasing order).</p>
+<p>Before we get started, it is always a good practice to get some descriptive statistics on the variable before setting the break points. Code chunk below will be used to compute and display the descriptive statistics of DEPENDENCY field.</p>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mpsz_pop2020</span><span class="op">$</span><span class="va">DEPENDENCY</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+ 0.1111  0.7147  0.7866  0.8585  0.8763 19.0000      92 </code></pre>
+</div>
+</div>
+<p>With reference to the results above, we set break point at 0.60, 0.70, 0.80, and 0.90. In addition, we also need to include a minimum and maximum, which we set at 0 and 100. Our breaks vector is thus c(0, 0.60, 0.70, 0.80, 0.90, 1.00)</p>
+<p>Now, we will plot the choropleth map by using the code chunk below.</p>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">tm_shape</span><span class="op">(</span><span class="va">mpsz_pop2020</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">tm_fill</span><span class="op">(</span><span class="st">"DEPENDENCY"</span>,</span>
+<span>          breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.60</span>, <span class="fl">0.70</span>, <span class="fl">0.80</span>, <span class="fl">0.90</span>, <span class="fl">1.00</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_borders</span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="Hands-on_Ex07_1_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section></section><section id="colour-scheme" class="level3" data-number="2.4"><h3 data-number="2.4" class="anchored" data-anchor-id="colour-scheme">
+<span class="header-section-number">2.4</span> Colour Scheme</h3>
+<p>tmap supports colour ramps either defined by the user or a set of predefined colour ramps from the RColorBrewer package.</p>
+<section id="using-colourbrewer-palette" class="level4" data-number="2.4.1"><h4 data-number="2.4.1" class="anchored" data-anchor-id="using-colourbrewer-palette">
+<span class="header-section-number">2.4.1</span> Using ColourBrewer palette</h4>
+<p>To change the colour, we assign the preferred colour to palette argument of tm_fill() as shown in the code chunk below.</p>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">tm_shape</span><span class="op">(</span><span class="va">mpsz_pop2020</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">tm_fill</span><span class="op">(</span><span class="st">"DEPENDENCY"</span>,</span>
+<span>          n <span class="op">=</span> <span class="fl">6</span>,</span>
+<span>          style <span class="op">=</span> <span class="st">"quantile"</span>,</span>
+<span>          palette <span class="op">=</span> <span class="st">"Blues"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_borders</span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="Hands-on_Ex07_1_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Notice that the choropleth map is shaded in green.</p>
+<p>To reverse the colour shading, add a “-” prefix.</p>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">tm_shape</span><span class="op">(</span><span class="va">mpsz_pop2020</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">tm_fill</span><span class="op">(</span><span class="st">"DEPENDENCY"</span>,</span>
+<span>          style <span class="op">=</span> <span class="st">"quantile"</span>,</span>
+<span>          palette <span class="op">=</span> <span class="st">"-Greens"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_borders</span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="Hands-on_Ex07_1_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section></section><section id="map-layouts" class="level3" data-number="2.5"><h3 data-number="2.5" class="anchored" data-anchor-id="map-layouts">
+<span class="header-section-number">2.5</span> Map Layouts</h3>
+<p>Map layout refers to the combination of all map elements into a cohensive map. Map elements include among others the objects to be mapped, the title, the scale bar, the compass, margins and aspects ratios. Colour settings and data classification methods covered in the previous section relate to the palette and break-points are used to affect how the map looks.</p>
+<section id="map-legend" class="level4" data-number="2.5.1"><h4 data-number="2.5.1" class="anchored" data-anchor-id="map-legend">
+<span class="header-section-number">2.5.1</span> Map Legend</h4>
+<p>In tmap, several legend options are provided to change the placement, format and appearance of the legend.</p>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">tm_shape</span><span class="op">(</span><span class="va">mpsz_pop2020</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">tm_fill</span><span class="op">(</span><span class="st">"DEPENDENCY"</span>, </span>
+<span>          style <span class="op">=</span> <span class="st">"jenks"</span>, </span>
+<span>          palette <span class="op">=</span> <span class="st">"Blues"</span>, </span>
+<span>          legend.hist <span class="op">=</span> <span class="cn">TRUE</span>, </span>
+<span>          legend.is.portrait <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>          legend.hist.z <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_layout</span><span class="op">(</span>main.title <span class="op">=</span> <span class="st">"Distribution of Dependency Ratio by planning subzone \n(Jenks classification)"</span>,</span>
+<span>            main.title.position <span class="op">=</span> <span class="st">"center"</span>,</span>
+<span>            main.title.size <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>            legend.height <span class="op">=</span> <span class="fl">0.45</span>, </span>
+<span>            legend.width <span class="op">=</span> <span class="fl">0.35</span>,</span>
+<span>            legend.outside <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>            legend.position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"bottom"</span><span class="op">)</span>,</span>
+<span>            frame <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_borders</span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="Hands-on_Ex07_1_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="map-style" class="level4" data-number="2.5.2"><h4 data-number="2.5.2" class="anchored" data-anchor-id="map-style">
+<span class="header-section-number">2.5.2</span> Map style</h4>
+<p>tmap allows a wide variety of layout settings to be changed. They can be called by using tmap_style().</p>
+<p>The code chunk below shows the classic style is used.</p>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">tm_shape</span><span class="op">(</span><span class="va">mpsz_pop2020</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">tm_fill</span><span class="op">(</span><span class="st">"DEPENDENCY"</span>, </span>
+<span>          style <span class="op">=</span> <span class="st">"quantile"</span>, </span>
+<span>          palette <span class="op">=</span> <span class="st">"-Greens"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_borders</span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tmap_style</span><span class="op">(</span><span class="st">"classic"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="Hands-on_Ex07_1_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="cartographic-furniture" class="level4" data-number="2.5.3"><h4 data-number="2.5.3" class="anchored" data-anchor-id="cartographic-furniture">
+<span class="header-section-number">2.5.3</span> Cartographic Furniture</h4>
+<p>Beside map style, tmap also also provides arguments to draw other map furniture such as compass, scale bar and grid lines.</p>
+<p>In the code chunk below, tm_compass(), tm_scale_bar() and tm_grid() are used to add compass, scale bar and grid lines onto the choropleth map.</p>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">tm_shape</span><span class="op">(</span><span class="va">mpsz_pop2020</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">tm_fill</span><span class="op">(</span><span class="st">"DEPENDENCY"</span>, </span>
+<span>          style <span class="op">=</span> <span class="st">"quantile"</span>, </span>
+<span>          palette <span class="op">=</span> <span class="st">"Blues"</span>,</span>
+<span>          title <span class="op">=</span> <span class="st">"No. of persons"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_layout</span><span class="op">(</span>main.title <span class="op">=</span> <span class="st">"Distribution of Dependency Ratio \nby planning subzone"</span>,</span>
+<span>            main.title.position <span class="op">=</span> <span class="st">"center"</span>,</span>
+<span>            main.title.size <span class="op">=</span> <span class="fl">1.2</span>,</span>
+<span>            legend.height <span class="op">=</span> <span class="fl">0.45</span>, </span>
+<span>            legend.width <span class="op">=</span> <span class="fl">0.35</span>,</span>
+<span>            frame <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_borders</span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_compass</span><span class="op">(</span>type<span class="op">=</span><span class="st">"8star"</span>, size <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_scale_bar</span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.15</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_grid</span><span class="op">(</span>lwd <span class="op">=</span> <span class="fl">0.1</span>, alpha <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_credits</span><span class="op">(</span><span class="st">"Source: Planning Sub-zone boundary from Urban Redevelopment Authorithy (URA)\n and Population data from Department of Statistics DOS"</span>, </span>
+<span>             position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="Hands-on_Ex07_1_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">tmap_style</span><span class="op">(</span><span class="st">"white"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section></section><section id="drawing-small-multiple-choropleth-maps" class="level3" data-number="2.6"><h3 data-number="2.6" class="anchored" data-anchor-id="drawing-small-multiple-choropleth-maps">
+<span class="header-section-number">2.6</span> Drawing Small Multiple Choropleth Maps</h3>
+<p><strong>Small multiple maps</strong>, also referred to as <strong>facet maps</strong>, are composed of many maps arrange side-by-side, and sometimes stacked vertically. Small multiple maps enable the visualisation of how spatial relationships change with respect to another variable, such as time.</p>
+<p>In <strong>tmap</strong>, small multiple maps can be plotted in three ways:</p>
+<ul>
+<li>by assigning multiple values to at least one of the asthetic arguments,</li>
+<li>by defining a group-by variable in <em>tm_facets()</em>, and</li>
+<li>by creating multiple stand-alone maps with <em>tmap_arrange()</em>.</li>
+</ul>
+<section id="by-assigning-multiple-values-to-at-least-one-of-the-aesthetic-arguments" class="level4" data-number="2.6.1"><h4 data-number="2.6.1" class="anchored" data-anchor-id="by-assigning-multiple-values-to-at-least-one-of-the-aesthetic-arguments">
+<span class="header-section-number">2.6.1</span> By assigning multiple values to at least one of the aesthetic arguments</h4>
+<p>In this example, small multiple choropleth maps are created by defining ncols in tm_fill()</p>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">tm_shape</span><span class="op">(</span><span class="va">mpsz_pop2020</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">tm_fill</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"YOUNG"</span>, <span class="st">"AGED"</span><span class="op">)</span>,</span>
+<span>          style <span class="op">=</span> <span class="st">"equal"</span>, </span>
+<span>          palette <span class="op">=</span> <span class="st">"Blues"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_layout</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_borders</span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tmap_style</span><span class="op">(</span><span class="st">"white"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="Hands-on_Ex07_1_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In this example, small multiple choropleth maps are created by assigning multiple values to at least one of the aesthetic arguments</p>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">tm_shape</span><span class="op">(</span><span class="va">mpsz_pop2020</span><span class="op">)</span><span class="op">+</span> </span>
+<span>  <span class="fu">tm_polygons</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"DEPENDENCY"</span>,<span class="st">"AGED"</span><span class="op">)</span>,</span>
+<span>          style <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"equal"</span>, <span class="st">"quantile"</span><span class="op">)</span>, </span>
+<span>          palette <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"Blues"</span>,<span class="st">"Greens"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_layout</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="Hands-on_Ex07_1_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="by-defining-a-group-by-variable-in-tm_facets" class="level4" data-number="2.6.2"><h4 data-number="2.6.2" class="anchored" data-anchor-id="by-defining-a-group-by-variable-in-tm_facets">
+<span class="header-section-number">2.6.2</span> By defining a group-by variable in tm_facets()</h4>
+<p>In this example, multiple small choropleth maps are created by using tm_facets().</p>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">tm_shape</span><span class="op">(</span><span class="va">mpsz_pop2020</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_fill</span><span class="op">(</span><span class="st">"DEPENDENCY"</span>,</span>
+<span>          style <span class="op">=</span> <span class="st">"quantile"</span>,</span>
+<span>          palette <span class="op">=</span> <span class="st">"Blues"</span>,</span>
+<span>          thres.poly <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">tm_facets</span><span class="op">(</span>by<span class="op">=</span><span class="st">"REGION_N"</span>, </span>
+<span>            free.coords<span class="op">=</span><span class="cn">TRUE</span>, </span>
+<span>            drop.shapes<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_layout</span><span class="op">(</span>legend.show <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>            title.position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"center"</span>, <span class="st">"center"</span><span class="op">)</span>, </span>
+<span>            title.size <span class="op">=</span> <span class="fl">20</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_borders</span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="Hands-on_Ex07_1_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="by-creating-multiple-stand-alone-maps-with-tmap_arrange" class="level4" data-number="2.6.3"><h4 data-number="2.6.3" class="anchored" data-anchor-id="by-creating-multiple-stand-alone-maps-with-tmap_arrange">
+<span class="header-section-number">2.6.3</span> By creating multiple stand-alone maps with tmap_arrange()</h4>
+<p>In this example, multiple small choropleth maps are created by creating multiple stand-alone maps with tmap_arrange().</p>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">youngmap</span> <span class="op">&lt;-</span> <span class="fu">tm_shape</span><span class="op">(</span><span class="va">mpsz_pop2020</span><span class="op">)</span><span class="op">+</span> </span>
+<span>  <span class="fu">tm_polygons</span><span class="op">(</span><span class="st">"YOUNG"</span>, </span>
+<span>              style <span class="op">=</span> <span class="st">"quantile"</span>, </span>
+<span>              palette <span class="op">=</span> <span class="st">"Blues"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">agedmap</span> <span class="op">&lt;-</span> <span class="fu">tm_shape</span><span class="op">(</span><span class="va">mpsz_pop2020</span><span class="op">)</span><span class="op">+</span> </span>
+<span>  <span class="fu">tm_polygons</span><span class="op">(</span><span class="st">"AGED"</span>, </span>
+<span>              style <span class="op">=</span> <span class="st">"quantile"</span>, </span>
+<span>              palette <span class="op">=</span> <span class="st">"Blues"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmap_arrange</span><span class="op">(</span><span class="va">youngmap</span>, <span class="va">agedmap</span>, asp<span class="op">=</span><span class="fl">1</span>, ncol<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="Hands-on_Ex07_1_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section></section><section id="mappping-spatial-object-meeting-a-selection-criterion" class="level3" data-number="2.7"><h3 data-number="2.7" class="anchored" data-anchor-id="mappping-spatial-object-meeting-a-selection-criterion">
+<span class="header-section-number">2.7</span> Mappping Spatial Object Meeting a Selection Criterion</h3>
+<p>Instead of creating small multiple choropleth map, you can also use selection funtion to map spatial objects meeting the selection criterion.</p>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">tm_shape</span><span class="op">(</span><span class="va">mpsz_pop2020</span><span class="op">[</span><span class="va">mpsz_pop2020</span><span class="op">$</span><span class="va">REGION_N</span><span class="op">==</span><span class="st">"CENTRAL REGION"</span>, <span class="op">]</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">tm_fill</span><span class="op">(</span><span class="st">"DEPENDENCY"</span>, </span>
+<span>          style <span class="op">=</span> <span class="st">"quantile"</span>, </span>
+<span>          palette <span class="op">=</span> <span class="st">"Blues"</span>, </span>
+<span>          legend.hist <span class="op">=</span> <span class="cn">TRUE</span>, </span>
+<span>          legend.is.portrait <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>          legend.hist.z <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_layout</span><span class="op">(</span>legend.outside <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>            legend.height <span class="op">=</span> <span class="fl">0.45</span>, </span>
+<span>            legend.width <span class="op">=</span> <span class="fl">5.0</span>,</span>
+<span>            legend.position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"bottom"</span><span class="op">)</span>,</span>
+<span>            frame <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_borders</span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="Hands-on_Ex07_1_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 
 
-
-
-
-</main> <!-- /main -->
-<script id="quarto-html-after-body" type="application/javascript">
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -670,8 +1212,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
+<footer class="footer"><div class="nav-footer">
     <div class="nav-footer-left">
 <p>Blog made using <a href="https://quarto.org/">Quarto®</a></p>
 </div>   
@@ -680,18 +1221,16 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
-    <li class="nav-item compact">
+<li class="nav-item compact">
     <a class="nav-link" href="mailto:happykai923@gmail.com">
       <i class="bi bi-house" role="img">
 </i> 
     </a>
   </li>  
 </ul>
-    </div>
+</div>
   </div>
 </footer>
-
-
 
 
 <script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
