@@ -1,0 +1,13 @@
+---
+title: "In-class Exercise 5: Shiny Basics"
+date: "February 17, 2024"
+date-modified: "last-modified"
+execute: 
+  eval: true
+  echo: true
+  warning: false
+---
+
+View the [slides](https://isss608-ay2023-24jan.netlify.app/shinyworkshop/shiny1/shiny1#/title-slide) and the [website](https://shiny.posit.co/r/getstarted/shiny-basics/lesson1/index.html) to learn more about `Shiny`.
+
+[![](../../images/prototype1.png)](https://kaixx1027.shinyapps.io/prototype1/)

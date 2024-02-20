@@ -1,0 +1,8 @@
+---
+title: "Hands-on Exercise 8: Modelling, Visualising and Analysing Network Data with R"
+date: "February 20, 2024"
+date-modified: "last-modified"
+execute: 
+  eval: true
+  warning: false
+---

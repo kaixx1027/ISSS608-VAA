@@ -1,0 +1,8 @@
+---
+title: "Hands-on Exercise 7.3: Analytical Mapping"
+date: "February 20, 2024"
+date-modified: "last-modified"
+execute: 
+  eval: true
+  warning: false
+---
