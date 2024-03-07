@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.549">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="dcterms.date" content="2024-03-05">
+<title>KAI - Take-home Exercise 4: Prototyping Modules for Visual Analytics Shiny Application</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../images/favicon.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script><style>html{ scroll-behavior: smooth; }</style>
+<script src="../../site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script><script src="../../site_libs/plotly-binding-4.10.4/plotly.js"></script><script src="../../site_libs/typedarray-0.1/typedarray.min.js"></script><script src="../../site_libs/jquery-3.5.1/jquery.min.js"></script><link href="../../site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+<script src="../../site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script><link href="../../site_libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="../../site_libs/plotly-main-2.11.1/plotly-latest.min.js"></script><link href="../../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+<script src="../../site_libs/pagedtable-1.1/js/pagedtable.js"></script><link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../images/name_logo.png" alt="" class="navbar-logo"></a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+<li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hands-on-exercise" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Hands-on Exercise</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-hands-on-exercise">
+<li>
+    <a class="dropdown-item" href="../../Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html">
+ <span class="dropdown-text"><strong>1</strong>: A Layered Grammar of Graphics: ggplot2 methods</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html">
+ <span class="dropdown-text"><strong>2</strong>: Beyond ggplot2 Fundamentals</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_1.html">
+ <span class="dropdown-text"><strong>3</strong>.1: Programming Interactive Data Visualisation with R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_2.html">
+ <span class="dropdown-text">3.2: Programming Animated Statistical Graphics with R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../Hands-on_Ex/Hands-on_Ex04/Hands-on_Ex04_1.html">
+ <span class="dropdown-text"><strong>4</strong>.1: Visualising Distribution</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../Hands-on_Ex/Hands-on_Ex04/Hands-on_Ex04_2.html">
+ <span class="dropdown-text">4.2: Visual Statistical Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../Hands-on_Ex/Hands-on_Ex04/Hands-on_Ex04_3.html">
+ <span class="dropdown-text">4.3: Visualising Uncertainty</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../Hands-on_Ex/Hands-on_Ex04/Hands-on_Ex04_4.html">
+ <span class="dropdown-text">4.4: Building Funnel Plot with R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05_1.html">
+ <span class="dropdown-text"><strong>5</strong>.1: Building Ternary Plot with R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05_2.html">
+ <span class="dropdown-text">5.2: Visual Correlation Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05_3.html">
+ <span class="dropdown-text">5.3: Visual Multivariate Analysis with Heatmap</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05_4.html">
+ <span class="dropdown-text">5.4: Visual Multivariate Analysis with Parallel Coordinates Plot</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05_5.html">
+ <span class="dropdown-text">5.5: Treemap Visualisation with R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../Hands-on_Ex/Hands-on_Ex06/Hands-on_Ex06.html">
+ <span class="dropdown-text"><strong>6</strong>: Visualising and Analysing Time-oriented Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../Hands-on_Ex/Hands-on_Ex07/Hands-on_Ex07_1.html">
+ <span class="dropdown-text"><strong>7</strong>.1: Choropleth Mapping in R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../Hands-on_Ex/Hands-on_Ex07/Hands-on_Ex07_2.html">
+ <span class="dropdown-text">7.2: Visualising Geospatial Point Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../Hands-on_Ex/Hands-on_Ex07/Hands-on_Ex07_3.html">
+ <span class="dropdown-text">7.3: Analytical Mapping</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../Hands-on_Ex/Hands-on_Ex08/Hands-on_Ex08.html">
+ <span class="dropdown-text"><strong>8</strong>: Modelling, Visualising and Analysing Network Data with R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../Hands-on_Ex/Hands-on_Ex09/Hands-on_Ex09.html">
+ <span class="dropdown-text"><strong>9</strong>: Visualising and Analysing Text Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../Hands-on_Ex/Hands-on_Ex10/Hands-on_Ex10.html">
+ <span class="dropdown-text"><strong>10</strong>: Information Dashboard Design: R methods</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-in-class-exercise" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">In-class Exercise</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-in-class-exercise">
+<li>
+    <a class="dropdown-item" href="../../In-class_Ex/In-class_Ex01/In-class_Ex01.html">
+ <span class="dropdown-text">1: Now You See It!</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../In-class_Ex/In-class_Ex02/In-class_Ex02.html">
+ <span class="dropdown-text">2: Designing Graphs to Enlighten</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../In-class_Ex/In-class_Ex03/In-class_Ex03.html">
+ <span class="dropdown-text">3: Interactivity in Visual Analytics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../In-class_Ex/In-class_Ex04/In-class_Ex04.html">
+ <span class="dropdown-text">4: Fundamentals of Visual Analytics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../In-class_Ex/In-class_Ex05/In-class_Ex05.html">
+ <span class="dropdown-text">5: Shiny Basics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../In-class_Ex/In-class_Ex06/In-class_Ex06.html">
+ <span class="dropdown-text">6: Visualising and Analysing Time-Oriented Data</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-take-home-exercise" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Take-home Exercise</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-take-home-exercise">
+<li>
+    <a class="dropdown-item" href="../../Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html">
+ <span class="dropdown-text">1: Creating data visualisation beyond default</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html">
+ <span class="dropdown-text">2: Peer critique and DataVis Makeover</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../Take-home_Ex/Take-home_Ex03/Take-home_Ex03.html">
+ <span class="dropdown-text">3: Be Weatherwise or Otherwise</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../Take-home_Ex/Take-home_Ex04/Take-home_Ex04.html">
+ <span class="dropdown-text">4: Prototyping Modules for Visual Analytics Shiny Application</span></a>
+  </li>  
+    </ul>
+</li>
+</ul>
+<ul class="navbar-nav navbar-nav-scroll ms-auto">
+<li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+</ul>
+</div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li>
+<a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">1</span> Overview</a>
+  <ul class="collapse">
+<li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction"><span class="header-section-number">1.1</span> Introduction</a></li>
+  <li><a href="#objectives" id="toc-objectives" class="nav-link" data-scroll-target="#objectives"><span class="header-section-number">1.2</span> Objectives</a></li>
+  </ul>
+</li>
+  <li><a href="#loading-r-packages" id="toc-loading-r-packages" class="nav-link" data-scroll-target="#loading-r-packages"><span class="header-section-number">2</span> Loading R packages</a></li>
+  <li><a href="#dataset" id="toc-dataset" class="nav-link" data-scroll-target="#dataset"><span class="header-section-number">3</span> Dataset</a></li>
+  <li><a href="#descriptive-analysis" id="toc-descriptive-analysis" class="nav-link" data-scroll-target="#descriptive-analysis"><span class="header-section-number">4</span> Descriptive Analysis</a></li>
+  <li><a href="#correlation-analysis" id="toc-correlation-analysis" class="nav-link" data-scroll-target="#correlation-analysis"><span class="header-section-number">5</span> Correlation Analysis</a></li>
+  <li>
+<a href="#clustering-analysis" id="toc-clustering-analysis" class="nav-link" data-scroll-target="#clustering-analysis"><span class="header-section-number">6</span> Clustering Analysis</a>
+  <ul class="collapse">
+<li><a href="#data-preparation" id="toc-data-preparation" class="nav-link" data-scroll-target="#data-preparation"><span class="header-section-number">6.1</span> Data Preparation</a></li>
+  <li><a href="#model-and-result" id="toc-model-and-result" class="nav-link" data-scroll-target="#model-and-result"><span class="header-section-number">6.2</span> Model and Result</a></li>
+  <li><a href="#plot-bic-score" id="toc-plot-bic-score" class="nav-link" data-scroll-target="#plot-bic-score"><span class="header-section-number">6.3</span> Plot BIC score</a></li>
+  <li><a href="#plot-aic-score" id="toc-plot-aic-score" class="nav-link" data-scroll-target="#plot-aic-score"><span class="header-section-number">6.4</span> Plot AIC score</a></li>
+  <li><a href="#plot-entropy" id="toc-plot-entropy" class="nav-link" data-scroll-target="#plot-entropy"><span class="header-section-number">6.5</span> Plot Entropy</a></li>
+  </ul>
+</li>
+  <li><a href="#visualising-results" id="toc-visualising-results" class="nav-link" data-scroll-target="#visualising-results"><span class="header-section-number">7</span> Visualising Results</a></li>
+  <li><a href="#ui-design" id="toc-ui-design" class="nav-link" data-scroll-target="#ui-design"><span class="header-section-number">8</span> UI Design</a></li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title">Take-home Exercise 4: Prototyping Modules for Visual Analytics Shiny Application</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">March 5, 2024</p>
+    </div>
+  </div>
+  
+    <div>
+    <div class="quarto-title-meta-heading">Modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">March 7, 2024</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+
+</header><section id="overview" class="level2" data-number="1"><h2 data-number="1" class="anchored" data-anchor-id="overview">
+<span class="header-section-number">1</span> Overview</h2>
+<section id="introduction" class="level3" data-number="1.1"><h3 data-number="1.1" class="anchored" data-anchor-id="introduction">
+<span class="header-section-number">1.1</span> Introduction</h3>
+<p>In Singapore’s ever-changing rental market, understanding the factors influencing rental prices is crucial for tenants and landlords alike. This study focuses on three key aspects: <strong>descriptive analysis</strong>, <strong>correlation analysis</strong>, and <strong>clustering analysis</strong>.</p>
+</section><section id="objectives" class="level3" data-number="1.2"><h3 data-number="1.2" class="anchored" data-anchor-id="objectives">
+<span class="header-section-number">1.2</span> Objectives</h3>
+<ul>
+<li><p>Determine the correlation between rental prices and various numerical variables, such as property size and proximity to amenities, and analyze their relationships.</p></li>
+<li><p>Utilize clustering analysis to discern distinct groups within the rental market based on property characteristics, such as size, amenities proximity, and other relevant factors, aiming to uncover patterns and insights into different market segments or tenant preferences.</p></li>
+</ul></section></section><section id="loading-r-packages" class="level2" data-number="2"><h2 data-number="2" class="anchored" data-anchor-id="loading-r-packages">
+<span class="header-section-number">2</span> Loading R packages</h2>
+<p>The original design will then be remade using data visualization design principles and best practices using <code>ggplot2</code>, its extensions, and <code>tidyverse</code> packages.</p>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="va">poLCA</span>, <span class="va">ggplot2</span>, <span class="va">plotly</span>, <span class="va">tidyverse</span>, <span class="va">corrplot</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="dataset" class="level2" data-number="3"><h2 data-number="3" class="anchored" data-anchor-id="dataset">
+<span class="header-section-number">3</span> Dataset</h2>
+<p>The data on rental transactions was collected from the <a href="https://www.ura.gov.sg/property-market-information/pmiResidentialRentalSearch">Urban Redevelopment Authority</a>’s (URA) REALIS database.</p>
+<p>The study utilized rental transaction data from 01 January 2021 to 31 December 2022, sourced from IRAS via URA. It includes rental prices, commencement dates, building names, addresses, and planning regions. Zoning and postal district information were omitted as they duplicated planning area data.</p>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">Rental_data</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"../../data/ResidentialRental_Final.csv"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>To ensure there are no missing values in the processed data, check it as follows.</p>
+<div class="cell">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">Rental_data</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+</div>
+</section><section id="descriptive-analysis" class="level2" data-number="4"><h2 data-number="4" class="anchored" data-anchor-id="descriptive-analysis">
+<span class="header-section-number">4</span> Descriptive Analysis</h2>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="va">Rental_data</span>, <span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">`Planning_Region`</span>, y<span class="op">=</span> <span class="va">`Monthly_Rent_SGD`</span>, fill<span class="op">=</span><span class="va">`Property_Type`</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_boxplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">`Planning_Region`</span>, scales <span class="op">=</span> <span class="st">"free"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>x<span class="op">=</span><span class="st">"Planning Region"</span>, y<span class="op">=</span><span class="st">"Monthly Rent"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="Take-home_Ex04_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="va">Rental_data</span>, <span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">`Planning_Region`</span>, y<span class="op">=</span> <span class="va">`Monthly_Rent_SGD`</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_boxplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">`Property_Type`</span>, scales <span class="op">=</span> <span class="st">"free"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>x<span class="op">=</span><span class="st">"Planning Region"</span>, y<span class="op">=</span><span class="st">"Monthly Rent"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme</span><span class="op">(</span>axis.text.x <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">90</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="Take-home_Ex04_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="correlation-analysis" class="level2" data-number="5"><h2 data-number="5" class="anchored" data-anchor-id="correlation-analysis">
+<span class="header-section-number">5</span> Correlation Analysis</h2>
+<p>Plotting a correlation matrix of the various numerical variables, we observe that the correlations between monthly rent and variables measuring proximity are fairly week ranging between 0.3 to -0.3. Rental prices were most strongly correlated with the size of the unit.</p>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">numerical_data</span> <span class="op">&lt;-</span> <span class="va">Rental_data</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">Rental_data</span>, <span class="va">is.numeric</span><span class="op">)</span><span class="op">]</span></span>
+<span></span>
+<span><span class="va">numerical_data</span> <span class="op">&lt;-</span> <span class="va">numerical_data</span><span class="op">[</span>, <span class="op">-</span><span class="fl">1</span><span class="op">]</span></span>
+<span></span>
+<span><span class="va">correlation_matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">numerical_data</span><span class="op">)</span></span>
+<span><span class="fu">corrplot</span><span class="op">(</span><span class="va">correlation_matrix</span>, method <span class="op">=</span> <span class="st">"circle"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="Take-home_Ex04_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/pairs.html">pairs</a></span><span class="op">(</span><span class="op">~</span><span class="va">Monthly_Rent_SGD</span> <span class="op">+</span> <span class="va">Floor_Area_SQM_Avg</span> <span class="op">+</span> <span class="va">Floor_Area_SQFT_Avg</span> <span class="op">+</span> <span class="va">distance_to_mrt</span>, data <span class="op">=</span> <span class="va">Rental_data</span>,</span>
+<span>      main <span class="op">=</span> <span class="st">"Scatterplot Matrix"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="Take-home_Ex04_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="clustering-analysis" class="level2" data-number="6"><h2 data-number="6" class="anchored" data-anchor-id="clustering-analysis">
+<span class="header-section-number">6</span> Clustering Analysis</h2>
+<section id="data-preparation" class="level3" data-number="6.1"><h3 data-number="6.1" class="anchored" data-anchor-id="data-preparation">
+<span class="header-section-number">6.1</span> Data Preparation</h3>
+<ul>
+<li><p>Exclude columns that are either irrelevant or similar, such as retaining only “Monthly_Rent_PSF” instead of both “Monthly_Rent_PSM” and “Monthly_Rent_PSF”.</p></li>
+<li><p>Bin continuous variables into categories of relatively similar sizes and assign labels to each category.</p></li>
+</ul>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df_clustering</span> <span class="op">&lt;-</span> <span class="va">Rental_data</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="op">-</span><span class="va">Column1</span>, <span class="op">-</span><span class="va">Project_Name</span>, <span class="op">-</span><span class="va">Street_Name</span>, <span class="op">-</span><span class="va">Postal_District</span>, <span class="op">-</span><span class="va">Monthly_Rent_PSM</span>, <span class="op">-</span><span class="va">Floor_Area_SQM_Avg</span>, <span class="op">-</span><span class="va">Lease_Commencement_Date</span>, <span class="op">-</span><span class="va">nearest_mrt</span>, <span class="op">-</span><span class="va">nearest_school</span>, <span class="op">-</span><span class="va">latitude</span>, <span class="op">-</span><span class="va">longitude</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>Monthly_Rent_SGD <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cut.html">cut</a></span><span class="op">(</span><span class="va">Monthly_Rent_SGD</span>,</span>
+<span>                             breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">2000</span>,<span class="fl">3000</span>,<span class="fl">4000</span>,<span class="fl">5000</span>,<span class="cn">Inf</span><span class="op">)</span>,</span>
+<span>                             labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"0-2k"</span>, <span class="st">"2-3k"</span>, <span class="st">"3-4k"</span>, <span class="st">"4-5k"</span>, <span class="st">"5k+"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>Monthly_Rent_PSF <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cut.html">cut</a></span><span class="op">(</span><span class="va">Monthly_Rent_PSF</span>,</span>
+<span>                             breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="cn">Inf</span><span class="op">)</span>,</span>
+<span>                             labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"0-3"</span>, <span class="st">"3-4"</span>, <span class="st">"4+"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>Floor_Area_SQFT_Avg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cut.html">cut</a></span><span class="op">(</span><span class="va">Floor_Area_SQFT_Avg</span>,</span>
+<span>                             breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">600</span>,<span class="fl">1000</span>,<span class="fl">1400</span>,<span class="cn">Inf</span><span class="op">)</span>,</span>
+<span>                             labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"0-600"</span>, <span class="st">"600-1000"</span>, <span class="st">"1000-1400"</span>, <span class="st">"1400+"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>distance_to_mrt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cut.html">cut</a></span><span class="op">(</span><span class="va">distance_to_mrt</span>,</span>
+<span>                             breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.3</span>,<span class="fl">0.6</span>,<span class="fl">0.9</span>,<span class="cn">Inf</span><span class="op">)</span>,</span>
+<span>                             labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"0-0.3"</span>, <span class="st">"0.3-0.6"</span>, <span class="st">"0.6-0.9"</span>, <span class="st">"0.9+"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>distance_to_school <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cut.html">cut</a></span><span class="op">(</span><span class="va">distance_to_school</span>,</span>
+<span>                             breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.3</span>,<span class="fl">0.5</span>,<span class="fl">0.7</span>,<span class="cn">Inf</span><span class="op">)</span>,</span>
+<span>                             labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"0-0.3"</span>, <span class="st">"0.3-0.5"</span>, <span class="st">"0.5-0.7"</span>, <span class="st">"0.7+"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">df_clustering</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 192,199 × 8
+    Year Planning_Region Property_Type         Monthly_Rent_SGD Monthly_Rent_PSF
+   &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;                 &lt;fct&gt;            &lt;fct&gt;           
+ 1  2021 East Region     Non-landed Properties 0-2k             3-4             
+ 2  2021 North Region    Executive Condominium 2-3k             0-3             
+ 3  2021 West Region     Non-landed Properties 2-3k             0-3             
+ 4  2021 Central Region  Non-landed Properties 3-4k             3-4             
+ 5  2021 East Region     Non-landed Properties 2-3k             0-3             
+ 6  2021 Central Region  Non-landed Properties 4-5k             3-4             
+ 7  2021 Central Region  Non-landed Properties 3-4k             0-3             
+ 8  2021 Central Region  Non-landed Properties 3-4k             3-4             
+ 9  2021 East Region     Non-landed Properties 0-2k             0-3             
+10  2021 Central Region  Non-landed Properties 3-4k             4+              
+# ℹ 192,189 more rows
+# ℹ 3 more variables: Floor_Area_SQFT_Avg &lt;fct&gt;, distance_to_mrt &lt;fct&gt;,
+#   distance_to_school &lt;fct&gt;</code></pre>
+</div>
+</div>
+<p>After completing the data cleaning process, all variables are transformed into categorical factors and verified to ensure there are no missing values.</p>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">categorical_vars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Year"</span>, <span class="st">"Planning_Region"</span>, <span class="st">"Property_Type"</span>, <span class="st">"Monthly_Rent_SGD"</span>, <span class="st">"Monthly_Rent_PSF"</span>, <span class="st">"Floor_Area_SQFT_Avg"</span>, <span class="st">"distance_to_mrt"</span>, <span class="st">"distance_to_school"</span><span class="op">)</span></span>
+<span><span class="va">df_clustering</span><span class="op">[</span><span class="va">categorical_vars</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">df_clustering</span><span class="op">[</span><span class="va">categorical_vars</span><span class="op">]</span>, <span class="va">factor</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">df_clustering</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>               Year     Planning_Region       Property_Type    Monthly_Rent_SGD 
+                  0                   0                   0                   0 
+   Monthly_Rent_PSF Floor_Area_SQFT_Avg     distance_to_mrt  distance_to_school 
+                  0                   0                   0                   0 </code></pre>
+</div>
+</div>
+</section><section id="model-and-result" class="level3" data-number="6.2"><h3 data-number="6.2" class="anchored" data-anchor-id="model-and-result">
+<span class="header-section-number">6.2</span> Model and Result</h3>
+<p>Run the model by specifying the desired number of classes(7) and the number of repetitions(5).</p>
+<p>If we perform more than one repetition, it indicates that we conducted a comprehensive search to find the lowest BIC score, ensuring the model’s robustness and accuracy in determining the optimal number of classes.</p>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/formula.html">as.formula</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">Year</span>, <span class="va">Planning_Region</span>, <span class="va">Property_Type</span>, <span class="va">Monthly_Rent_SGD</span>, <span class="va">Monthly_Rent_PSF</span>, <span class="va">Floor_Area_SQFT_Avg</span>, <span class="va">distance_to_mrt</span>, <span class="va">distance_to_school</span><span class="op">)</span> <span class="op">~</span> <span class="fl">1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">LCA_model</span> <span class="op">&lt;-</span> <span class="fu">poLCA</span><span class="op">(</span><span class="va">f</span>, <span class="va">df_clustering</span>, nclass <span class="op">=</span> <span class="fl">7</span>, nrep <span class="op">=</span> <span class="fl">5</span>, maxiter <span class="op">=</span> <span class="fl">5000</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>Model 1: llik = -1547810 ... best llik = -1547810
+Model 2: llik = -1548973 ... best llik = -1547810
+Model 3: llik = -1546851 ... best llik = -1546851
+Model 4: llik = -1547142 ... best llik = -1546851
+Model 5: llik = -1546851 ... best llik = -1546851
+Conditional item response (column) probabilities,
+ by outcome variable, for each class (row) 
+ 
+$Year
+           Pr(1)  Pr(2)
+class 1:  0.4577 0.5423
+class 2:  0.3235 0.6765
+class 3:  0.5960 0.4040
+class 4:  0.6658 0.3342
+class 5:  0.6861 0.3139
+class 6:  0.5486 0.4514
+class 7:  0.4127 0.5873
+
+$Planning_Region
+           Pr(1)  Pr(2)  Pr(3)  Pr(4)  Pr(5)
+class 1:  0.3788 0.2676 0.1338 0.0276 0.1922
+class 2:  0.6706 0.1337 0.0847 0.0078 0.1032
+class 3:  0.3310 0.3404 0.1773 0.0302 0.1210
+class 4:  0.1401 0.3621 0.1641 0.0665 0.2673
+class 5:  0.1854 0.3656 0.2176 0.0610 0.1703
+class 6:  0.4173 0.2434 0.1598 0.0395 0.1400
+class 7:  0.8433 0.0870 0.0168 0.0009 0.0521
+
+$Property_Type
+           Pr(1)  Pr(2)  Pr(3)  Pr(4)  Pr(5)
+class 1:  0.0000 0.0355 0.9607 0.0012 0.0026
+class 2:  0.0000 0.0007 0.9979 0.0000 0.0014
+class 3:  0.0000 0.0001 0.9995 0.0000 0.0004
+class 4:  0.0002 0.0706 0.9149 0.0029 0.0115
+class 5:  0.0000 0.0131 0.9831 0.0004 0.0035
+class 6:  0.0991 0.0047 0.5520 0.1395 0.2047
+class 7:  0.0042 0.0011 0.9742 0.0052 0.0152
+
+$Monthly_Rent_SGD
+           Pr(1)  Pr(2)  Pr(3)  Pr(4)  Pr(5)
+class 1:  0.0000 0.0000 0.6513 0.3487 0.0000
+class 2:  0.0000 0.1064 0.5555 0.2500 0.0881
+class 3:  0.2962 0.7038 0.0000 0.0000 0.0000
+class 4:  0.0240 0.5309 0.4443 0.0009 0.0000
+class 5:  0.0918 0.9082 0.0000 0.0000 0.0000
+class 6:  0.0018 0.0188 0.1190 0.2867 0.5738
+class 7:  0.0000 0.0000 0.0000 0.0995 0.9005
+
+$Monthly_Rent_PSF
+           Pr(1)  Pr(2)  Pr(3)
+class 1:  0.0000 0.9302 0.0698
+class 2:  0.0000 0.0000 1.0000
+class 3:  0.0047 0.1997 0.7956
+class 4:  1.0000 0.0000 0.0000
+class 5:  0.3909 0.5636 0.0455
+class 6:  0.7863 0.1910 0.0226
+class 7:  0.0000 0.2924 0.7076
+
+$Floor_Area_SQFT_Avg
+           Pr(1)  Pr(2)  Pr(3)  Pr(4)
+class 1:  0.0000 0.3034 0.6966 0.0000
+class 2:  0.2216 0.7784 0.0000 0.0000
+class 3:  1.0000 0.0000 0.0000 0.0000
+class 4:  0.0000 0.0000 0.8052 0.1948
+class 5:  0.0000 1.0000 0.0000 0.0000
+class 6:  0.0000 0.0000 0.0000 1.0000
+class 7:  0.0000 0.0068 0.3896 0.6035
+
+$distance_to_mrt
+           Pr(1)  Pr(2)  Pr(3)  Pr(4)
+class 1:  0.2058 0.3333 0.2035 0.2574
+class 2:  0.3642 0.3708 0.1327 0.1324
+class 3:  0.2130 0.3904 0.1556 0.2410
+class 4:  0.1353 0.2572 0.2548 0.3527
+class 5:  0.1407 0.3098 0.2012 0.3483
+class 6:  0.0708 0.2126 0.4026 0.3140
+class 7:  0.2002 0.3984 0.2240 0.1774
+
+$distance_to_school
+           Pr(1)  Pr(2)  Pr(3)  Pr(4)
+class 1:  0.2121 0.3309 0.2251 0.2319
+class 2:  0.1764 0.2652 0.2517 0.3067
+class 3:  0.1952 0.3924 0.2139 0.1986
+class 4:  0.2037 0.3781 0.1819 0.2363
+class 5:  0.1916 0.4133 0.2005 0.1946
+class 6:  0.1182 0.4297 0.1727 0.2794
+class 7:  0.1091 0.2524 0.1973 0.4412
+
+Estimated class population shares 
+ 0.1299 0.1655 0.1393 0.1574 0.1349 0.1184 0.1546 
+ 
+Predicted class memberships (by modal posterior prob.) 
+ 0.1293 0.1645 0.145 0.1607 0.1341 0.1105 0.156 
+ 
+========================================================= 
+Fit for 7 latent classes: 
+========================================================= 
+number of observations: 192199 
+number of estimated parameters: 174 
+residual degrees of freedom: 47825 
+maximum log-likelihood: -1546851 
+ 
+AIC(7): 3094050
+BIC(7): 3095819
+G^2(7): 193628.3 (Likelihood ratio/deviance statistic) 
+X^2(7): 434072.2 (Chi-square goodness of fit) 
+ </code></pre>
+</div>
+</div>
+</section><section id="plot-bic-score" class="level3" data-number="6.3"><h3 data-number="6.3" class="anchored" data-anchor-id="plot-bic-score">
+<span class="header-section-number">6.3</span> Plot BIC score</h3>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">LCA_model</span><span class="op">$</span><span class="va">bic</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] 3095819</code></pre>
+</div>
+</div>
+</section><section id="plot-aic-score" class="level3" data-number="6.4"><h3 data-number="6.4" class="anchored" data-anchor-id="plot-aic-score">
+<span class="header-section-number">6.4</span> Plot AIC score</h3>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">LCA_model</span><span class="op">$</span><span class="va">aic</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] 3094050</code></pre>
+</div>
+</div>
+</section><section id="plot-entropy" class="level3" data-number="6.5"><h3 data-number="6.5" class="anchored" data-anchor-id="plot-entropy">
+<span class="header-section-number">6.5</span> Plot Entropy</h3>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">entropy</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">p</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="op">-</span><span class="va">p</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">error_prior</span> <span class="op">&lt;-</span> <span class="fu">entropy</span><span class="op">(</span><span class="va">LCA_model</span><span class="op">$</span><span class="va">P</span><span class="op">)</span></span>
+<span><span class="va">error_post</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">LCA_model</span><span class="op">$</span><span class="va">posterior</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span>, <span class="va">entropy</span><span class="op">)</span>, na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span></span>
+<span><span class="va">LCA_entropy</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">error_prior</span> <span class="op">-</span> <span class="va">error_post</span><span class="op">)</span> <span class="op">/</span> <span class="va">error_prior</span></span>
+<span><span class="va">LCA_entropy</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9846065</code></pre>
+</div>
+</div>
+</section></section><section id="visualising-results" class="level2" data-number="7"><h2 data-number="7" class="anchored" data-anchor-id="visualising-results">
+<span class="header-section-number">7</span> Visualising Results</h2>
+<p>The classification obtained from the model is added to the initial dataset to facilitate the comparison of variables across different classes for plotting purposes.</p>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df_clustering</span><span class="op">$</span><span class="va">class</span> <span class="op">&lt;-</span> <span class="va">LCA_model</span><span class="op">$</span><span class="va">predclass</span></span>
+<span><span class="va">df_clustering</span><span class="op">$</span><span class="va">class</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">df_clustering</span><span class="op">$</span><span class="va">class</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">plot_table</span> <span class="op">&lt;-</span> <span class="va">df_clustering</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">Planning_Region</span>, <span class="va">class</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">summarise</span><span class="op">(</span>counts <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="va">ungroup</span></span>
+<span></span>
+<span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="va">plot_table</span>, <span class="fu">aes</span><span class="op">(</span>fill <span class="op">=</span> <span class="va">Planning_Region</span>, y <span class="op">=</span> <span class="va">counts</span>, x <span class="op">=</span> <span class="va">class</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">geom_bar</span><span class="op">(</span>position <span class="op">=</span> <span class="st">"fill"</span>, stat <span class="op">=</span> <span class="st">"identity"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">ggplotly</span><span class="op">(</span><span class="va">p1</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-df02388bd0ab04d2e566" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-df02388bd0ab04d2e566">{"x":{"data":[{"orientation":"v","width":[0.9,0.9,0.9,0.9,0.9,0.9,0.9],"base":[0.620044274501912,0.33315406516925,0.653699849278691,0.866878176697206,0.820933752474095,0.593804434819453,0.141989926953737],"x":[1,2,3,4,5,6,7],"y":[0.379955725498088,0.66684593483075,0.346300150721309,0.133121823302794,0.179066247525905,0.406195565180547,0.858010073046263],"text":["class: 1<br />counts: 0.3799557255<br />Planning_Region: Central Region","class: 2<br />counts: 0.6668459348<br />Planning_Region: Central Region","class: 3<br />counts: 0.3463001507<br />Planning_Region: Central Region","class: 4<br />counts: 0.1331218233<br />Planning_Region: Central Region","class: 5<br />counts: 0.1790662475<br />Planning_Region: Central Region","class: 6<br />counts: 0.4061955652<br />Planning_Region: Central Region","class: 7<br />counts: 0.8580100730<br />Planning_Region: Central Region"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Central Region","legendgroup":"Central Region","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.9,0.9,0.9,0.9,0.9,0.9,0.9],"base":[0.35206278929362,0.196393546346093,0.323117777937271,0.500955032535854,0.452245119726782,0.342968786780283,0.0657416363697008],"x":[1,2,3,4,5,6,7],"y":[0.267981485208291,0.136760518823157,0.33058207134142,0.365923144161352,0.368688632747312,0.25083564803917,0.0762482905840366],"text":["class: 1<br />counts: 0.2679814852<br />Planning_Region: East Region","class: 2<br />counts: 0.1367605188<br />Planning_Region: East Region","class: 3<br />counts: 0.3305820713<br />Planning_Region: East Region","class: 4<br />counts: 0.3659231442<br />Planning_Region: East Region","class: 5<br />counts: 0.3686886327<br />Planning_Region: East Region","class: 6<br />counts: 0.2508356480<br />Planning_Region: East Region","class: 7<br />counts: 0.0762482906<br />Planning_Region: East Region"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(163,165,0,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"East Region","legendgroup":"East Region","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.9,0.9,0.9,0.9,0.9,0.9,0.9],"base":[0.218756288991749,0.11281240113888,0.150003588602598,0.336268574573473,0.231769317343889,0.175180076267596,0.0520663086621527],"x":[1,2,3,4,5,6,7],"y":[0.133306500301872,0.0835811452072129,0.173114189334673,0.164686457962381,0.220475802382893,0.167788710512688,0.0136753277075481],"text":["class: 1<br />counts: 0.1333065003<br />Planning_Region: North East Region","class: 2<br />counts: 0.0835811452<br />Planning_Region: North East Region","class: 3<br />counts: 0.1731141893<br />Planning_Region: North East Region","class: 4<br />counts: 0.1646864580<br />Planning_Region: North East Region","class: 5<br />counts: 0.2204758024<br />Planning_Region: North East Region","class: 6<br />counts: 0.1677887105<br />Planning_Region: North East Region","class: 7<br />counts: 0.0136753277<br />Planning_Region: North East Region"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,125,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"North East Region","legendgroup":"North East Region","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.9,0.9,0.9,0.9,0.9,0.9,0.9],"base":[0.191748842825518,0.104460613729832,0.120828249479653,0.270128524717537,0.170372957659021,0.134174473894826,0.0513658650478636],"x":[1,2,3,4,5,6,7],"y":[0.0270074461662306,0.00835178740904777,0.0291753391229455,0.0661400498559357,0.0613963596848683,0.0410056023727697,0.000700443614289052],"text":["class: 1<br />counts: 0.0270074462<br />Planning_Region: North Region","class: 2<br />counts: 0.0083517874<br />Planning_Region: North Region","class: 3<br />counts: 0.0291753391<br />Planning_Region: North Region","class: 4<br />counts: 0.0661400499<br />Planning_Region: North Region","class: 5<br />counts: 0.0613963597<br />Planning_Region: North Region","class: 6<br />counts: 0.0410056024<br />Planning_Region: North Region","class: 7<br />counts: 0.0007004436<br />Planning_Region: North Region"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,176,246,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"North Region","legendgroup":"North Region","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.9,0.9,0.9,0.9,0.9,0.9,0.9],"base":[0,0,0,0,0,0,0],"x":[1,2,3,4,5,6,7],"y":[0.191748842825518,0.104460613729832,0.120828249479653,0.270128524717537,0.170372957659021,0.134174473894826,0.0513658650478636],"text":["class: 1<br />counts: 0.1917488428<br />Planning_Region: West Region","class: 2<br />counts: 0.1044606137<br />Planning_Region: West Region","class: 3<br />counts: 0.1208282495<br />Planning_Region: West Region","class: 4<br />counts: 0.2701285247<br />Planning_Region: West Region","class: 5<br />counts: 0.1703729577<br />Planning_Region: West Region","class: 6<br />counts: 0.1341744739<br />Planning_Region: West Region","class: 7<br />counts: 0.0513658650<br />Planning_Region: West Region"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(231,107,243,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"West Region","legendgroup":"West Region","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":26.2283105022831,"r":7.30593607305936,"b":40.1826484018265,"l":48.9497716894977},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,7.6],"tickmode":"array","ticktext":["1","2","3","4","5","6","7"],"tickvals":[1,2,3,4,5,6,7],"categoryorder":"array","categoryarray":["1","2","3","4","5","6","7"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"class","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.05,1.05],"tickmode":"array","ticktext":["0.00","0.25","0.50","0.75","1.00"],"tickvals":[0,0.25,0.5,0.75,1],"categoryorder":"array","categoryarray":["0.00","0.25","0.50","0.75","1.00"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"counts","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"Planning_Region","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"a6863cb19b":{"x":{},"y":{},"fill":{},"type":"bar"}},"cur_data":"a6863cb19b","visdat":{"a6863cb19b":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="va">plot_table</span>, <span class="fu">aes</span><span class="op">(</span>fill <span class="op">=</span> <span class="va">class</span>, y <span class="op">=</span> <span class="va">counts</span>, x <span class="op">=</span> <span class="va">Planning_Region</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">geom_bar</span><span class="op">(</span>position <span class="op">=</span> <span class="st">"fill"</span>, stat <span class="op">=</span> <span class="st">"identity"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">ggplotly</span><span class="op">(</span><span class="va">p2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-f1c9ae68473baf5507db" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-f1c9ae68473baf5507db">{"x":{"data":[{"orientation":"v","width":[0.9,0.9,0.9,0.9,0.9],"base":[0.886602520210939,0.863032297881094,0.870219435736677,0.892897047086991,0.833175753755647],"x":[1,2,3,4,5],"y":[0.113397479789061,0.136967702118906,0.129780564263323,0.107102952913009,0.166824246244353],"text":["Planning_Region: Central Region<br />counts: 0.113397480<br />class: 1","Planning_Region: East Region<br />counts: 0.136967702<br />class: 1","Planning_Region: North East Region<br />counts: 0.129780564<br />class: 1","Planning_Region: North Region<br />counts: 0.107102953<br />class: 1","Planning_Region: West Region<br />counts: 0.166824246<br />class: 1"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"1","legendgroup":"1","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.9,0.9,0.9,0.9,0.9],"base":[0.633392194313309,0.774099979428101,0.766692789968652,0.850758180367119,0.717547361417516],"x":[1,2,3,4,5],"y":[0.25321032589763,0.0889323184529933,0.103526645768025,0.0421388667198723,0.115628392338131],"text":["Planning_Region: Central Region<br />counts: 0.253210326<br />class: 2","Planning_Region: East Region<br />counts: 0.088932318<br />class: 2","Planning_Region: North East Region<br />counts: 0.103526646<br />class: 2","Planning_Region: North Region<br />counts: 0.042138867<br />class: 2","Planning_Region: West Region<br />counts: 0.115628392<br />class: 2"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(196,154,0,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"2","legendgroup":"2","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.9,0.9,0.9,0.9,0.9],"base":[0.517472101096736,0.584591647809093,0.577664576802508,0.720989624900239,0.59964281962391],"x":[1,2,3,4,5],"y":[0.115920093216572,0.189508331619008,0.189028213166144,0.129768555466879,0.117904541793606],"text":["Planning_Region: Central Region<br />counts: 0.115920093<br />class: 3","Planning_Region: East Region<br />counts: 0.189508332<br />class: 3","Planning_Region: North East Region<br />counts: 0.189028213<br />class: 3","Planning_Region: North Region<br />counts: 0.129768555<br />class: 3","Planning_Region: West Region<br />counts: 0.117904542<br />class: 3"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(83,180,0,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"3","legendgroup":"3","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.9,0.9,0.9,0.9,0.9],"base":[0.468076927697094,0.352067475828019,0.378330721003135,0.394892258579409,0.307455264908779],"x":[1,2,3,4,5],"y":[0.0493951733996421,0.232524171981074,0.199333855799373,0.32609736632083,0.292187554715131],"text":["Planning_Region: Central Region<br />counts: 0.049395173<br />class: 4","Planning_Region: East Region<br />counts: 0.232524172<br />class: 4","Planning_Region: North East Region<br />counts: 0.199333856<br />class: 4","Planning_Region: North Region<br />counts: 0.326097366<br />class: 4","Planning_Region: West Region<br />counts: 0.292187555<br />class: 4"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,192,148,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"4","legendgroup":"4","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.9,0.9,0.9,0.9,0.9],"base":[0.412651506961212,0.156634437358568,0.155721003134796,0.142378292098962,0.153727632454389],"x":[1,2,3,4,5],"y":[0.0554254207358824,0.195433038469451,0.222609717868339,0.252513966480447,0.153727632454389],"text":["Planning_Region: Central Region<br />counts: 0.055425421<br />class: 5","Planning_Region: East Region<br />counts: 0.195433038<br />class: 5","Planning_Region: North East Region<br />counts: 0.222609718<br />class: 5","Planning_Region: North Region<br />counts: 0.252513966<br />class: 5","Planning_Region: West Region<br />counts: 0.153727632<br />class: 5"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,182,235,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"5","legendgroup":"5","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.9,0.9,0.9,0.9,0.9],"base":[0.309008132425192,0.0470273606253857,0.0160658307210031,0.00335195530726257,0.0539272332527927],"x":[1,2,3,4,5],"y":[0.103643374536019,0.109607076733182,0.139655172413793,0.1390263367917,0.0998003992015968],"text":["Planning_Region: Central Region<br />counts: 0.103643375<br />class: 6","Planning_Region: East Region<br />counts: 0.109607077<br />class: 6","Planning_Region: North East Region<br />counts: 0.139655172<br />class: 6","Planning_Region: North Region<br />counts: 0.139026337<br />class: 6","Planning_Region: West Region<br />counts: 0.099800399<br />class: 6"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(165,138,255,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"6","legendgroup":"6","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.9,0.9,0.9,0.9,0.9],"base":[0,0,0,0,0],"x":[1,2,3,4,5],"y":[0.309008132425192,0.0470273606253857,0.0160658307210031,0.00335195530726257,0.0539272332527927],"text":["Planning_Region: Central Region<br />counts: 0.309008132<br />class: 7","Planning_Region: East Region<br />counts: 0.047027361<br />class: 7","Planning_Region: North East Region<br />counts: 0.016065831<br />class: 7","Planning_Region: North Region<br />counts: 0.003351955<br />class: 7","Planning_Region: West Region<br />counts: 0.053927233<br />class: 7"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(251,97,215,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"7","legendgroup":"7","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":26.2283105022831,"r":7.30593607305936,"b":40.1826484018265,"l":48.9497716894977},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,5.6],"tickmode":"array","ticktext":["Central Region","East Region","North East Region","North Region","West Region"],"tickvals":[1,2,3,4,5],"categoryorder":"array","categoryarray":["Central Region","East Region","North East Region","North Region","West Region"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"Planning_Region","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.05,1.05],"tickmode":"array","ticktext":["0.00","0.25","0.50","0.75","1.00"],"tickvals":[0,0.25,0.5,0.75,1],"categoryorder":"array","categoryarray":["0.00","0.25","0.50","0.75","1.00"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"counts","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"class","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"a68357017ad":{"x":{},"y":{},"fill":{},"type":"bar"}},"cur_data":"a68357017ad","visdat":{"a68357017ad":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section><section id="ui-design" class="level2" data-number="8"><h2 data-number="8" class="anchored" data-anchor-id="ui-design">
+<span class="header-section-number">8</span> UI Design</h2>
+<p>Click <a href="https://kaixx1027.shinyapps.io/takehome4/">here</a> to view the shinyapp of this exercise.</p>
+<div class="cell">
+<details class="code-fold"><summary>Click to view the code.</summary><div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="va">shiny</span>, <span class="va">tidyverse</span>, <span class="va">shinydashboard</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">visualdata</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"data/ResidentialRental_Final.csv"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu">dashboardPage</span><span class="op">(</span></span>
+<span>  <span class="fu">dashboardHeader</span><span class="op">(</span>title <span class="op">=</span> <span class="st">'Rental market learning and valuation'</span>, titleWidth <span class="op">=</span> <span class="fl">400</span><span class="op">)</span>,</span>
+<span>  <span class="fu">dashboardSidebar</span><span class="op">(</span>width <span class="op">=</span> <span class="fl">400</span>,</span>
+<span>                   <span class="fu">sidebarMenu</span><span class="op">(</span>id <span class="op">=</span> <span class="st">'a'</span>,</span>
+<span>                               <span class="fu">menuItem</span><span class="op">(</span><span class="st">'Historical data'</span>, tabName <span class="op">=</span> <span class="st">'historical'</span>, icon <span class="op">=</span> <span class="fu">icon</span><span class="op">(</span><span class="st">"search"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>                               <span class="fu">menuItem</span><span class="op">(</span><span class="st">'Statistics'</span>, tabName <span class="op">=</span> <span class="st">'Statistics'</span>, icon <span class="op">=</span> <span class="fu">icon</span><span class="op">(</span><span class="st">"line-chart"</span><span class="op">)</span><span class="op">)</span></span>
+<span>                   <span class="op">)</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  <span class="fu">dashboardBody</span><span class="op">(</span></span>
+<span>    <span class="fu">tabItems</span><span class="op">(</span></span>
+<span>      <span class="co">#——————————————————————————————————————————————————————————————————————Historical data</span></span>
+<span>      <span class="fu">tabItem</span><span class="op">(</span>tabName <span class="op">=</span> <span class="st">"historical"</span>,</span>
+<span>              <span class="fu">fluidPage</span><span class="op">(</span></span>
+<span>                <span class="fu">titlePanel</span><span class="op">(</span><span class="st">"Places to Rent"</span><span class="op">)</span>,</span>
+<span>                <span class="fu">selectInput</span><span class="op">(</span><span class="st">"region"</span>, <span class="st">"Planning Region"</span>, choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">visualdata</span><span class="op">$</span><span class="va">Planning_Region</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>                <span class="fu">selectInput</span><span class="op">(</span><span class="st">"type"</span>, <span class="st">"Property Type"</span>, choices <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span>
+<span>                <span class="fu">tableOutput</span><span class="op">(</span><span class="st">"data"</span><span class="op">)</span></span>
+<span>              <span class="op">)</span></span>
+<span>      <span class="op">)</span>,</span>
+<span>      <span class="fu">tabItem</span><span class="op">(</span>tabName <span class="op">=</span> <span class="st">"Statistics"</span>,</span>
+<span>              <span class="fu">fluidPage</span><span class="op">(</span></span>
+<span>                <span class="fu">titlePanel</span><span class="op">(</span><span class="st">"Statistics"</span><span class="op">)</span>,</span>
+<span>                <span class="fu">fluidRow</span><span class="op">(</span></span>
+<span>                  <span class="fu">column</span><span class="op">(</span>width <span class="op">=</span> <span class="fl">12</span>,</span>
+<span>                         <span class="fu">tabsetPanel</span><span class="op">(</span></span>
+<span>                           <span class="co">#——————————————————————————————————————————————————————————————————————Barchart</span></span>
+<span>                           <span class="fu">tabPanel</span><span class="op">(</span><span class="st">"Bar Chart"</span>,</span>
+<span>                                    <span class="fu"><a href="https://rdrr.io/r/graphics/box.html">box</a></span><span class="op">(</span></span>
+<span>                                      <span class="fu">radioButtons</span><span class="op">(</span><span class="st">'xcol1'</span>,</span>
+<span>                                                   label <span class="op">=</span> <span class="va">tags</span><span class="op">$</span><span class="fu">strong</span><span class="op">(</span><span class="st">'Analyse Sales By:'</span><span class="op">)</span>,</span>
+<span>                                                   choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'Property Type'</span> <span class="op">=</span> <span class="st">'Property_Type'</span>,</span>
+<span>                                                               <span class="st">'Planning Region'</span> <span class="op">=</span> <span class="st">'Planning_Region'</span><span class="op">)</span>,</span>
+<span>                                                   inline <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>                                    <span class="op">)</span>,</span>
+<span>                                    <span class="fu"><a href="https://rdrr.io/r/graphics/box.html">box</a></span><span class="op">(</span></span>
+<span>                                      width <span class="op">=</span> <span class="fl">12</span>,</span>
+<span>                                      height <span class="op">=</span> <span class="fl">800</span>,</span>
+<span>                                      solidHeader <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>                                      collapsible <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>                                      collapsed <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>                                      <span class="fu">plotOutput</span><span class="op">(</span><span class="st">'barchart'</span>, height <span class="op">=</span> <span class="fl">750</span><span class="op">)</span></span>
+<span>                                    <span class="op">)</span></span>
+<span>                           <span class="op">)</span>,</span>
+<span>                           <span class="co">#——————————————————————————————————————————————————————————————————————Boxplot1</span></span>
+<span>                           <span class="fu">tabPanel</span><span class="op">(</span><span class="st">"Boxplot1"</span>, </span>
+<span>                                    <span class="fu"><a href="https://rdrr.io/r/graphics/box.html">box</a></span><span class="op">(</span></span>
+<span>                                      width <span class="op">=</span> <span class="fl">12</span>,</span>
+<span>                                      height <span class="op">=</span> <span class="fl">800</span>,</span>
+<span>                                      solidHeader <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>                                      collapsible <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>                                      collapsed <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>                                      <span class="fu">plotOutput</span><span class="op">(</span><span class="st">'Boxplot1'</span>, height <span class="op">=</span> <span class="fl">750</span><span class="op">)</span></span>
+<span>                                    <span class="op">)</span></span>
+<span>                           <span class="op">)</span>,</span>
+<span>                           <span class="co">#——————————————————————————————————————————————————————————————————————Boxplot2</span></span>
+<span>                           <span class="fu">tabPanel</span><span class="op">(</span><span class="st">"Boxplot2"</span>, </span>
+<span>                                    <span class="fu"><a href="https://rdrr.io/r/graphics/box.html">box</a></span><span class="op">(</span></span>
+<span>                                      width <span class="op">=</span> <span class="fl">12</span>,</span>
+<span>                                      height <span class="op">=</span> <span class="fl">800</span>,</span>
+<span>                                      solidHeader <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>                                      collapsible <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>                                      collapsed <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>                                      <span class="fu">plotOutput</span><span class="op">(</span><span class="st">'Boxplot2'</span>, height <span class="op">=</span> <span class="fl">750</span><span class="op">)</span></span>
+<span>                                    <span class="op">)</span></span>
+<span>                           <span class="op">)</span>,</span>
+<span>                           <span class="co">#——————————————————————————————————————————————————————————————————————Boxplot3</span></span>
+<span>                           <span class="fu">tabPanel</span><span class="op">(</span><span class="st">"Boxplot3"</span>, </span>
+<span>                                    <span class="fu"><a href="https://rdrr.io/r/graphics/box.html">box</a></span><span class="op">(</span></span>
+<span>                                      width <span class="op">=</span> <span class="fl">12</span>,</span>
+<span>                                      height <span class="op">=</span> <span class="fl">800</span>,</span>
+<span>                                      solidHeader <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>                                      collapsible <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>                                      collapsed <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>                                      <span class="fu">plotOutput</span><span class="op">(</span><span class="st">'Boxplot3'</span>, height <span class="op">=</span> <span class="fl">750</span><span class="op">)</span></span>
+<span>                                    <span class="op">)</span></span>
+<span>                           <span class="op">)</span>,</span>
+<span>                           <span class="co">#——————————————————————————————————————————————————————————————————————scatterplot1</span></span>
+<span>                           <span class="fu">tabPanel</span><span class="op">(</span><span class="st">"Scatterplot1"</span>, </span>
+<span>                                    <span class="fu"><a href="https://rdrr.io/r/graphics/box.html">box</a></span><span class="op">(</span></span>
+<span>                                      width <span class="op">=</span> <span class="fl">12</span>,</span>
+<span>                                      height <span class="op">=</span> <span class="fl">800</span>,</span>
+<span>                                      solidHeader <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>                                      collapsible <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>                                      collapsed <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>                                      <span class="fu">plotOutput</span><span class="op">(</span><span class="st">'Scatterplot1'</span>, height <span class="op">=</span> <span class="fl">750</span><span class="op">)</span></span>
+<span>                                    <span class="op">)</span></span>
+<span>                           <span class="op">)</span>,</span>
+<span>                           <span class="co">#——————————————————————————————————————————————————————————————————————scatterplot2</span></span>
+<span>                           <span class="fu">tabPanel</span><span class="op">(</span><span class="st">"Scatterplot2"</span>, </span>
+<span>                                    <span class="fu"><a href="https://rdrr.io/r/graphics/box.html">box</a></span><span class="op">(</span></span>
+<span>                                      width <span class="op">=</span> <span class="fl">12</span>,</span>
+<span>                                      height <span class="op">=</span> <span class="fl">800</span>,</span>
+<span>                                      solidHeader <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>                                      collapsible <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>                                      collapsed <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>                                      <span class="fu">plotOutput</span><span class="op">(</span><span class="st">'Scatterplot2'</span>, height <span class="op">=</span> <span class="fl">750</span><span class="op">)</span></span>
+<span>                                    <span class="op">)</span></span>
+<span>                           <span class="op">)</span>,</span>
+<span>                           <span class="co">#——————————————————————————————————————————————————————————————————————scatterplot3</span></span>
+<span>                           <span class="fu">tabPanel</span><span class="op">(</span><span class="st">"Scatterplot3"</span>, </span>
+<span>                                    <span class="fu"><a href="https://rdrr.io/r/graphics/box.html">box</a></span><span class="op">(</span></span>
+<span>                                      width <span class="op">=</span> <span class="fl">12</span>,</span>
+<span>                                      height <span class="op">=</span> <span class="fl">800</span>,</span>
+<span>                                      solidHeader <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>                                      collapsible <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>                                      collapsed <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>                                      <span class="fu">plotOutput</span><span class="op">(</span><span class="st">'Scatterplot3'</span>, height <span class="op">=</span> <span class="fl">750</span><span class="op">)</span></span>
+<span>                                    <span class="op">)</span></span>
+<span>                           <span class="op">)</span>,</span>
+<span>                           <span class="co">#——————————————————————————————————————————————————————————————————————scatterplot matrix</span></span>
+<span>                           <span class="fu">tabPanel</span><span class="op">(</span><span class="st">"Scatterplot matrix"</span>, </span>
+<span>                                    <span class="fu"><a href="https://rdrr.io/r/graphics/box.html">box</a></span><span class="op">(</span></span>
+<span>                                      width <span class="op">=</span> <span class="fl">12</span>,</span>
+<span>                                      height <span class="op">=</span> <span class="fl">800</span>,</span>
+<span>                                      solidHeader <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>                                      collapsible <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>                                      collapsed <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>                                      <span class="fu">plotOutput</span><span class="op">(</span><span class="st">'matrix'</span>, height <span class="op">=</span> <span class="fl">750</span><span class="op">)</span></span>
+<span>                                    <span class="op">)</span></span>
+<span>                           <span class="op">)</span></span>
+<span>                         <span class="op">)</span>, <span class="co">#tabsetPanel(</span></span>
+<span>                  <span class="op">)</span> <span class="co">#column(</span></span>
+<span>                <span class="op">)</span> <span class="co">#fluidRow(</span></span>
+<span>              <span class="op">)</span>, <span class="co">#fluidPage(</span></span>
+<span>      <span class="op">)</span></span>
+<span>    <span class="op">)</span> <span class="co">#tabItems(</span></span>
+<span>  <span class="op">)</span> <span class="co">#dashboardBody(</span></span>
+<span><span class="op">)</span> <span class="co">#dashboardPage(</span></span>
+<span></span>
+<span></span>
+<span></span>
+<span><span class="co"># Define server logic required to draw a histogram</span></span>
+<span><span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="co">#——————————————————————————————————————————————————————————————————————historical</span></span>
+<span>  <span class="va">region</span> <span class="op">&lt;-</span> <span class="fu">reactive</span><span class="op">(</span><span class="op">{</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">visualdata</span>, <span class="va">Planning_Region</span> <span class="op">==</span> <span class="va">input</span><span class="op">$</span><span class="va">region</span><span class="op">)</span></span>
+<span>  <span class="op">}</span><span class="op">)</span></span>
+<span>  <span class="fu">observeEvent</span><span class="op">(</span><span class="fu">region</span><span class="op">(</span><span class="op">)</span>, <span class="op">{</span></span>
+<span>    <span class="va">choices</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="fu">region</span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">Property_Type</span><span class="op">)</span></span>
+<span>    <span class="fu">updateSelectInput</span><span class="op">(</span>inputId <span class="op">=</span> <span class="st">"type"</span>, choices <span class="op">=</span> <span class="va">choices</span><span class="op">)</span></span>
+<span>  <span class="op">}</span><span class="op">)</span></span>
+<span>  <span class="va">type</span> <span class="op">&lt;-</span> <span class="fu">reactive</span><span class="op">(</span><span class="op">{</span></span>
+<span>    <span class="fu">req</span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">type</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="fu">region</span><span class="op">(</span><span class="op">)</span>, <span class="va">Property_Type</span> <span class="op">==</span> <span class="va">input</span><span class="op">$</span><span class="va">type</span><span class="op">)</span></span>
+<span>  <span class="op">}</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co">#——————————————————————————————————————————————————————————————————————Statistics</span></span>
+<span>  <span class="co">#——————————————————————————————————————————————————————————————————————barchart</span></span>
+<span>  <span class="va">output</span><span class="op">$</span><span class="va">barchart</span> <span class="op">&lt;-</span> <span class="fu">renderPlot</span><span class="op">(</span><span class="op">{</span></span>
+<span>    <span class="va">analysis</span> <span class="op">&lt;-</span> <span class="va">visualdata</span> <span class="op">%&gt;%</span></span>
+<span>      <span class="fu">group_by_</span><span class="op">(</span>.dots <span class="op">=</span> <span class="va">input</span><span class="op">$</span><span class="va">xcol1</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>      <span class="fu">summarise</span><span class="op">(</span>basket_value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">`Monthly_Rent_SGD`</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">)</span></span>
+<span>    </span>
+<span>    <span class="va">p</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="va">analysis</span>, <span class="fu">aes_string</span><span class="op">(</span>y <span class="op">=</span> <span class="st">'basket_value'</span>, x <span class="op">=</span> <span class="va">input</span><span class="op">$</span><span class="va">xcol1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu">geom_bar</span><span class="op">(</span><span class="fu">aes_string</span><span class="op">(</span>fill <span class="op">=</span> <span class="va">input</span><span class="op">$</span><span class="va">xcol1</span><span class="op">)</span>, stat <span class="op">=</span> <span class="st">'identity'</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">'Average Rental Price'</span>, subtitle <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">'by'</span>, <span class="va">input</span><span class="op">$</span><span class="va">xcol1</span><span class="op">)</span>, </span>
+<span>           x <span class="op">=</span> <span class="va">input</span><span class="op">$</span><span class="va">xcol1</span>, y <span class="op">=</span> <span class="st">'Rental Price ($)'</span>,</span>
+<span>           fill <span class="op">=</span> <span class="va">input</span><span class="op">$</span><span class="va">xcol1</span><span class="op">)</span></span>
+<span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span>
+<span>  <span class="op">}</span><span class="op">)</span></span>
+<span>  <span class="co">#——————————————————————————————————————————————————————————————————————Boxplot1</span></span>
+<span>  <span class="va">output</span><span class="op">$</span><span class="va">Boxplot1</span> <span class="op">&lt;-</span> <span class="fu">renderPlot</span><span class="op">(</span><span class="op">{</span></span>
+<span>    <span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="va">visualdata</span>, <span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">`Planning_Region`</span>, y<span class="op">=</span> <span class="va">`Monthly_Rent_SGD`</span>, fill<span class="op">=</span><span class="va">`Property_Type`</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu">geom_boxplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">`Planning_Region`</span>, scales <span class="op">=</span> <span class="st">"free"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu">labs</span><span class="op">(</span>x<span class="op">=</span><span class="st">"Planning Region"</span>, y<span class="op">=</span><span class="st">"Monthly Rent"</span><span class="op">)</span></span>
+<span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">p1</span><span class="op">)</span></span>
+<span>  <span class="op">}</span><span class="op">)</span></span>
+<span>  <span class="co">#——————————————————————————————————————————————————————————————————————Boxplot2</span></span>
+<span>  <span class="va">output</span><span class="op">$</span><span class="va">Boxplot2</span> <span class="op">&lt;-</span> <span class="fu">renderPlot</span><span class="op">(</span><span class="op">{</span></span>
+<span>    <span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="va">visualdata</span>, <span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">`Planning_Region`</span>, y<span class="op">=</span> <span class="va">`Monthly_Rent_SGD`</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu">geom_boxplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">`Property_Type`</span>, scales <span class="op">=</span> <span class="st">"free"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu">labs</span><span class="op">(</span>x<span class="op">=</span><span class="st">"Planning Region"</span>, y<span class="op">=</span><span class="st">"Monthly Rent"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu">theme</span><span class="op">(</span>axis.text.x <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">90</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">p2</span><span class="op">)</span></span>
+<span>  <span class="op">}</span><span class="op">)</span></span>
+<span>  <span class="co">#——————————————————————————————————————————————————————————————————————Boxplot3</span></span>
+<span>  <span class="va">output</span><span class="op">$</span><span class="va">Boxplot3</span> <span class="op">&lt;-</span> <span class="fu">renderPlot</span><span class="op">(</span><span class="op">{</span></span>
+<span>    <span class="va">p3</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="va">visualdata</span>, <span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">`Property_Type`</span>, y<span class="op">=</span> <span class="va">`Monthly_Rent_SGD`</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu">geom_boxplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">`Planning_Region`</span>, scales <span class="op">=</span> <span class="st">"free"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu">labs</span><span class="op">(</span>x<span class="op">=</span><span class="st">"Property Type"</span>, y<span class="op">=</span><span class="st">"Monthly Rent"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu">theme</span><span class="op">(</span>axis.text.x <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">90</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">p3</span><span class="op">)</span></span>
+<span>  <span class="op">}</span><span class="op">)</span></span>
+<span>  <span class="co">#——————————————————————————————————————————————————————————————————————Scatterplot1</span></span>
+<span>  <span class="va">output</span><span class="op">$</span><span class="va">Scatterplot1</span> <span class="op">&lt;-</span> <span class="fu">renderPlot</span><span class="op">(</span><span class="op">{</span></span>
+<span>    <span class="va">p4</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="va">visualdata</span>, <span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">`distance_to_school`</span>, y<span class="op">=</span><span class="va">`Monthly_Rent_SGD`</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu">geom_point</span><span class="op">(</span>size<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu">scale_x_continuous</span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">2</span>, by <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu">coord_cartesian</span><span class="op">(</span>xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu">facet_grid</span><span class="op">(</span><span class="va">`Planning_Region`</span> <span class="op">~</span> <span class="va">`Property_Type`</span>, scales <span class="op">=</span> <span class="st">"free"</span>, space <span class="op">=</span><span class="st">"fixed"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu">labs</span><span class="op">(</span>x<span class="op">=</span><span class="st">'Distance to School'</span>, y <span class="op">=</span> <span class="st">'Monthly Rent'</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu">theme</span><span class="op">(</span>axis.text.x <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">90</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">p4</span><span class="op">)</span></span>
+<span>  <span class="op">}</span><span class="op">)</span></span>
+<span>  <span class="co">#——————————————————————————————————————————————————————————————————————Scatterplot2</span></span>
+<span>  <span class="va">output</span><span class="op">$</span><span class="va">Scatterplot2</span> <span class="op">&lt;-</span> <span class="fu">renderPlot</span><span class="op">(</span><span class="op">{</span></span>
+<span>    <span class="va">p5</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="va">visualdata</span>, <span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">`distance_to_mrt`</span>, y<span class="op">=</span><span class="va">`Monthly_Rent_SGD`</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu">geom_point</span><span class="op">(</span>size<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu">scale_x_continuous</span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">2</span>, by <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu">coord_cartesian</span><span class="op">(</span>xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu">facet_grid</span><span class="op">(</span><span class="va">`Planning_Region`</span> <span class="op">~</span> <span class="va">`Property_Type`</span>, scales <span class="op">=</span> <span class="st">"free"</span>, space <span class="op">=</span><span class="st">"fixed"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu">labs</span><span class="op">(</span>x<span class="op">=</span><span class="st">'Distance to MRT'</span>, y <span class="op">=</span> <span class="st">'Monthly Rent'</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu">theme</span><span class="op">(</span>axis.text.x <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">90</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">p5</span><span class="op">)</span></span>
+<span>  <span class="op">}</span><span class="op">)</span></span>
+<span>  <span class="co">#——————————————————————————————————————————————————————————————————————Scatterplot3</span></span>
+<span>  <span class="va">output</span><span class="op">$</span><span class="va">Scatterplot3</span> <span class="op">&lt;-</span> <span class="fu">renderPlot</span><span class="op">(</span><span class="op">{</span></span>
+<span>    <span class="va">p6</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="va">visualdata</span>, <span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">`Floor_Area_SQFT_Avg`</span>, y<span class="op">=</span><span class="va">`Monthly_Rent_SGD`</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu">geom_point</span><span class="op">(</span>size<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="co">#  scale_x_continuous(breaks = seq(0, 2, by = 0.2)) +</span></span>
+<span>      <span class="co">#  coord_cartesian(xlim = c(0, 2)) +</span></span>
+<span>      <span class="fu">facet_grid</span><span class="op">(</span><span class="va">`Planning_Region`</span> <span class="op">~</span> <span class="va">`Property_Type`</span>, scales <span class="op">=</span> <span class="st">"free"</span>, space <span class="op">=</span><span class="st">"fixed"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu">labs</span><span class="op">(</span>x<span class="op">=</span><span class="st">'Floor Area SQFT'</span>, y <span class="op">=</span> <span class="st">'Monthly Rent'</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu">theme</span><span class="op">(</span>axis.text.x <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">90</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">p6</span><span class="op">)</span></span>
+<span>  <span class="op">}</span><span class="op">)</span>  </span>
+<span>  <span class="co">#——————————————————————————————————————————————————————————————————————matrix</span></span>
+<span>  <span class="va">output</span><span class="op">$</span><span class="va">matrix</span> <span class="op">&lt;-</span> <span class="fu">renderPlot</span><span class="op">(</span><span class="op">{</span></span>
+<span>    <span class="va">pm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/pairs.html">pairs</a></span><span class="op">(</span><span class="op">~</span><span class="va">visualdata</span><span class="op">$</span><span class="va">Monthly_Rent_SGD</span> <span class="op">+</span> <span class="va">visualdata</span><span class="op">$</span><span class="va">Floor_Area_SQM_Avg</span> <span class="op">+</span> <span class="va">visualdata</span><span class="op">$</span><span class="va">Floor_Area_SQFT_Avg</span> <span class="op">+</span> <span class="va">visualdata</span><span class="op">$</span><span class="va">distance_to_mrt</span>, data <span class="op">=</span> <span class="va">visualdata</span>,</span>
+<span>                main <span class="op">=</span> <span class="st">"Scatterplot Matrix"</span><span class="op">)</span></span>
+<span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">pm</span><span class="op">)</span></span>
+<span>  <span class="op">}</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># Run the application </span></span>
+<span><span class="fu">shinyApp</span><span class="op">(</span>ui <span class="op">=</span> <span class="va">ui</span>, server <span class="op">=</span> <span class="va">server</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p><a href="https://kaixx1027.shinyapps.io/takehome4/"><img src="../../images/takehome4.png" class="img-fluid"></a></p>
+
+
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Blog made using <a href="https://quarto.org/">Quarto®</a></p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+<li class="nav-item compact">
+    <a class="nav-link" href="mailto:happykai923@gmail.com">
+      <i class="bi bi-house" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+</div>
+  </div>
+</footer>
+
+
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

@@ -1,8 +1,38 @@
 ---
 title: "Hands-on Exercise 9: Visualising and Analysing Text Data"
-date: "February 20, 2024"
+date: "March 7, 2024"
 date-modified: "last-modified"
 execute: 
   eval: true
   warning: false
 ---
+
+## Getting Started
+
+### Install and loading R packages.
+
+```{r}
+pacman::p_load(tidytext, widyr, wordcloud, DT, ggwordcloud, textplot, lubridate, hms, tidyverse, tidygraph, ggraph, igraph)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

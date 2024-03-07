@@ -81,6 +81,8 @@ website:
             href: "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html"
           - text: "3: Be Weatherwise or Otherwise"
             href: "Take-home_Ex/Take-home_Ex03/Take-home_Ex03.html"
+          - text: "4: Prototyping Modules for Visual Analytics Shiny Application"
+            href: "Take-home_Ex/Take-home_Ex04/Take-home_Ex04.html"
     right: 
       - href: index.qmd
         text: Home

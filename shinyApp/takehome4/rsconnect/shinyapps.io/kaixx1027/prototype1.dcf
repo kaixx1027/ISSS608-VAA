@@ -1,0 +1,12 @@
+name: prototype1
+title: prototype1
+username: kaixx1027
+account: kaixx1027
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 11254332
+bundleId: 8266171
+url: https://kaixx1027.shinyapps.io/prototype1/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE

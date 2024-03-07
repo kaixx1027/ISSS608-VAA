@@ -1,0 +1,469 @@
+---
+title: "Take-home Exercise 4: Prototyping Modules for Visual Analytics Shiny Application"
+date: "March 5, 2024"
+date-modified: "last-modified"
+execute: 
+  eval: true
+  warning: false
+---
+
+## Overview
+
+### Introduction
+
+In Singapore's ever-changing rental market, understanding the factors influencing rental prices is crucial for tenants and landlords alike. This study focuses on three key aspects: **descriptive analysis**, **correlation analysis**, and **clustering analysis**.
+
+### Objectives
+
+-   Determine the correlation between rental prices and various numerical variables, such as property size and proximity to amenities, and analyze their relationships.
+
+-   Utilize clustering analysis to discern distinct groups within the rental market based on property characteristics, such as size, amenities proximity, and other relevant factors, aiming to uncover patterns and insights into different market segments or tenant preferences.
+
+## Loading R packages
+
+The original design will then be remade using data visualization design principles and best practices using `ggplot2`, its extensions, and `tidyverse` packages.
+
+```{r}
+pacman::p_load(poLCA, ggplot2, plotly, tidyverse, corrplot)
+```
+
+## Dataset
+
+The data on rental transactions was collected from the [Urban Redevelopment Authority](https://www.ura.gov.sg/property-market-information/pmiResidentialRentalSearch)’s (URA) REALIS database.
+
+The study utilized rental transaction data from 01 January 2021 to 31 December 2022, sourced from IRAS via URA. It includes rental prices, commencement dates, building names, addresses, and planning regions. Zoning and postal district information were omitted as they duplicated planning area data.
+
+```{r}
+Rental_data <- read_csv("../../data/ResidentialRental_Final.csv")
+```
+
+To ensure there are no missing values in the processed data, check it as follows.
+
+```{r}
+sum(is.na(Rental_data))
+```
+
+## Descriptive Analysis
+
+```{r}
+#| code-fold: true
+#| code-summary: "Click to view the code."
+ 
+ggplot(Rental_data, aes(x=`Planning_Region`, y= `Monthly_Rent_SGD`, fill=`Property_Type`)) +
+  geom_boxplot() +
+  facet_wrap(~`Planning_Region`, scales = "free") +
+  labs(x="Planning Region", y="Monthly Rent")
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "Click to view the code."
+ 
+ggplot(Rental_data, aes(x=`Planning_Region`, y= `Monthly_Rent_SGD`)) +
+  geom_boxplot() +
+  facet_wrap(~`Property_Type`, scales = "free") +
+  labs(x="Planning Region", y="Monthly Rent") +
+  theme(axis.text.x = element_text(angle = 90))
+```
+
+## Correlation Analysis
+
+Plotting a correlation matrix of the various numerical variables, we observe that the correlations between monthly rent and variables measuring proximity are fairly week ranging between 0.3 to -0.3. Rental prices were most strongly correlated with the size of the unit.
+
+```{r}
+#| code-fold: true
+#| code-summary: "Click to view the code."
+ 
+numerical_data <- Rental_data[, sapply(Rental_data, is.numeric)]
+
+numerical_data <- numerical_data[, -1]
+
+correlation_matrix <- cor(numerical_data)
+corrplot(correlation_matrix, method = "circle")
+```
+
+```{r}
+pairs(~Monthly_Rent_SGD + Floor_Area_SQM_Avg + Floor_Area_SQFT_Avg + distance_to_mrt, data = Rental_data,
+      main = "Scatterplot Matrix")
+```
+
+## Clustering Analysis
+
+### Data Preparation
+
+-   Exclude columns that are either irrelevant or similar, such as retaining only "Monthly_Rent_PSF" instead of both "Monthly_Rent_PSM" and "Monthly_Rent_PSF".
+
+-   Bin continuous variables into categories of relatively similar sizes and assign labels to each category.
+
+```{r}
+#| code-fold: true
+#| code-summary: "Click to view the code."
+
+df_clustering <- Rental_data %>%
+  select(-Column1, -Project_Name, -Street_Name, -Postal_District, -Monthly_Rent_PSM, -Floor_Area_SQM_Avg, -Lease_Commencement_Date, -nearest_mrt, -nearest_school, -latitude, -longitude) %>%
+  mutate(Monthly_Rent_SGD = cut(Monthly_Rent_SGD,
+                             breaks = c(0,2000,3000,4000,5000,Inf),
+                             labels = c("0-2k", "2-3k", "3-4k", "4-5k", "5k+"))) %>%
+  mutate(Monthly_Rent_PSF = cut(Monthly_Rent_PSF,
+                             breaks = c(0,3,4,Inf),
+                             labels = c("0-3", "3-4", "4+"))) %>%
+  mutate(Floor_Area_SQFT_Avg = cut(Floor_Area_SQFT_Avg,
+                             breaks = c(0,600,1000,1400,Inf),
+                             labels = c("0-600", "600-1000", "1000-1400", "1400+"))) %>%
+  mutate(distance_to_mrt = cut(distance_to_mrt,
+                             breaks = c(0,0.3,0.6,0.9,Inf),
+                             labels = c("0-0.3", "0.3-0.6", "0.6-0.9", "0.9+"))) %>%
+  mutate(distance_to_school = cut(distance_to_school,
+                             breaks = c(0,0.3,0.5,0.7,Inf),
+                             labels = c("0-0.3", "0.3-0.5", "0.5-0.7", "0.7+")))
+
+print(df_clustering)
+```
+
+After completing the data cleaning process, all variables are transformed into categorical factors and verified to ensure there are no missing values.
+
+```{r}
+#| code-fold: true
+#| code-summary: "Click to view the code."
+
+categorical_vars <- c("Year", "Planning_Region", "Property_Type", "Monthly_Rent_SGD", "Monthly_Rent_PSF", "Floor_Area_SQFT_Avg", "distance_to_mrt", "distance_to_school")
+df_clustering[categorical_vars] <- lapply(df_clustering[categorical_vars], factor)
+
+sapply(df_clustering, function(x) sum(is.na(x)))
+```
+
+### Model and Result
+
+Run the model by specifying the desired number of classes(7) and the number of repetitions(5).
+
+If we perform more than one repetition, it indicates that we conducted a comprehensive search to find the lowest BIC score, ensuring the model's robustness and accuracy in determining the optimal number of classes.
+
+```{r}
+#| code-fold: true
+#| code-summary: "Click to view the code."
+
+set.seed(1234)
+
+f <- as.formula(cbind(Year, Planning_Region, Property_Type, Monthly_Rent_SGD, Monthly_Rent_PSF, Floor_Area_SQFT_Avg, distance_to_mrt, distance_to_school) ~ 1)
+
+LCA_model <- poLCA(f, df_clustering, nclass = 7, nrep = 5, maxiter = 5000)
+```
+
+### Plot BIC score
+
+```{r}
+#| code-fold: true
+#| code-summary: "Click to view the code."
+
+LCA_model$bic
+```
+
+### Plot AIC score
+
+```{r}
+#| code-fold: true
+#| code-summary: "Click to view the code."
+
+LCA_model$aic
+```
+
+### Plot Entropy
+
+```{r}
+#| code-fold: true
+#| code-summary: "Click to view the code."
+
+entropy <- function(p) sum(-p*log(p))
+error_prior <- entropy(LCA_model$P)
+error_post <- mean(apply(LCA_model$posterior, c(1,2), entropy), na.rm=T)
+LCA_entropy <- (error_prior - error_post) / error_prior
+LCA_entropy
+```
+
+## Visualising Results
+
+The classification obtained from the model is added to the initial dataset to facilitate the comparison of variables across different classes for plotting purposes.
+
+```{r}
+#| code-fold: true
+#| code-summary: "Click to view the code."
+
+df_clustering$class <- LCA_model$predclass
+df_clustering$class <- factor(df_clustering$class)
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "Click to view the code."
+
+plot_table <- df_clustering %>%
+  group_by(Planning_Region, class) %>%
+  summarise(counts = n()) %>% 
+  ungroup
+
+p1 <- ggplot(plot_table, aes(fill = Planning_Region, y = counts, x = class)) + 
+  geom_bar(position = "fill", stat = "identity")
+
+ggplotly(p1)
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "Click to view the code."
+
+p2 <- ggplot(plot_table, aes(fill = class, y = counts, x = Planning_Region)) + 
+  geom_bar(position = "fill", stat = "identity")
+
+ggplotly(p2)
+```
+
+## UI Design
+
+Click [here](https://kaixx1027.shinyapps.io/takehome4/) to view the shinyapp of this exercise.
+
+```{R}
+#| code-fold: true
+#| code-summary: "Click to view the code."
+#| eval: false
+
+pacman::p_load(shiny, tidyverse, shinydashboard)
+
+visualdata <- read_csv("data/ResidentialRental_Final.csv")
+
+ui <- dashboardPage(
+  dashboardHeader(title = 'Rental market learning and valuation', titleWidth = 400),
+  dashboardSidebar(width = 400,
+                   sidebarMenu(id = 'a',
+                               menuItem('Historical data', tabName = 'historical', icon = icon("search")),
+                               menuItem('Statistics', tabName = 'Statistics', icon = icon("line-chart"))
+                   )
+  ),
+  dashboardBody(
+    tabItems(
+      #——————————————————————————————————————————————————————————————————————Historical data
+      tabItem(tabName = "historical",
+              fluidPage(
+                titlePanel("Places to Rent"),
+                selectInput("region", "Planning Region", choices = unique(visualdata$Planning_Region)),
+                selectInput("type", "Property Type", choices = NULL),
+                tableOutput("data")
+              )
+      ),
+      tabItem(tabName = "Statistics",
+              fluidPage(
+                titlePanel("Statistics"),
+                fluidRow(
+                  column(width = 12,
+                         tabsetPanel(
+                           #——————————————————————————————————————————————————————————————————————Barchart
+                           tabPanel("Bar Chart",
+                                    box(
+                                      radioButtons('xcol1',
+                                                   label = tags$strong('Analyse Sales By:'),
+                                                   choices = c('Property Type' = 'Property_Type',
+                                                               'Planning Region' = 'Planning_Region'),
+                                                   inline = TRUE)
+                                    ),
+                                    box(
+                                      width = 12,
+                                      height = 800,
+                                      solidHeader = TRUE,
+                                      collapsible = FALSE,
+                                      collapsed = FALSE,
+                                      plotOutput('barchart', height = 750)
+                                    )
+                           ),
+                           #——————————————————————————————————————————————————————————————————————Boxplot1
+                           tabPanel("Boxplot1", 
+                                    box(
+                                      width = 12,
+                                      height = 800,
+                                      solidHeader = TRUE,
+                                      collapsible = FALSE,
+                                      collapsed = FALSE,
+                                      plotOutput('Boxplot1', height = 750)
+                                    )
+                           ),
+                           #——————————————————————————————————————————————————————————————————————Boxplot2
+                           tabPanel("Boxplot2", 
+                                    box(
+                                      width = 12,
+                                      height = 800,
+                                      solidHeader = TRUE,
+                                      collapsible = FALSE,
+                                      collapsed = FALSE,
+                                      plotOutput('Boxplot2', height = 750)
+                                    )
+                           ),
+                           #——————————————————————————————————————————————————————————————————————Boxplot3
+                           tabPanel("Boxplot3", 
+                                    box(
+                                      width = 12,
+                                      height = 800,
+                                      solidHeader = TRUE,
+                                      collapsible = FALSE,
+                                      collapsed = FALSE,
+                                      plotOutput('Boxplot3', height = 750)
+                                    )
+                           ),
+                           #——————————————————————————————————————————————————————————————————————scatterplot1
+                           tabPanel("Scatterplot1", 
+                                    box(
+                                      width = 12,
+                                      height = 800,
+                                      solidHeader = TRUE,
+                                      collapsible = FALSE,
+                                      collapsed = FALSE,
+                                      plotOutput('Scatterplot1', height = 750)
+                                    )
+                           ),
+                           #——————————————————————————————————————————————————————————————————————scatterplot2
+                           tabPanel("Scatterplot2", 
+                                    box(
+                                      width = 12,
+                                      height = 800,
+                                      solidHeader = TRUE,
+                                      collapsible = FALSE,
+                                      collapsed = FALSE,
+                                      plotOutput('Scatterplot2', height = 750)
+                                    )
+                           ),
+                           #——————————————————————————————————————————————————————————————————————scatterplot3
+                           tabPanel("Scatterplot3", 
+                                    box(
+                                      width = 12,
+                                      height = 800,
+                                      solidHeader = TRUE,
+                                      collapsible = FALSE,
+                                      collapsed = FALSE,
+                                      plotOutput('Scatterplot3', height = 750)
+                                    )
+                           ),
+                           #——————————————————————————————————————————————————————————————————————scatterplot matrix
+                           tabPanel("Scatterplot matrix", 
+                                    box(
+                                      width = 12,
+                                      height = 800,
+                                      solidHeader = TRUE,
+                                      collapsible = FALSE,
+                                      collapsed = FALSE,
+                                      plotOutput('matrix', height = 750)
+                                    )
+                           )
+                         ), #tabsetPanel(
+                  ) #column(
+                ) #fluidRow(
+              ), #fluidPage(
+      )
+    ) #tabItems(
+  ) #dashboardBody(
+) #dashboardPage(
+
+
+
+# Define server logic required to draw a histogram
+server <- function(input, output){
+  #——————————————————————————————————————————————————————————————————————historical
+  region <- reactive({
+    filter(visualdata, Planning_Region == input$region)
+  })
+  observeEvent(region(), {
+    choices <- unique(region()$Property_Type)
+    updateSelectInput(inputId = "type", choices = choices)
+  })
+  type <- reactive({
+    req(input$type)
+    filter(region(), Property_Type == input$type)
+  })
+  
+  #——————————————————————————————————————————————————————————————————————Statistics
+  #——————————————————————————————————————————————————————————————————————barchart
+  output$barchart <- renderPlot({
+    analysis <- visualdata %>%
+      group_by_(.dots = input$xcol1) %>%
+      summarise(basket_value = mean(`Monthly_Rent_SGD`, na.rm = T))
+    
+    p <- ggplot(analysis, aes_string(y = 'basket_value', x = input$xcol1)) +
+      geom_bar(aes_string(fill = input$xcol1), stat = 'identity') +
+      labs(title = 'Average Rental Price', subtitle = paste('by', input$xcol1), 
+           x = input$xcol1, y = 'Rental Price ($)',
+           fill = input$xcol1)
+    return(p)
+  })
+  #——————————————————————————————————————————————————————————————————————Boxplot1
+  output$Boxplot1 <- renderPlot({
+    p1 <- ggplot(visualdata, aes(x=`Planning_Region`, y= `Monthly_Rent_SGD`, fill=`Property_Type`)) +
+      geom_boxplot() +
+      facet_wrap(~`Planning_Region`, scales = "free") +
+      labs(x="Planning Region", y="Monthly Rent")
+    return(p1)
+  })
+  #——————————————————————————————————————————————————————————————————————Boxplot2
+  output$Boxplot2 <- renderPlot({
+    p2 <- ggplot(visualdata, aes(x=`Planning_Region`, y= `Monthly_Rent_SGD`)) +
+      geom_boxplot() +
+      facet_wrap(~`Property_Type`, scales = "free") +
+      labs(x="Planning Region", y="Monthly Rent") +
+      theme(axis.text.x = element_text(angle = 90))
+    return(p2)
+  })
+  #——————————————————————————————————————————————————————————————————————Boxplot3
+  output$Boxplot3 <- renderPlot({
+    p3 <- ggplot(visualdata, aes(x=`Property_Type`, y= `Monthly_Rent_SGD`)) +
+      geom_boxplot() +
+      facet_wrap(~`Planning_Region`, scales = "free") +
+      labs(x="Property Type", y="Monthly Rent") +
+      theme(axis.text.x = element_text(angle = 90))
+    return(p3)
+  })
+  #——————————————————————————————————————————————————————————————————————Scatterplot1
+  output$Scatterplot1 <- renderPlot({
+    p4 <- ggplot(visualdata, aes(x=`distance_to_school`, y=`Monthly_Rent_SGD`)) +
+      geom_point(size=0.5) +
+      scale_x_continuous(breaks = seq(0, 2, by = 0.2)) +
+      coord_cartesian(xlim = c(0, 2)) +
+      facet_grid(`Planning_Region` ~ `Property_Type`, scales = "free", space ="fixed") +
+      labs(x='Distance to School', y = 'Monthly Rent') +
+      theme(axis.text.x = element_text(angle = 90))
+    return(p4)
+  })
+  #——————————————————————————————————————————————————————————————————————Scatterplot2
+  output$Scatterplot2 <- renderPlot({
+    p5 <- ggplot(visualdata, aes(x=`distance_to_mrt`, y=`Monthly_Rent_SGD`)) +
+      geom_point(size=0.5) +
+      scale_x_continuous(breaks = seq(0, 2, by = 0.2)) +
+      coord_cartesian(xlim = c(0, 2)) +
+      facet_grid(`Planning_Region` ~ `Property_Type`, scales = "free", space ="fixed") +
+      labs(x='Distance to MRT', y = 'Monthly Rent') +
+      theme(axis.text.x = element_text(angle = 90))
+    return(p5)
+  })
+  #——————————————————————————————————————————————————————————————————————Scatterplot3
+  output$Scatterplot3 <- renderPlot({
+    p6 <- ggplot(visualdata, aes(x=`Floor_Area_SQFT_Avg`, y=`Monthly_Rent_SGD`)) +
+      geom_point(size=0.5) +
+      #  scale_x_continuous(breaks = seq(0, 2, by = 0.2)) +
+      #  coord_cartesian(xlim = c(0, 2)) +
+      facet_grid(`Planning_Region` ~ `Property_Type`, scales = "free", space ="fixed") +
+      labs(x='Floor Area SQFT', y = 'Monthly Rent') +
+      theme(axis.text.x = element_text(angle = 90))
+    return(p6)
+  })  
+  #——————————————————————————————————————————————————————————————————————matrix
+  output$matrix <- renderPlot({
+    pm <- pairs(~visualdata$Monthly_Rent_SGD + visualdata$Floor_Area_SQM_Avg + visualdata$Floor_Area_SQFT_Avg + visualdata$distance_to_mrt, data = visualdata,
+                main = "Scatterplot Matrix")
+    return(pm)
+  })
+}
+
+# Run the application 
+shinyApp(ui = ui, server = server)
+```
+
+[![](../../images/takehome4.png)](https://kaixx1027.shinyapps.io/takehome4/)
+
+
+
+
+
