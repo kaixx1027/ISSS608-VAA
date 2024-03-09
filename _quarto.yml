@@ -73,6 +73,8 @@ website:
             href: "In-class_Ex/In-class_Ex05/In-class_Ex05.html"
           - text: "6: Visualising and Analysing Time-Oriented Data"
             href: "In-class_Ex/In-class_Ex06/In-class_Ex06.html"
+          - text: "7: Visualising and Analysing Geographic Data"
+            href: "In-class_Ex/In-class_Ex07/In-class_Ex07.html"
       - text: "Take-home Exercise"
         menu:
           - text: "1: Creating data visualisation beyond default"

@@ -1,0 +1,31 @@
+---
+title: "In-class Exercise 7: Visualising and Analysing Geographic Data"
+date: "March 9, 2024"
+date-modified: "last-modified"
+execute: 
+  eval: true
+  echo: true
+  freeze: true
+  message: false
+  warning: false
+---
+
+View the [slides](https://isss608-ay2023-24jan.netlify.app/lesson/lesson07/lesson07-visgeo#/title-slide) to learn more about:
+
+-   Introducing map
+
+-   Properties of geographical data
+
+-   Typology of map
+
+-   Thematic mapping techniques
+
+    -   Proportional symbol map
+
+    -   Choropleth map
+
+    -   Data Classification
+
+-   Alternative mapping techniques
+
+
