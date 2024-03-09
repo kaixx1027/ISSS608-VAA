@@ -4,7 +4,7 @@
     "href": "In-class_Ex/In-class_Ex07/In-class_Ex07.html",
     "title": "In-class Exercise 7: Visualising and Analysing Geographic Data",
     "section": "",
-    "text": "View the slides to learn more about:\n\nIntroducing map\nProperties of geographical data\nTypology of map\nThematic mapping techniques\n\nProportional symbol map\nChoropleth map\nData Classification\n\nAlternative mapping techniques"
+    "text": "View the slides to learn more about:"
   },
   {
     "objectID": "Take-home_Ex/Take-home_Ex04/Take-home_Ex04.html",
@@ -733,5 +733,19 @@
     "title": "KAI",
     "section": "",
     "text": "Welcome to Visual Analytics & Application Learning Journey webpage.\nIn this website, you will find my coursework prepared for this course."
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex07/In-class_Ex07.html#isomap",
+    "href": "In-class_Ex/In-class_Ex07/In-class_Ex07.html#isomap",
+    "title": "In-class Exercise 7: Visualising and Analysing Geographic Data",
+    "section": "\n1 IsoMap",
+    "text": "1 IsoMap\n\n1.1 Loading R Package\n\npacman::p_load(sf, terra, gstat, tmap, viridis, tidyverse)\n\n\n1.2 Dataset\n\nrfstations &lt;- read.csv(\"data/aspatial/RainfallStation.csv\")\n\n\nrfdata &lt;- read_csv(\"data/aspatial/DAILYDATA_202402.csv\") %&gt;%\n  select(c(1, 5)) %&gt;%\n  group_by(Station) %&gt;%\n  summarise(MONTHSUM = sum(`Daily Rainfall Total (mm)`)) %&gt;%\n  ungroup()\n\n\nrfdata &lt;- rfdata %&gt;%\n  left_join(rfstations)\n\n\nrfdata_sf &lt;- st_as_sf(rfdata,\n                      coords = c(\"Longitude\", \"Latitude\"),\n                      crs = 4326) %&gt;%\n  st_transform(crs = 3414)\n\n\nmpsz2019 &lt;- st_read(dsn = \"data/geospatial\", layer = \"MPSZ-2019\") %&gt;%\n  st_transform(crs = 3414)\n\nReading layer `MPSZ-2019' from data source \n  `E:\\kaixx1027\\ISSS608-VAA\\In-class_Ex\\In-class_Ex07\\data\\geospatial' \n  using driver `ESRI Shapefile'\nSimple feature collection with 332 features and 6 fields\nGeometry type: MULTIPOLYGON\nDimension:     XY\nBounding box:  xmin: 103.6057 ymin: 1.158699 xmax: 104.0885 ymax: 1.470775\nGeodetic CRS:  WGS 84\n\n\n\n1.3 \n\ntmap_options(check.and.fix = TRUE)\ntmap_mode(\"view\")\ntm_shape(mpsz2019) + tm_borders() + tm_shape(rfdata_sf) + tm_dots(col = 'MONTHSUM')\n\n\n\n\ntmap_mode(\"plot\")"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex07/data/geospatial/MPSZ-2019.html",
+    "href": "In-class_Ex/In-class_Ex07/data/geospatial/MPSZ-2019.html",
+    "title": "KAI",
+    "section": "",
+    "text": "&lt;!DOCTYPE qgis PUBLIC ‘http://mrcc.com/qgis.dtd’ ‘SYSTEM’&gt;     dataset\n\n\n        0 0     false"
   }
 ]
