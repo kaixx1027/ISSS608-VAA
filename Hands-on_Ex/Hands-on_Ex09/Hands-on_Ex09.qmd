@@ -1,6 +1,6 @@
 ---
 title: "Hands-on Exercise 9: Visualising and Analysing Text Data"
-date: "March 7, 2024"
+date: "March 16, 2024"
 date-modified: "last-modified"
 execute: 
   eval: true
@@ -12,27 +12,361 @@ execute:
 ### Install and loading R packages.
 
 ```{r}
-pacman::p_load(tidytext, widyr, wordcloud, DT, ggwordcloud, textplot, lubridate, hms, tidyverse, tidygraph, ggraph, igraph)
+pacman::p_load(igraph, tidygraph, ggraph, visNetwork, lubridate, clock, tidyverse, graphlayouts,readr,dplyr,ggplot2)
 ```
 
+## Importing Data
 
+```{r}
+GAStech_nodes <- read_csv("../../data/GAStech_email_node.csv")
+GAStech_edges <- read_csv("../../data/GAStech_email_edge-v2.csv")
+```
 
+### Wrangling time
 
+```{r}
+#| code-fold: true
+#| code-summary: "Click to view the code."
+GAStech_edges <- GAStech_edges %>%
+  mutate(SendDate = dmy(SentDate)) %>%
+  mutate(Weekday = wday(SentDate,
+                        label = TRUE,
+                        abbr = FALSE))
+```
 
+### Wrangling attributes
 
+```{r}
+#| code-fold: true
+#| code-summary: "Click to view the code."
+GAStech_edges_aggregated <- GAStech_edges %>%
+  filter(MainSubject == "Work related") %>%
+  group_by(source, target, Weekday) %>%
+    summarise(Weight = n()) %>%
+  filter(source!=target) %>%
+  filter(Weight > 1) %>%
+  ungroup()
+```
 
+## Creating network objects using tidygraph
 
+### Using tbl_graph() to build tidygraph data model
 
+```{r}
+#| code-fold: true
+#| code-summary: "Click to view the code."
+GAStech_graph <- tbl_graph(nodes = GAStech_nodes,
+                           edges = GAStech_edges_aggregated, 
+                           directed = TRUE)
+```
 
+### Reviewing the output tidygraph’s graph object
 
+```{r}
+GAStech_graph
+```
 
+### Changing the active object
 
+```{r}
+#| code-fold: true
+#| code-summary: "Click to view the code."
+GAStech_graph %>%
+  activate(edges) %>%
+  arrange(desc(Weight))
+```
 
+## Plotting Practice - Plotting Static Network Graphs with ggraph package
 
+### Plotting a basic network graph
 
+```{r}
+#| code-fold: true
+#| code-summary: "Click to view the code."
+ggraph(GAStech_graph) +
+  geom_edge_link() +
+  geom_node_point()
+```
 
+### Changing the default network graph theme
 
+```{r}
+#| code-fold: true
+#| code-summary: "Click to view the code."
+g <- ggraph(GAStech_graph) + 
+  geom_edge_link(aes()) +
+  geom_node_point(aes())
 
+g + theme_graph()
+```
 
+### Changing the coloring of the plot
+
+```{r}
+#| code-fold: true
+#| code-summary: "Click to view the code."
+g <- ggraph(GAStech_graph) + 
+  geom_edge_link(aes(colour = 'grey50')) +
+  geom_node_point(aes(colour = 'grey40'))
+
+g + theme_graph(background = 'grey10',
+                text_colour = 'white')
+```
+
+### Fruchterman and Reingold layout
+
+```{r}
+#| code-fold: true
+#| code-summary: "Click to view the code."
+g <- ggraph(GAStech_graph, 
+            layout = "fr") +
+  geom_edge_link(aes()) +
+  geom_node_point(aes())
+
+g + theme_graph()
+```
+
+### Modifying network nodes
+
+```{r}
+#| code-fold: true
+#| code-summary: "Click to view the code."
+g <- ggraph(GAStech_graph, 
+            layout = "nicely") + 
+  geom_edge_link(aes()) +
+  geom_node_point(aes(colour = Department, 
+                      size = 3))
+
+g + theme_graph()
+```
+
+### Modifying edges
+
+```{r}
+#| code-fold: true
+#| code-summary: "Click to view the code."
+g <- ggraph(GAStech_graph, 
+            layout = "nicely") +
+  geom_edge_link(aes(width=Weight), 
+                 alpha=0.2) +
+  scale_edge_width(range = c(0.1, 5)) +
+  geom_node_point(aes(colour = Department), 
+                  size = 3)
+
+g + theme_graph()
+```
+
+## Plotting Practice - Creating facet graphs
+
+### Working with facet_edges()
+
+```{r}
+#| code-fold: true
+#| code-summary: "Click to view the code."
+set_graph_style()
+
+g <- ggraph(GAStech_graph, 
+            layout = "nicely") + 
+  geom_edge_link(aes(width=Weight), 
+                 alpha=0.2) +
+  scale_edge_width(range = c(0.1, 5)) +
+  geom_node_point(aes(colour = Department), 
+                  size = 2)
+
+g + facet_edges(~Weekday)
+```
+
+### Working with facet_edges()
+
+```{r}
+#| code-fold: true
+#| code-summary: "Click to view the code."
+set_graph_style()
+
+g <- ggraph(GAStech_graph, 
+            layout = "nicely") + 
+  geom_edge_link(aes(width=Weight), 
+                 alpha=0.2) +
+  scale_edge_width(range = c(0.1, 5)) +
+  geom_node_point(aes(colour = Department), 
+                  size = 2) +
+  theme(legend.position = 'bottom')
+  
+g + facet_edges(~Weekday)
+```
+
+### A framed facet graph
+
+```{r}
+#| code-fold: true
+#| code-summary: "Click to view the code."
+set_graph_style() 
+
+g <- ggraph(GAStech_graph, 
+            layout = "nicely") + 
+  geom_edge_link(aes(width=Weight), 
+                 alpha=0.2) +
+  scale_edge_width(range = c(0.1, 5)) +
+  geom_node_point(aes(colour = Department), 
+                  size = 2)
+  
+g + facet_edges(~Weekday) +
+  th_foreground(foreground = "grey80",  
+                border = TRUE) +
+  theme(legend.position = 'bottom')
+```
+
+### Working with facet_nodes()
+
+```{r}
+#| code-fold: true
+#| code-summary: "Click to view the code."
+set_graph_style()
+
+g <- ggraph(GAStech_graph, 
+            layout = "nicely") + 
+  geom_edge_link(aes(width=Weight), 
+                 alpha=0.2) +
+  scale_edge_width(range = c(0.1, 5)) +
+  geom_node_point(aes(colour = Department), 
+                  size = 2)
+  
+g + facet_nodes(~Department)+
+  th_foreground(foreground = "grey80",  
+                border = TRUE) +
+  theme(legend.position = 'bottom')
+```
+
+## Plotting Practice - Network Metrics Analysis
+
+### Computing centrality indices
+
+```{r}
+#| code-fold: true
+#| code-summary: "Click to view the code."
+g <- GAStech_graph %>%
+  mutate(betweenness_centrality = centrality_betweenness()) %>%
+  ggraph(layout = "fr") + 
+  geom_edge_link(aes(width=Weight), 
+                 alpha=0.2) +
+  scale_edge_width(range = c(0.1, 5)) +
+  geom_node_point(aes(colour = Department,
+            size=betweenness_centrality))
+g + theme_graph()
+```
+
+### Visualising network metrics
+
+```{r}
+#| code-fold: true
+#| code-summary: "Click to view the code."
+g <- GAStech_graph %>%
+  ggraph(layout = "fr") + 
+  geom_edge_link(aes(width=Weight), 
+                 alpha=0.2) +
+  scale_edge_width(range = c(0.1, 5)) +
+  geom_node_point(aes(colour = Department, 
+                      size = centrality_betweenness()))
+g + theme_graph()
+```
+
+### Visualising Community
+
+```{r}
+#| code-fold: true
+#| code-summary: "Click to view the code."
+g <- GAStech_graph %>%
+  mutate(community = as.factor(group_edge_betweenness(weights = Weight, directed = TRUE))) %>%
+  ggraph(layout = "fr") + 
+  geom_edge_link(aes(width=Weight), 
+                 alpha=0.2) +
+  scale_edge_width(range = c(0.1, 5)) +
+  geom_node_point(aes(colour = community))  
+
+g + theme_graph()
+```
+
+## Plotting Practice - Building Interactive Network Graph with visNetwork
+
+### Data preparation
+
+```{r}
+#| code-fold: true
+#| code-summary: "Click to view the code."
+GAStech_edges_aggregated <- GAStech_edges %>%
+  left_join(GAStech_nodes, by = c("sourceLabel" = "label")) %>%
+  rename(from = id) %>%
+  left_join(GAStech_nodes, by = c("targetLabel" = "label")) %>%
+  rename(to = id) %>%
+  filter(MainSubject == "Work related") %>%
+  group_by(from, to) %>%
+    summarise(weight = n()) %>%
+  filter(from!=to) %>%
+  filter(weight > 1) %>%
+  ungroup()
+```
+
+### Plotting the first interactive network graph
+
+```{r}
+#| code-fold: true
+#| code-summary: "Click to view the code."
+visNetwork(GAStech_nodes, 
+           GAStech_edges_aggregated)
+```
+
+### Working with layout
+
+```{r}
+#| code-fold: true
+#| code-summary: "Click to view the code."
+visNetwork(GAStech_nodes,
+           GAStech_edges_aggregated) %>%
+  visIgraphLayout(layout = "layout_with_fr") 
+```
+
+### Working with visual attributes - Nodes
+
+```{r}
+#| code-fold: true
+#| code-summary: "Click to view the code."
+GAStech_nodes <- GAStech_nodes %>%
+  rename(group = Department) 
+
+visNetwork(GAStech_nodes,
+           GAStech_edges_aggregated) %>%
+  visIgraphLayout(layout = "layout_with_fr") %>%
+  visLegend() %>%
+  visLayout(randomSeed = 123)
+```
+
+### Working with visual attributes - Edges
+
+```{r}
+#| code-fold: true
+#| code-summary: "Click to view the code."
+visNetwork(GAStech_nodes,
+           GAStech_edges_aggregated) %>%
+  visIgraphLayout(layout = "layout_with_fr") %>%
+  visEdges(arrows = "to", 
+           smooth = list(enabled = TRUE, 
+                         type = "curvedCW")) %>%
+  visLegend() %>%
+  visLayout(randomSeed = 123)
+```
+
+### Interactivity
+
+```{r}
+#| code-fold: true
+#| code-summary: "Click to view the code."
+visNetwork(GAStech_nodes,
+           GAStech_edges_aggregated) %>%
+  visIgraphLayout(layout = "layout_with_fr") %>%
+  visOptions(highlightNearest = TRUE,
+             nodesIdSelection = TRUE) %>%
+  visLegend() %>%
+  visLayout(randomSeed = 123)
+```
 
 

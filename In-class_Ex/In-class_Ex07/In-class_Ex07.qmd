@@ -67,11 +67,93 @@ mpsz2019 <- st_read(dsn = "data/geospatial", layer = "MPSZ-2019") %>%
   st_transform(crs = 3414)
 ```
 
-### 
+### Visualisation
 
 ```{r}
 tmap_options(check.and.fix = TRUE)
 tmap_mode("view")
-tm_shape(mpsz2019) + tm_borders() + tm_shape(rfdata_sf) + tm_dots(col = 'MONTHSUM')
+tm_shape(mpsz2019)+
+  tm_borders()+
+  tm_shape(rfdata_sf)+
+  tm_dots(col= 'MONTHSUM')
 tmap_mode("plot")
 ```
+
+```{r}
+grid <- terra::rast(mpsz2019,
+                    nrows = 690,
+                    ncols = 1075)
+
+xy <-terra::xyFromCell(grid,
+                       1:ncell(grid))
+```
+
+```{r}
+coop <-st_as_sf(as.data.frame(xy),
+                coords = c("x","y"),
+                crs = st_crs(mpsz2019))
+coop <-st_filter(coop,mpsz2019)
+```
+
+```{r}
+res <- gstat(formula = MONTHSUM ~ 1,
+             locations = rfdata_sf,
+             nmax = 15,
+             set = list(idp = 0))
+
+resp<- predict(res,coop)
+resp$x<-st_coordinates(resp)[,1]
+resp$y<-st_coordinates(resp)[,2]
+resp$pred <-resp$var1.pred
+
+pred<- terra::rasterize(resp,grid,
+                        field="pred",
+                        fun="mean")
+```
+
+```{r}
+tmap_options(check.and.fix = TRUE)
+tmap_mode("plot")
+tm_shape(pred)+
+  tm_raster(alpha = 0.6,
+            palette = "viridis")
+```
+
+```{r}
+v<- variogram(log(MONTHSUM)~1,
+              data = rfdata_sf)
+plot(v)
+```
+
+```{r}
+fv<-fit.variogram(object = v,
+                  model = vgm(psill = 0.5,model = "Sph",
+                              range = 900,nugget = 0.1))
+fv
+plot(v,fv,cex =1.5)
+```
+
+```{r}
+k<-gstat(formula = log(MONTHSUM)~1,
+              data = rfdata_sf,
+         model=fv)
+```
+
+```{r}
+resp<- predict(k,coop)
+resp$x<-st_coordinates(resp)[,1]
+resp$y<-st_coordinates(resp)[,2]
+resp$pred <-resp$var1.pred
+
+kpred<- terra::rasterize(resp,grid,
+                        field="pred")
+```
+
+```{r}
+tmap_options(check.and.fix = TRUE)
+tmap_mode("plot")
+tm_shape(kpred)+
+  tm_raster(alpha = 0.6,
+            palette = "viridis")
+```
+

@@ -75,6 +75,8 @@ website:
             href: "In-class_Ex/In-class_Ex06/In-class_Ex06.html"
           - text: "7: Visualising and Analysing Geographic Data"
             href: "In-class_Ex/In-class_Ex07/In-class_Ex07.html"
+          - text: "8: Network Data Visualisation and Analysis"
+            href: "In-class_Ex/In-class_Ex08/In-class_Ex08.html"
       - text: "Take-home Exercise"
         menu:
           - text: "1: Creating data visualisation beyond default"
