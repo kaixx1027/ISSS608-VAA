@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://isss608-kaixin.netlify.app//In-class_Ex/In-class_Ex07/In-class_Ex07.html</loc>
-    <lastmod>2024-03-16T07:03:32.689Z</lastmod>
-  </url>
-  <url>
     <loc>https://isss608-kaixin.netlify.app//Take-home_Ex/Take-home_Ex04/Take-home_Ex04.html</loc>
     <lastmod>2024-03-07T08:04:52.184Z</lastmod>
   </url>
   <url>
     <loc>https://isss608-kaixin.netlify.app//Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html</loc>
     <lastmod>2024-01-25T11:53:42.014Z</lastmod>
+  </url>
+  <url>
+    <loc>https://isss608-kaixin.netlify.app//index.html</loc>
+    <lastmod>2024-03-07T08:19:52.985Z</lastmod>
+  </url>
+  <url>
+    <loc>https://isss608-kaixin.netlify.app//In-class_Ex/In-class_Ex07/In-class_Ex07.html</loc>
+    <lastmod>2024-03-16T07:03:32.689Z</lastmod>
   </url>
   <url>
     <loc>https://isss608-kaixin.netlify.app//In-class_Ex/In-class_Ex06/In-class_Ex06.html</loc>
@@ -57,6 +61,22 @@
     <lastmod>2024-01-30T08:18:31.732Z</lastmod>
   </url>
   <url>
+    <loc>https://isss608-kaixin.netlify.app//Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_2.html</loc>
+    <lastmod>2024-01-24T12:38:24.946Z</lastmod>
+  </url>
+  <url>
+    <loc>https://isss608-kaixin.netlify.app//Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html</loc>
+    <lastmod>2024-01-23T14:01:12.751Z</lastmod>
+  </url>
+  <url>
+    <loc>https://isss608-kaixin.netlify.app//Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html</loc>
+    <lastmod>2024-01-23T14:00:08.089Z</lastmod>
+  </url>
+  <url>
+    <loc>https://isss608-kaixin.netlify.app//Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_1.html</loc>
+    <lastmod>2024-02-04T11:31:48.853Z</lastmod>
+  </url>
+  <url>
     <loc>https://isss608-kaixin.netlify.app//Hands-on_Ex/Hands-on_Ex04/Hands-on_Ex04_1.html</loc>
     <lastmod>2024-02-04T11:58:14.427Z</lastmod>
   </url>
@@ -101,23 +121,19 @@
     <lastmod>2024-02-20T06:17:47.724Z</lastmod>
   </url>
   <url>
-    <loc>https://isss608-kaixin.netlify.app//Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html</loc>
-    <lastmod>2024-01-24T13:16:52.719Z</lastmod>
-  </url>
-  <url>
-    <loc>https://isss608-kaixin.netlify.app//Take-home_Ex/Take-home_Ex03/Take-home_Ex03.html</loc>
-    <lastmod>2024-03-01T06:20:05.641Z</lastmod>
-  </url>
-  <url>
-    <loc>https://isss608-kaixin.netlify.app//index.html</loc>
-    <lastmod>2024-03-07T08:19:52.985Z</lastmod>
-  </url>
-  <url>
     <loc>https://isss608-kaixin.netlify.app//In-class_Ex/In-class_Ex07/data/geospatial/MPSZ-2019.html</loc>
     <lastmod>2023-03-13T08:10:34.000Z</lastmod>
   </url>
   <url>
     <loc>https://isss608-kaixin.netlify.app//In-class_Ex/In-class_Ex08/In-class_Ex08.html</loc>
     <lastmod>2024-03-16T07:52:26.551Z</lastmod>
+  </url>
+  <url>
+    <loc>https://isss608-kaixin.netlify.app//Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html</loc>
+    <lastmod>2024-01-24T13:16:52.719Z</lastmod>
+  </url>
+  <url>
+    <loc>https://isss608-kaixin.netlify.app//Take-home_Ex/Take-home_Ex03/Take-home_Ex03.html</loc>
+    <lastmod>2024-03-01T06:20:05.641Z</lastmod>
   </url>
 </urlset>
