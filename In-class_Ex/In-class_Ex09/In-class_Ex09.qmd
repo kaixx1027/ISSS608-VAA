@@ -1,0 +1,39 @@
+---
+title: "In-class Exercise 9: Information Dashboard Design"
+date: "March 23, 2024"
+date-modified: "last-modified"
+execute: 
+  eval: true
+  echo: true
+  freeze: true
+  message: false
+  warning: false
+---
+
+View the [slides](https://isss608-ay2023-24jan.netlify.app/lesson/lesson10/lesson10-idd#/title-slide) to learn more about:
+
+-   Introducing information dashboard
+
+-   Information dashboard design best practices
+
+-   Common mistakes in dashboard design
+
+-   Ideal graphs for information dashboard
+
+    -   Bullet graph
+
+    -   Sparklines
+
+    -   Data Classification
+
+## Tableau
+
+[![](../../images/inclass10.png)](https://public.tableau.com/app/profile/kaixin.zheng/viz/In-class_Exercise10-CoffeeDashboard/Dashboard1)
+
+
+
+
+
+
+
+
